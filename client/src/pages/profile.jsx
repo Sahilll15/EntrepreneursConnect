@@ -1,8 +1,11 @@
 import React from "react";
+import Navbar from "../components/Navbar";
 
 const profile = () => {
   return (
+   
     <div>
+         <Navbar/>
       <main className="profile-page">
         <section className="relative block h-500-px">
           <div
