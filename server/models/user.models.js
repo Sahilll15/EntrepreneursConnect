@@ -68,7 +68,7 @@ const userSchema = new Schema(
         password: {
             type: String,
             required: [true, 'Password is required'],
-            minlength: [8, 'Password must be at least 8 characters long'],
+            minlength: [6, 'Password must be at least 8 characters long'],
         },
         followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
         following: [{ type: Schema.Types.ObjectId, ref: 'User' }],

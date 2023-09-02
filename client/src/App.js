@@ -1,16 +1,23 @@
 import logo from './logo.svg';
 import './App.css';
-import Login from './components/login';
-import Register from './components/Register';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import Login from './pages/Login';
+import Register from './pages/Register';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
 function App() {
   return (
-    <>
-      {/* <Login /> */}
-      <Register />
-    </>
+    <Router>
+      <ToastContainer />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </Router>
+
   )
 }
 

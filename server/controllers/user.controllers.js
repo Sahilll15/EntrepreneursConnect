@@ -11,7 +11,7 @@ const verifyemail = async (req, res) => {
         const user = await User.findOne({ verificationToken: tokenId });
 
         if (!user) {
-            return res.status(404).json({ error: 'Invalid verification token.' });
+            return res.status(404).json({ message: 'Invalid verification token.' });
         }
 
         user.isVerified = true;
@@ -23,7 +23,7 @@ const verifyemail = async (req, res) => {
         res.send(congratulationContent);
 
     } catch (error) {
-        res.status(500).json({ error: 'An error occurred during email verification.' });
+        res.status(500).json({ message: 'An error occurred during email verification.' });
         console.log(error);
     }
 };
@@ -32,15 +32,20 @@ const registerUser = async (req, res) => {
     const { username, email, password } = req.body;
     try {
         if (!username || !password || !email) {
-            return res.status(400).json({ msg: "Not all fields have been entered" })
+            return res.status(400).json({ message: "Not all fields have been entered" })
         }
+
+        if (password.length < 6) {
+            return res.status(400).json({ message: "The password needs to be at least 6 characters long" })
+        }
+
 
         const existedUser = await User.findOne({
             $or: [{ username }, { email }],
         });
 
         if (existedUser) {
-            return res.status(400).json({ msg: "An account with this username or email  already exists" })
+            return res.status(400).json({ message: "An account with this username or email  already exists" })
         }
         const verificationToken = generateverificationToken(email);
 
@@ -62,7 +67,7 @@ const registerUser = async (req, res) => {
         res.json({ message: 'Registration successful. Please check your email for verification.', verificationToken: verificationToken, user: newUser });
 
     } catch (error) {
-        res.status(500).json({ error: error.message })
+        res.status(500).json({ message: error.message })
         console.log(error);
     }
 }
@@ -70,27 +75,28 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
 
-    const { username, password } = req.body;
+    const { email, password } = req.body;
+
     try {
-        if (!username | !password) {
-            return res.status(400).json({ msg: "Not all fields have been entered" })
+        if (!email || !password) {
+            return res.status(400).json({ message: "Not all fields have been entered" })
         }
         const user = await User.findOne({
-            username
+            email
         })
 
         if (!user) {
-            return res.status(400).json({ msg: "No account with this username does not exist!!" })
+            return res.status(400).json({ message: " account with this username does not exist!!" })
         }
 
         if (!user.isVerified) {
-            return res.status(400).json({ msg: "Please verify your email to login" })
+            return res.status(400).json({ message: "Please verify your email to login" })
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
-            return res.status(400).json({ msg: "Invalid credentials" })
+            return res.status(400).json({ message: "Invalid credentials" })
         }
 
         const token = jwt.sign({
@@ -102,10 +108,10 @@ const loginUser = async (req, res) => {
             }
         )
 
-        res.status(200).json({ user: user, token: token, mssg: "user logged in" })
+        res.status(200).json({ user: user, token: token, message: "user logged in" })
 
     } catch (error) {
-        res.status(500).json({ error: error.message })
+        res.status(500).json({ message: error.message })
         console.log(error);
     }
 }
@@ -116,14 +122,14 @@ const updateavatar = async (req, res) => {
     try {
         const { userId } = req.params;
         if (!avatar) {
-            return res.status(400).json({ msg: "No avatar was added" });
+            return res.status(400).json({ message: "No avatar was added" });
         }
 
         // Find the user by their userId
         const user = await User.findById(userId);
 
         if (!user) {
-            return res.status(404).json({ msg: "No user with this ID" });
+            return res.status(404).json({ message: "No user with this ID" });
         }
 
         // Update the avatar URL
@@ -132,10 +138,10 @@ const updateavatar = async (req, res) => {
 
         await user.save();
 
-        res.json({ avatar: avatar, msg: "Avatar updated successfully!" });
+        res.json({ avatar: avatar, message: "Avatar updated successfully!" });
 
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ message: error.message });
         console.log(error);
     }
 }
@@ -151,12 +157,12 @@ const userProfile = async (req, res) => {
         const user = await User.findById(userID).select('-password');
 
         if (!user) {
-            return res.status(404).json({ msg: "No user with this ID" });
+            return res.status(404).json({ message: "No user with this ID" });
         }
 
-        res.status(200).json({ user: user, msg: 'success' });
+        res.status(200).json({ user: user, message: 'success' });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ message: error.message });
         console.log(error);
     }
 };
@@ -168,11 +174,11 @@ const userFollowUnfollow = async (req, res) => {
         const user = req.user._id;
         const followUser = await User.findById(followUserID)
         if (!followUser) {
-            return res.status(404).json({ msg: "No user with this ID" });
+            return res.status(404).json({ message: "No user with this ID" });
         }
         const currentUser = await User.findById(user);
         if (!currentUser) {
-            return res.status(404).json({ msg: "No user with this ID" });
+            return res.status(404).json({ message: "No user with this ID" });
         }
 
         const isFollowing = currentUser.following.includes(followUserID);
@@ -187,13 +193,13 @@ const userFollowUnfollow = async (req, res) => {
         await followUser.save();
 
         if (isFollowing) {
-            res.status(200).json({ msg: 'unfollowed', followUser: followUser, currentUser: currentUser });
+            res.status(200).json({ message: 'unfollowed', followUser: followUser, currentUser: currentUser });
         } else {
-            res.status(200).json({ msg: 'followed', followUser: followUser, currentUser: currentUser });
+            res.status(200).json({ message: 'followed', followUser: followUser, currentUser: currentUser });
         }
 
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ message: error.message });
         console.log(error);
 
     }
@@ -207,14 +213,14 @@ const editProfile = async (req, res) => {
 
         const user = await User.findById(userId);
         if (!user) {
-            return res.status(404).json({ msg: "No user with this ID" });
+            return res.status(404).json({ message: "No user with this ID" });
         }
         user.bio = bio;
         user.username = username;
         await user.save();
-        res.status(200).json({ msg: "user updated succesfully", user: user });
+        res.status(200).json({ message: "user updated succesfully", user: user });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ message: error.message });
         console.log(error);
     }
 }
@@ -223,9 +229,9 @@ const editProfile = async (req, res) => {
 const leaderBoard = async (req, res) => {
     try {
         const users = await User.find().sort({ points: -1 }).limit(10)
-        res.status(200).json({ users: users, msg: "success", total: users.length });
+        res.status(200).json({ users: users, message: "success", total: users.length });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ message: error.message });
         console.log(error);
     }
 }
@@ -236,11 +242,11 @@ const searchUser = async (req, res) => {
 
         const users = await User.find({ username: { $regex: username, $options: 'i' } }).select('-password')
         if (users.length === 0) {
-            return res.status(404).json({ msg: "No user with this username" });
+            return res.status(404).json({ message: "No user with this username" });
         }
-        res.status(200).json({ users: users, msg: "success", total: users.length })
+        res.status(200).json({ users: users, message: "success", total: users.length })
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ message: error.message });
         console.log(error);
     }
 }
@@ -250,7 +256,7 @@ const userRecommendation = async (req, res) => {
         const currentUserID = req.user._id;
         const currentUser = await User.findById(currentUserID);
         if (!currentUser) {
-            return res.status(404).json({ msg: "No user with this ID" });
+            return res.status(404).json({ message: "No user with this ID" });
         }
 
         const recommandation = await User.find({
@@ -268,9 +274,9 @@ const userRecommendation = async (req, res) => {
             }
             )
         }
-        res.status(200).json({ recommandation: recommandedUsernameandID.recommandation, msg: "success", total: recommandation.length })
+        res.status(200).json({ recommandation: recommandedUsernameandID.recommandation, message: "success", total: recommandation.length })
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ message: error.message });
         console.log(error);
     }
 }
