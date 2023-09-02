@@ -1,12 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
+import Login from './components/login';
+import Register from './components/Register';
 
 
 
 function App() {
   return (
     <>
-      <h1>login</h1>
+      {/* <Login /> */}
+      <Register />
     </>
   )
 }
