@@ -3,6 +3,7 @@ import './App.css';
 import Login from './components/login';
 import Register from './components/Register';
 import Home from './components/main';
+import Profie from './pages/profile'
 
 
 
@@ -11,7 +12,8 @@ function App() {
     <>
       {/* <Login /> */}
       {/* <Register /> */}
-      <Home />
+      {/* <Home /> */}
+      <Profie />
     </>
   )
 }
