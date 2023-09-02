@@ -1,7 +1,7 @@
 const Router = require('express')
 const router = Router()
 
-const { registerUser, userRecommendation, searchUser, leaderBoard, loginUser, updateavatar, userInfo, userProfile, userFollowUnfollow, editProfile } = require('../controllers/user.controllers')
+const { verifyemail, registerUser, userRecommendation, searchUser, leaderBoard, loginUser, updateavatar, userInfo, userProfile, userFollowUnfollow, editProfile } = require('../controllers/user.controllers')
 const { verifyJWT } = require('../middleware/auth.middleware')
 
 router.post('/register', registerUser)
@@ -14,6 +14,7 @@ router.put('/editprofile', verifyJWT, editProfile)
 router.get('/leaderboard', leaderBoard)
 router.get('/searchuser', searchUser)
 router.get('/userrecommendation', verifyJWT, userRecommendation)
+router.get('/verifyemail/:tokenId', verifyemail)
 
 
 module.exports = router;

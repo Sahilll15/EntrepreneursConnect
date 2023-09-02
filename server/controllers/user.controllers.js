@@ -1,9 +1,32 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User = require('../models/user.models')
+const { sendVerificationEmail, generateverificationToken } = require('../utils/email')
+const { successFullVerification } = require('../utils/EmailTemplates')
 
 
+const verifyemail = async (req, res) => {
+    try {
+        const tokenId = req.params.tokenId;
+        const user = await User.findOne({ verificationToken: tokenId });
 
+        if (!user) {
+            return res.status(404).json({ error: 'Invalid verification token.' });
+        }
+
+        user.isVerified = true;
+        user.verificationToken = null;
+        await user.save();
+
+        const congratulationContent = successFullVerification();
+
+        res.send(congratulationContent);
+
+    } catch (error) {
+        res.status(500).json({ error: 'An error occurred during email verification.' });
+        console.log(error);
+    }
+};
 
 const registerUser = async (req, res) => {
     const { username, email, password } = req.body;
@@ -19,13 +42,15 @@ const registerUser = async (req, res) => {
         if (existedUser) {
             return res.status(400).json({ msg: "An account with this username or email  already exists" })
         }
+        const verificationToken = generateverificationToken(email);
 
         const newUser = await User.create({
             username,
             email,
-            password
+            password,
+            verificationToken
         })
-
+        await sendVerificationEmail(email, verificationToken);
         const token = jwt.sign({
             user: newUser
         },
@@ -34,8 +59,7 @@ const registerUser = async (req, res) => {
                 expiresIn: "1d"
             }
         )
-
-        res.status(201).json({ user: newUser, token: token, mssg: "new user created" })
+        res.json({ message: 'Registration successful. Please check your email for verification.', verificationToken: verificationToken, user: newUser });
 
     } catch (error) {
         res.status(500).json({ error: error.message })
@@ -57,6 +81,10 @@ const loginUser = async (req, res) => {
 
         if (!user) {
             return res.status(400).json({ msg: "No account with this username does not exist!!" })
+        }
+
+        if (!user.isVerified) {
+            return res.status(400).json({ msg: "Please verify your email to login" })
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -258,6 +286,7 @@ module.exports = {
     editProfile,
     leaderBoard,
     searchUser,
-    userRecommendation
+    userRecommendation,
+    verifyemail
 
 }
