@@ -101,13 +101,16 @@ const profile = () => {
                     <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400" />
                     Mumbai , India
                   </div>
-                  <div className="mb-2 text-blueGray-600 mt-10">
-                    <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400" />
-                    Solution Manager - Creative Tim Officer
-                  </div>
+                  
                   <div className="mb-2 text-blueGray-600">
                     <i className="fas fa-university mr-2 text-lg text-blueGray-400" />
                     University of Mumbai
+                  </div>
+
+                  <div>
+                  <p><i className="fa-solid fa-medal" style={{color: "#D4Af37",}} />8 
+                  &nbsp; <i className="fa-solid fa-medal" style={{color: "#BBC2CC",}} />6  
+                  &nbsp; <i className="fa-solid fa-medal" style={{color: "#B08D57",}} />5</p>
                   </div>
                 </div>
                 <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
