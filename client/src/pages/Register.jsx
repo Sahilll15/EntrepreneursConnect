@@ -1,6 +1,48 @@
 import React from "react";
+import { useState } from "react";
+// import { useAuth } from "../Context/authContext";
+import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux"
+import { registerUser } from '../redux/auth/authActions';
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+const Register = () => {
 
-const login = () => {
+
+  const dispatch = useDispatch();
+
+  const [seepassword, setseepassword] = useState(false);
+  const [user, setUser] = useState({
+      username:"",
+      email: "",
+      password: ""
+  });
+
+  const handleChange = (e) => {
+      const { name, value } = e.target;
+      setUser({
+          ...user,
+          [name]: value
+      })
+  }
+
+  const handleSubmit = (e) => {
+      e.preventDefault();
+      dispatch(registerUser(user));
+    
+
+  }
+
+
+  const handleViewPassword=()=>{
+    setseepassword(!seepassword);
+    if(seepassword){
+        document.getElementById('password').type='password';
+    }
+    else{
+        document.getElementById('password').type='text';
+    }
+}
   return (
     <div>
       <section className="min-h-screen flex items-stretch text-white ">
@@ -73,53 +115,61 @@ const login = () => {
             <h1 className="my-6">
               <h1>Entrepreneurs Connect Logo</h1>
             </h1>
-            <br />
-            <p className="text-gray-100"> Lets Connect Your Social Account </p>
             <div className="py-6 space-x-2">
               <span className="w-10 h-10 items-center justify-center inline-flex rounded-full font-bold text-lg border-2 border-white">
-                <i
-                  className="fa-brands fa-google"
-                  size="lg"
-                  style={{ color: "#ffffff" }}
-                />
+              < i className="fa-brands fa-google" size="lg" style={{color: "#ffffff",}} />
               </span>
               <span className="w-10 h-10 items-center justify-center inline-flex rounded-full font-bold text-lg border-2 border-white">
-                <i
-                  className="fa-brands fa-github"
-                  size="lg"
-                  style={{ color: "#ffffff" }}
-                />
+              <i className="fa-brands fa-github" size="lg" style={{color: "#ffffff",}} />
               </span>
               <span className="w-10 h-10 items-center justify-center inline-flex rounded-full font-bold text-lg border-2 border-white">
                 in
               </span>
             </div>
             <p className="text-gray-100">or use email your account</p>
-            <form action className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
+            <form action className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto" onSubmit={handleSubmit}>
+            <div className="pb-2 pt-4">
+                <input
+                  className="block w-full p-4 text-lg rounded-sm bg-black"
+                  type="text"
+                  name="username"
+                  id="text"
+                  onChange={handleChange}
+                  placeholder="username"
+                />
+              </div>
               <div className="pb-2 pt-4">
                 <input
                   type="email"
                   name="email"
                   id="email"
+                  onChange={handleChange}
                   placeholder="Email"
                   className="block w-full p-4 text-lg rounded-sm bg-black"
                 />
               </div>
+            
               <div className="pb-2 pt-4">
                 <input
                   className="block w-full p-4 text-lg rounded-sm bg-black"
                   type="password"
                   name="password"
+                  onChange={handleChange}
                   id="password"
                   placeholder="Password"
                 />
-              </div>
-              <div className="text-right text-gray-400 hover:underline hover:text-gray-100">
-                <a href="#">Forgot your password?</a>
-              </div>
+              </div>  <div className="flex items-start">
+                          <div className="flex items-center h-5">
+                            <input id="viewpassword" name='viewpassword' aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"  onClick={handleViewPassword} /> 
+                          </div>
+                          <div className="ml-3 text-sm">
+                            <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">View password</label>
+                          </div>
+                      </div>
+              
               <div className="px-4 pb-2 pt-4">
                 <button className="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none">
-                  sign in
+                  sign up 
                 </button>
               </div>
               <div className="p-4 text-center right-0 left-0 flex justify-center space-x-4 mt-16 lg:hidden ">
@@ -158,10 +208,10 @@ const login = () => {
                 </a>
               </div>
               <div className="mt-12 text-sm font-display font-semibold text-white text-center">
-                Don't have an account ? &nbsp;
-                <a className="cursor-pointer text-indigo-600 hover:text-indigo-800">
-                  Sign up
-                </a>
+               Already have an account ? &nbsp;
+                <NavLink to={'/login'} className="cursor-pointer text-indigo-600 hover:text-indigo-800">
+                  Sign in
+                </NavLink>
               </div>
             </form>
           </div>
@@ -171,4 +221,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default Register;
