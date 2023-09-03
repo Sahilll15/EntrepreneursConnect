@@ -44,14 +44,14 @@ export default function PostFormCard() {
 
   return (
     <Card noPadding={false}>
-      <form onSubmit={handleSubmit} className="w-full">
+      <form onSubmit={handleSubmit} className="w-full ">
         <div className="my-4">
           <textarea
             id="content"
             name="content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="w-full p-4 border rounded-lg text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="w-full p-4 border rounded-lg h-20 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             placeholder="What's on your mind?"
             rows="4"
             required
@@ -75,9 +75,9 @@ export default function PostFormCard() {
         ) : null}
 
         <div className="mb-4 flex justify-between items-center">
-          <div className="flex items-center cursor-pointer" onClick={() => setImageAddmodel(!imageAddmodel)}>
+          <div className="flex items-center cursor-pointer border-2 border-slate-200" onClick={() => setImageAddmodel(!imageAddmodel)}>
             <FontAwesomeIcon icon={faImage} className="text-gray-500 text-2xl" />
-            <span className="text-gray-700 text-lg ml-2">Photo/Video</span>
+            <span className="text-gray-700 text-lg ml-2">Photo/Video  &nbsp;</span>
           </div>
         </div>
 
