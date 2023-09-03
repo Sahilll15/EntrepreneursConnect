@@ -1,10 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { RedirectToHome } from '../../actions/navigation';
 
-// Note: Avoid using useDispatch within action creators; dispatch should be used in components.
 
-// Define your async thunk for user registration
+
+
+
 export const registerUser = createAsyncThunk(
     'user/register',
     async (formData, { rejectWithValue }) => {

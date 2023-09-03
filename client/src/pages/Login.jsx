@@ -1,56 +1,53 @@
-import React,{useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../redux/auth/authActions';
-import { UseSelector, useSelector } from 'react-redux/es/hooks/useSelector';
 
 const Login = () => {
-    const navigate = useNavigate();
-    const [viewPassword, setViewPassword] = useState(false);
-    // const [success,setSuccess]=useState(false);
-    const success = useSelector((state) => state.user.success);
-    const dispatch = useDispatch();
-    const [user, setUser] = useState({
-        email: "",
-        password: ""
+  const navigate = useNavigate();
+  const [viewPassword, setViewPassword] = useState(false);
+  const loading = useSelector((state) => state.user.loading);
+  const success = useSelector((state) => state.user.success);
+  const dispatch = useDispatch();
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser({
+      ...user,
+      [name]: value,
     });
+  };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setUser({
-            ...user,
-            [name]: value
-        })
-    }
 
-    useEffect(() => {
-      console.log('Success updated:', success);
-    }, [success]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log('Dispatching loginUser action');
     
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      console.log('Dispatching loginUser action');
-       dispatch(loginUser(user));
-  
-      console.log(success);
-      if (success) {
-        toast.success('Login successful');
-        navigate('/');
-      }
-    };
-  
+    try {
+      const response = await dispatch(loginUser(user));
       
-        const handleViewPassword = () => {
-            setViewPassword(!viewPassword);
-            const passwordInput = document.getElementById('password');
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-            } else {
-                passwordInput.type = 'password';
-            }
-        }
-        
+      if (response.meta.requestStatus === "fulfilled") {
+        navigate('/');
+      } 
+    } catch (error) {
+      console.error('An error occurred:', error);
+      toast.error('An error occurred while logging in');
+    }
+  };
+  const handleViewPassword = () => {
+    setViewPassword(!viewPassword);
+    const passwordInput = document.getElementById('password');
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+    } else {
+      passwordInput.type = 'password';
+    }
+  };
       
   return (
     <div>
@@ -180,7 +177,15 @@ const Login = () => {
             </div>
             <div className="px-4 pb-2 pt-4">
               <button className="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none">
-                sign in
+                {loading ? (
+                  <div className="flex justify-center items-center space-x-2">
+                    <div className="w-4 h-4 border-2 border-white rounded-full animate-spin" />
+                    <span>Logging in...</span>
+                  </div>
+                ) : (
+                  <span>Login</span>
+                )}
+
               </button>
             </div>
             <div className="p-4 text-center right-0 left-0 flex justify-center space-x-4 mt-16 lg:hidden ">
