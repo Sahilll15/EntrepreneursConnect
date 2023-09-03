@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 
-function Sidebar() {
+export const SideBar=()=> {
   const [submenuHidden, setSubmenuHidden] = useState(false);
   const [arrowRotated, setArrowRotated] = useState(false);
   const [sidebarHidden, setSidebarHidden] = useState(true);
@@ -74,4 +74,4 @@ function Sidebar() {
   )
 }
 
-export default Sidebar;
+export default SideBar;
