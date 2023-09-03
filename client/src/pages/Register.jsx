@@ -1,11 +1,16 @@
 import React from "react";
 import { useState } from "react";
-import { useAuth } from "../Context/authContext";
+// import { useAuth } from "../Context/authContext";
 import { NavLink } from "react-router-dom";
-
+import { useDispatch } from "react-redux"
+import { registerUser } from '../redux/auth/authActions';
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 const Register = () => {
 
-  const {register}=useAuth();
+
+  const dispatch = useDispatch();
+
   const [seepassword, setseepassword] = useState(false);
   const [user, setUser] = useState({
       username:"",
@@ -21,11 +26,11 @@ const Register = () => {
       })
   }
 
-  const handleSubmit =async (e) => {
+  const handleSubmit = (e) => {
       e.preventDefault();
-      console.log(user)
-     await register(user)
-      
+      dispatch(registerUser(user));
+    
+
   }
 
 

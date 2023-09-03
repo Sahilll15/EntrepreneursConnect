@@ -1,13 +1,16 @@
-import React,{useState} from 'react'
-import { useAuth } from '../Context/authContext';
+import React,{useEffect, useState} from 'react'
 import { toast } from 'react-toastify';
 import { NavLink, useNavigate } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../redux/auth/authActions';
+import { UseSelector, useSelector } from 'react-redux/es/hooks/useSelector';
 
 const Login = () => {
     const navigate = useNavigate();
     const [viewPassword, setViewPassword] = useState(false);
-    const { login } = useAuth();
+    // const [success,setSuccess]=useState(false);
+    const success = useSelector((state) => state.user.success);
+    const dispatch = useDispatch();
     const [user, setUser] = useState({
         email: "",
         password: ""
@@ -21,22 +24,22 @@ const Login = () => {
         })
     }
 
+    useEffect(() => {
+      console.log('Success updated:', success);
+    }, [success]);
+    
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        try {
-          const success = await login(user);
-          
-          if (success) {
-            toast.success('User logged in successfully!');
-            navigate('/');
-            setUser({ email: '', password: '' });
-          }
-        } catch (error) {
-          const errorMessage = error.response?.data?.message || 'User login failed!';
-          toast.error(errorMessage);
-        } 
-      };
+      e.preventDefault();
+      console.log('Dispatching loginUser action');
+       dispatch(loginUser(user));
+  
+      console.log(success);
+      if (success) {
+        toast.success('Login successful');
+        navigate('/');
+      }
+    };
+  
       
         const handleViewPassword = () => {
             setViewPassword(!viewPassword);
