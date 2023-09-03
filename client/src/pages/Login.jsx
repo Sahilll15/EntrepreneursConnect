@@ -8,7 +8,6 @@ const Login = () => {
   const navigate = useNavigate();
   const [viewPassword, setViewPassword] = useState(false);
   const loading = useSelector((state) => state.user.loading);
-  const success = useSelector((state) => state.user.success);
   const dispatch = useDispatch();
   const [user, setUser] = useState({
     email: '',
