@@ -3,3 +3,7 @@ node_modules/
 
 # Ignore .env files
 *.env
+
+# add uplaoads folder to the .gitignore
+uploads/
+```
