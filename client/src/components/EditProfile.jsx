@@ -57,7 +57,7 @@ const EditProfile = () => {
                 </label>
                 <div className="flex">
                   <input
-                    disabled
+                    
                     id="username"
                     className="border-1 text-slate-400 rounded-r px-4 py-2 w-full"
                     type="text"
@@ -74,7 +74,7 @@ const EditProfile = () => {
                   Email
                 </label>
                 <input
-                  disabled
+                  
                   id="email"
                   className="border-1 text-slate-400 rounded-r px-4 py-2 w-full"
                   type="email"
@@ -90,7 +90,7 @@ const EditProfile = () => {
                   Company Name
                 </label>
                 <input
-                  disabled
+                  
                   id="Company"
                   className="border-1 text-slate-400 rounded-r px-4 py-2 w-full"
                   type="text"
@@ -106,7 +106,7 @@ const EditProfile = () => {
                   Place
                 </label>
                 <input
-                  disabled
+                  
                   id="Company"
                   className="border-1 text-slate-400 rounded-r px-4 py-2 w-full"
                   type="text"
