@@ -15,16 +15,16 @@ const SideBar = () => {
   };
 
   return (
-    <div>
-      <span className="absolute text-white text-4xl top-5 left-4 cursor-pointer" onClick={toggleSidebar}>
+    <div className="hidden lg:block lg:fixed lg:top-0 lg:left-0 lg:w-[300px] lg:h-full lg:bg-black text-center text-white p-2">
+      <span className="absolute text-white text-4xl top-5 left-4 cursor-pointer" >
         <i className="bi bi-filter-left px-2 bg-black rounded-md" />
       </span>
-      <div className={`sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center ${sidebarHidden ? 'hidden' : ''} bg-black`}>
+      <div className={`sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center  bg-black`}>
         <div className="text-gray-100 text-xl">
           <div className="p-2.5 mt-1 flex items-center">
             <i className="bi bi-app-indicator px-2 py-1 rounded-md bg-blue-600" />
             <h1 className="font-bold text-gray-200 text-[15px] ml-3">TailwindCSS</h1>
-            <i className="bi bi-x cursor-pointer ml-28 lg:hidden" onClick={toggleSidebar} />
+            <i className="bi bi-x cursor-pointer ml-28 lg:hidden" />
           </div>
           <div className="my-2 bg-gray-600 h-[1px]" />
         </div>
@@ -35,6 +35,7 @@ const SideBar = () => {
         <NavLink to="/" exact>
         <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
           <i className="bi bi-house-door-fill" />
+         
   <span className="text-[15px] ml-4 text-gray-200 font-bold">Home</span>
         </div>
         </NavLink>
@@ -59,7 +60,7 @@ const SideBar = () => {
           <i className="bi bi-chat-left-text-fill" />
           <div className="flex justify-between w-full items-center">
             <span className="text-[15px] ml-4 text-gray-200 font-bold">Chatbox</span>
-            <span className={`text-sm ${arrowRotated ? 'rotate-180' : ''}`} id="arrow">
+            <span className={`text-sm `} id="arrow">
               <i className="bi bi-chevron-down" />
             </span>
           </div>

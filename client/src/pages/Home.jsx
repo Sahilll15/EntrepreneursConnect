@@ -44,9 +44,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="w-1/10">
-        <FollowRequestsPanel followRequests={followRequests} />
-      </div>
+    
     </div>
   );
 };
