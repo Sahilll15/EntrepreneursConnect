@@ -1,6 +1,8 @@
 import React from 'react';
 import { formatDateTime } from '../utils/Formatdate';
 
+const baseUrl='http://localhost:4000/'
+
 const PostCard = ({ product }) => {
   return (
     <div key={product._id} className="bg-white rounded-lg shadow-md p-4 mb-4 border border">
@@ -16,8 +18,9 @@ const PostCard = ({ product }) => {
         </div>
       </div>
       <p className="text-xl font-semibold mb-4">{product.content}</p>
-      {product.media && (
-        <img src={product.media} alt="Post media" className=" w-96 rounded-lg mb-4" />
+      
+      {product?.media && (
+     <img src={`${baseUrl}${product.media}`} alt="Post media" className="w-96 rounded-lg mb-4" />
       )}
       <div className="flex justify-between text-gray-600 text-sm">
         <div>
