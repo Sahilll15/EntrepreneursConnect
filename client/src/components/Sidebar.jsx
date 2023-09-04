@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { NavLink } from 'react-router-dom';
 const SideBar = () => {
   const [submenuHidden, setSubmenuHidden] = useState(false);
   const [arrowRotated, setArrowRotated] = useState(false);
@@ -32,14 +32,28 @@ const SideBar = () => {
           <i className="bi bi-search text-sm" />
           <input type="text" placeholder="Search" className="text-[15px] ml-4 w-full bg-transparent focus:outline-none" />
         </div>
+        <NavLink to="/" exact>
         <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
           <i className="bi bi-house-door-fill" />
-          <span className="text-[15px] ml-4 text-gray-200 font-bold">Home</span>
+  <span className="text-[15px] ml-4 text-gray-200 font-bold">Home</span>
         </div>
+        </NavLink>
+        <NavLink to='/' >
         <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
           <i className="bi bi-bookmark-fill" />
+         
           <span className="text-[15px] ml-4 text-gray-200 font-bold">Bookmark</span>
+        
         </div>
+        </NavLink>
+        <NavLink to='/setting' exact>
+        <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
+       
+          <i className="bi bi-bookmark-fill" />
+          <span className="text-[15px] ml-4 text-gray-200 font-bold">Settings</span>
+        
+        </div>
+        </NavLink>
         <div className="my-4 bg-gray-600 h-[1px]" />
         <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white" onClick={toggleSubmenu}>
           <i className="bi bi-chat-left-text-fill" />

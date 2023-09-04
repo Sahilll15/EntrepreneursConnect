@@ -32,7 +32,7 @@ const Home = () => {
   return (
     <div className="flex justify-center p-4">
       <div className="w-full md:w-4/3 lg:w-2/4">
-        <Sidebar />
+    
         <PostFormCard />
         <div>
           {products?.map((product) => (
