@@ -6,6 +6,8 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Setting from './pages/Setting';
 import Profile from './pages/profile';
+import Buy from './pages/Buy';
+import Chat from './pages/Chat';
 import Sidebar from './components/Sidebar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -23,6 +25,9 @@ function App() {
         <Route path="/register" exact element={<Register />} />
         <Route path="/setting" exact element={<Setting />} />
         <Route path="/profile" exact element={<Profile />} />
+        <Route path="/buy" exact element={<Buy />} />
+        <Route path="/chat" exact element={<Chat />} />
+    
       </Routes>
     </Router>
 

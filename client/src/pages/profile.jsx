@@ -1,6 +1,8 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 
+
+
 const profile = () => {
   return (
    
@@ -155,7 +157,9 @@ const profile = () => {
 
         </section>
       </main>
-    </div>
+
+      
+ </div>
   );
 };
 
