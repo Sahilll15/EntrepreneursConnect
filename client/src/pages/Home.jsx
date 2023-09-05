@@ -6,6 +6,7 @@ import { fetchPosts } from '../redux/posts/postActions';
 import PostCard from '../components/PostCard';
 import FollowRequestsPanel from '../components/FollowRequestsPanel';
 import PostCardSkeleton from '../components/skeletons/PostCardSkeleton';
+import BackToTopButton from '../components/BackToTop';
 
 const followRequests = [
   {
@@ -29,7 +30,9 @@ const Home = () => {
     dispatch(fetchPosts());
   }, [dispatch]);
 
-  return (
+  return (  
+    <>
+  
     <div className="flex justify-center p-4">
       <div className="w-full md:w-4/3 lg:w-2/4 lg:mr-10">
         <PostFormCard />
@@ -44,8 +47,9 @@ const Home = () => {
         </div>
       </div>
 
-    
     </div>
+    <BackToTopButton />
+    </>
   );
 };
 

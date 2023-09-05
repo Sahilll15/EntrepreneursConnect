@@ -1,12 +1,16 @@
 const Product = require('../models/Product.models');
 const User = require('../models/user.models');
-
 const createProduct = async (req, res) => {
     const { content, tags } = req.body;
 
     try {
         const author = req.user._id;
         console.log(author);
+        const user = await User.findById(author);
+
+        if (!user) {
+            return res.status(400).json({ msg: "User not found" });
+        }
 
         if (!content) {
             return res.status(400).json({ msg: "Content is required" });
@@ -17,24 +21,33 @@ const createProduct = async (req, res) => {
             author: {
                 id: author,
                 name: req.user.username,
-                avatar: req.user.avatar.url
+                avatar: req.user.avatar.url,
             },
-            media: req.file.path,
         });
 
+        // Check if a media file was uploaded
+        if (req.file) {
+            product.media = req.file.path;
+        }
+
         await product.save();
+        console.log('adding poinsts')
+        user.points += 10;
+        console.log('added poinsts')
+        console.log(user.points)
+        await user.save();
 
         if (!product) {
             return res.status(400).json({ msg: "Product not created" });
         }
 
         res.status(201).json({ product: product, mssg: "New product created" });
-
     } catch (error) {
         res.status(500).json({ error: error.message });
         console.log(error);
     }
-}
+};
+
 
 const getProducts = async (req, res) => {
     try {

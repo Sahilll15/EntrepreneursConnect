@@ -5,6 +5,17 @@ const { sendVerificationEmail, generateverificationToken } = require('../utils/e
 const { successFullVerification } = require('../utils/EmailTemplates')
 
 
+
+const loggedInUser = async (req, res) => {
+    try {
+        const user = req.user;
+        res.status(200).json({ user: user, message: 'success' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+        console.log(error);
+    }
+}
+
 const verifyemail = async (req, res) => {
     try {
         const tokenId = req.params.tokenId;
@@ -293,6 +304,7 @@ module.exports = {
     leaderBoard,
     searchUser,
     userRecommendation,
-    verifyemail
+    verifyemail,
+    loggedInUser
 
 }

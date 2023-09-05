@@ -1,6 +1,5 @@
-import logo from './logo.svg';
-import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Register from './pages/Register';
 import Login from './pages/Login';
@@ -11,28 +10,35 @@ import Chat from './pages/Chat';
 import Sidebar from './components/Sidebar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-
+import { getLoggedInUser } from './redux/auth/authActions'
+import { useDispatch, useSelector } from 'react-redux'
 
 function App() {
+  const dispatch = useDispatch()
+
+
   return (
     <Router>
-      <Sidebar />
-      <ToastContainer />
-      <Routes>
-        <Route path="/" exact element={<Home />} />
-        <Route path="/login" exact element={<Login />} />
-        <Route path="/register" exact element={<Register />} />
-        <Route path="/setting" exact element={<Setting />} />
-        <Route path="/profile" exact element={<Profile />} />
-        <Route path="/buy" exact element={<Buy />} />
-        <Route path="/chat" exact element={<Chat />} />
-    
-      </Routes>
+      <div className="flex">
+        {/* Sidebar */}
+        <Sidebar />
+
+        {/* Main Content */}
+        <div className="flex-grow p-4"> {/* Adjust padding as needed */}
+          <ToastContainer />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/setting" element={<Setting />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/buy" element={<Buy />} />
+            <Route path="/chat" element={<Chat />} />
+          </Routes>
+        </div>
+      </div>
     </Router>
-
-  )
+  );
 }
-
 
 export default App;

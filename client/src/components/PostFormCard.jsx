@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from './Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch } from 'react-redux';
 import { addPost,fetchPosts } from '../redux/posts/postActions';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import Preloader from '../components/Preloader'
+import { getLoggedInUser } from '../redux/auth/authActions';
 
 export default function PostFormCard() {
   const [content, setContent] = useState('');
@@ -13,6 +13,8 @@ export default function PostFormCard() {
   const dispatch = useDispatch();
   const [imageAddmodel, setImageAddmodel] = useState(false);
   const loading = useSelector((state) => state.posts.loading);
+  const user = useSelector((state) => state.user.user);
+  const isLoading = useSelector((state) => state.user.loading);
 
 
   const handleSubmit = async (e) => {
@@ -24,8 +26,11 @@ export default function PostFormCard() {
 
     try {
 
-      await dispatch(addPost({ content, media: image }));
+      await dispatch(addPost({ content, media: image })).then(()=>{
+        alert(user.points)
+      })
       await dispatch(fetchPosts());
+      await getLoggedInUser();
       setContent('');
       setImage(null);
     } catch (error) {
@@ -43,10 +48,15 @@ export default function PostFormCard() {
     setImage(selectedImage); // Set the selected image in state
   };
 
+  useEffect(()=>{
+    if (!user) {
+      dispatch(getLoggedInUser());
+    }
+  },[dispatch,user])
+
   return (
     <Card noPadding={false}>
       <form onSubmit={handleSubmit} className="w-full">
-        {/* Content textarea */}
         <div className="my-4">
           <textarea
             id="content"

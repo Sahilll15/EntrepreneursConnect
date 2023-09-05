@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// You can use a function to retrieve the token from local storage when the action is dispatched
+
 export const likePost = createAsyncThunk(
     'likePost',
     async (postId, { rejectWithValue }) => {
@@ -15,7 +15,7 @@ export const likePost = createAsyncThunk(
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`, // Add the token to the Authorization header
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );

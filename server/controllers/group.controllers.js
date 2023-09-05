@@ -42,7 +42,7 @@ const createGroup = async (req, res) => {
 
 const getGroups = async (req, res) => {
     try {
-        const groups = await Group.find();
+        const groups = await Group.find().sort({ createdAt: -1 })
         const total = groups.length
         res.status(200).json({ groups: groups, mssg: "groups fetched successfully", qty: total });
     } catch (error) {

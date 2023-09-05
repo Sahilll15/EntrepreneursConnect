@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { registerUser, loginUser } from './authActions';
+import { registerUser, loginUser, getLoggedInUser, updateProfile } from './authActions';
 
 const initialState = {
     user: null,
@@ -9,7 +9,6 @@ const initialState = {
     success: false,
     token: ""
 }
-
 
 export const authSlice = createSlice({
     name: 'user',
@@ -28,9 +27,8 @@ export const authSlice = createSlice({
         builder.addCase(registerUser.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
-
         });
-        //login reducer start
+        // Login reducer start
         builder.addCase(loginUser.pending, (state, action) => {
             state.loading = true;
         });
@@ -44,11 +42,44 @@ export const authSlice = createSlice({
         builder.addCase(loginUser.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
-
         });
+        // Login reducer end
+        // Get logged in user reducer start
+        builder.addCase(getLoggedInUser.pending, (state, action) => {
+            state.loading = true;
+        }
+        );
+        builder.addCase(getLoggedInUser.fulfilled, (state, action) => {
+            state.loading = false;
+            state.user = action.payload.user;
+            state.isAuthenticated = true;
+        }
+        );
+        builder.addCase(getLoggedInUser.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        }
+        );
+
+        // Get logged in user reducer end
+        // Update profile reducer start
+        builder.addCase(updateProfile.pending, (state, action) => {
+            state.loading = true;
+        }
+        );
+        builder.addCase(updateProfile.fulfilled, (state, action) => {
+            state.loading = false;
+            state.user = action.payload.user;
+            state.isAuthenticated = true;
+        }
+        );
+        builder.addCase(updateProfile.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        }
+        );
+
     },
 });
-
-
 
 export default authSlice.reducer;

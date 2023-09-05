@@ -32,13 +32,13 @@ const Navbar = () => {
               </svg>
             </span>
           </button>
-          {/* Collapsible navigation container */}
+        
           <div
             className="!visible hidden flex-grow basis-[100%] items-center lg:!flex lg:basis-auto"
             id="navbarSupportedContent1"
             data-te-collapse-item
           >
-            {/* Logo */}
+        
             <NavLink
               className="mb-4 ml-2 mr-5 mt-3 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mb-0 lg:mt-0"
               href="#"
