@@ -24,8 +24,7 @@ app.listen(PORT, (req, res) => {
 })
 
 myDb.myDb();
-
-
+app.use('/uploads', express.static('uploads'));
 app.use('/api/v1/auth', userRoutes);
 app.use('/api/v1/products', productsRoutes);
 app.use('/api/v1/likes', likeRoutes);

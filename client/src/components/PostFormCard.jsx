@@ -79,9 +79,9 @@ export default function PostFormCard() {
 
         {/* Toggle image upload */}
         <div className="mb-4 flex justify-between items-center">
-          <div className="flex items-center cursor-pointer" onClick={() => setImageAddmodel(!imageAddmodel)}>
+          <div className="flex items-center cursor-pointer border-2 border-slate-200" onClick={() => setImageAddmodel(!imageAddmodel)}>
             <FontAwesomeIcon icon={faImage} className="text-gray-500 text-2xl" />
-            <span className="text-gray-700 text-lg ml-2">Photo/Video</span>
+            <span className="text-gray-700 text-lg ml-2">Photo/Video  &nbsp;</span>
           </div>
         </div>
 

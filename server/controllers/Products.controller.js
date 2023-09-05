@@ -19,7 +19,7 @@ const createProduct = async (req, res) => {
                 name: req.user.username,
                 avatar: req.user.avatar.url
             },
-            media: req.filePath
+            media: req.file.path,
         });
 
         await product.save();
