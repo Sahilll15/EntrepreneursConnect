@@ -46,7 +46,7 @@ export const SideBar = () => {
             <div className="p-2.5 mt-1 flex items-center">
               {/* <i className="bi bi-app-indicator px-2 py-1 rounded-md bg-blue-600" /> */}
               <img
-                src={user?.avatar.url}
+                src={user?.avatar?.url}
                 alt=""
                 className="w-[40px] h-[40px] rounded-full"
               />
@@ -81,6 +81,14 @@ export const SideBar = () => {
             <i class="bi bi-people"></i>
             <span className="text-[15px] ml-4 text-gray-200 font-bold">
               My Group
+            </span>
+          </div>
+          </NavLink>
+          <NavLink to={`/profile/${user?._id}`} >
+          <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
+            <i class="bi bi-person-circle"></i>
+            <span className="text-[15px] ml-4 text-gray-200 font-bold">
+              My Profile
             </span>
           </div>
           </NavLink>

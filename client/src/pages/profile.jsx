@@ -3,6 +3,8 @@ import Navbar from "../components/Navbar";
 import { getProfile } from "../redux/auth/authActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import PostCard from "../components/PostCard";
+import { fetchpostByUserID } from "../redux/posts/postActions";
 
 
 
@@ -10,11 +12,14 @@ const Profile = () => {
   const dispatch = useDispatch();
   const ProfileUser = useSelector((state) => state?.user?.profileUser);
   const user=useSelector((state)=>state.user?.user)
+  const postByUserID=useSelector((state)=>state.posts.postsByUser.products)
   const { id } = useParams();
   // console.log(ProfileUser)
 
+
   useEffect(()=>{
     dispatch(getProfile(id))
+    dispatch(fetchpostByUserID(id))
    
   },[dispatch])
 
@@ -162,26 +167,25 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className="ml-5 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <a href="#">
-              <img
-                className="rounded-t-lg"
-                src="https://avatars.githubusercontent.com/u/98531038?v=4"
-                alt
-              />
-            </a>
-            <div className="p-5">
-              <a href="#">
-                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                  Noteworthy technology acquisitions 2021
-                </h5>
-              </a>
+          <div className="container mx-auto px-4">
+        <h1 className="text-2xl font-semibold text-blueGray-700 mb-4 text-center">Posts</h1>
+
+
+          <div className="flex flex-wrap pl-10">
+          {postByUserID?.length === 0 ? (
+            <div className="flex justify-center w-full">
+              <div className="flex flex-col items-center justify-center">
+                <i className="far fa-folder-open text-6xl text-blueGray-300"></i>
+                <h1 className="text-2xl text-blueGray-300">No posts yet</h1>
+              </div>
             </div>
-          </div>
-
-          
-
-
+          ) : (
+            postByUserID?.map((product) => (
+              <PostCard product={product} key={product._id} />
+            ))
+          )}
+        </div>
+        </div>
         </section>
       </main>
 

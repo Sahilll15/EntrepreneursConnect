@@ -8,12 +8,16 @@ import Profile from './pages/Profile';
 import Buy from './pages/Buy';
 import Chat from './pages/Chat';
 import Sidebar from './components/Sidebar';
+import Notification from './components/Notifications';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import io from 'socket.io-client'
 import PrivateRoutes from './utils/PrivateRoutes';
 
-
+// const socket = io.connect('http://localhost:4000')
 function App() {
+
+
 
   return (
     <Router>
@@ -30,6 +34,7 @@ function App() {
               <Route path="/buy" element={<Buy />} />
               <Route path="/chat" element={<Chat />} />
               <Route path="/" element={<Home />} />
+              <Route path="/Notification" element={<Notification />} />
             </Route>
 
 
@@ -40,6 +45,7 @@ function App() {
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
 
       </Routes>
 
