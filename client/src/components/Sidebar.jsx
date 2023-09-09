@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import {NavLink } from 'react-router-dom'
 import "./css/Sidebar.css";
 import { useNavigate } from "react-router-dom";
+import { getLoggedInUser } from "../redux/auth/authActions";
+import { useSelector,useDispatch } from "react-redux";
 
 export const SideBar = () => {
   const [submenuHidden, setSubmenuHidden] = useState(false);
   const [arrowRotated, setArrowRotated] = useState(false);
   const [sidebarHidden, setSidebarHidden] = useState(true);
+  const user=useSelector((state)=>state.user.user)
+  const dispatch=useDispatch();
   const navigate = useNavigate();
+  
   const logout=()=>{
     localStorage.removeItem('authtoken');
     navigate('/login');
@@ -23,6 +28,10 @@ export const SideBar = () => {
     setSidebarHidden(!sidebarHidden);
   };
 
+  useEffect(()=>{
+    dispatch(getLoggedInUser());
+  },[dispatch])
+
   return (
     <div >
       <div className="sideParent">
@@ -35,14 +44,17 @@ export const SideBar = () => {
         <div className="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-gray-900">
           <div className="text-gray-100 text-xl">
             <div className="p-2.5 mt-1 flex items-center">
-              <i className="bi bi-app-indicator px-2 py-1 rounded-md bg-blue-600" />
-              <h1 className="font-bold text-gray-200 text-[15px] ml-3">
-                TailwindCSS
-              </h1>
-              <i
-                className="bi bi-x cursor-pointer ml-28 lg:hidden"
-                onclick="openSidebar()"
+              {/* <i className="bi bi-app-indicator px-2 py-1 rounded-md bg-blue-600" /> */}
+              <img
+                src={user?.avatar.url}
+                alt=""
+                className="w-[40px] h-[40px] rounded-full"
               />
+
+              <h1 className="font-bold text-gray-200 text-[15px] ml-3">
+                {user?.username}
+              </h1>
+           
             </div>
             <div className="my-2 bg-gray-600 h-[1px]" />
           </div>

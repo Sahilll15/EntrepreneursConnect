@@ -57,3 +57,29 @@ export const addPost = createAsyncThunk(
 );
 
 
+
+export const deletePost = createAsyncThunk(
+    'post/deletepost',
+    async (postId, { rejectWithValue }) => {
+        try {
+            const response = await axios.delete(`http://localhost:4000/api/v1/products/deleteproduct/${postId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+            if (response.status === 200) {
+                toast.success(response.data.mssg)
+                return response.data;
+            }
+            else {
+                toast.error(response.data.message);
+                return rejectWithValue(response.data.message);
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message);
+            return rejectWithValue(error.response?.data?.message);
+        }
+    }
+)
