@@ -1,5 +1,6 @@
 const Product = require('../models/Product.models');
 const User = require('../models/user.models');
+const fs = require('fs');
 const createProduct = async (req, res) => {
     const { content, tags } = req.body;
 
@@ -92,9 +93,15 @@ const deleteProduct = async (req, res) => {
             return res.status(401).json({ mssg: "You are not authorized to delete this product" });
         }
 
+        //unlink the image
+        if (product.media) {
+            fs.unlinkSync(product.media);
+        }
+
         const deletedProduct = await Product.findByIdAndDelete(id);
 
-        res.status(200).json({ mssg: "Product deleted successfully" });
+
+        res.status(200).json({ mssg: "Product deleted successfully", product: deletedProduct });
 
     } catch (error) {
         res.status(500).json({ error: error.message });
