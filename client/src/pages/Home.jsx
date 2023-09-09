@@ -7,6 +7,7 @@ import PostCard from '../components/PostCard';
 import FollowRequestsPanel from '../components/FollowRequestsPanel';
 import PostCardSkeleton from '../components/skeletons/PostCardSkeleton';
 import BackToTopButton from '../components/BackToTop';
+import { toast } from 'react-toastify';
 
 
 const Home = () => {

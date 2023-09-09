@@ -2,11 +2,17 @@ import React from "react";
 import { useState } from "react";
 import {NavLink } from 'react-router-dom'
 import "./css/Sidebar.css";
+import { useNavigate } from "react-router-dom";
 
 export const SideBar = () => {
   const [submenuHidden, setSubmenuHidden] = useState(false);
   const [arrowRotated, setArrowRotated] = useState(false);
   const [sidebarHidden, setSidebarHidden] = useState(true);
+  const navigate = useNavigate();
+  const logout=()=>{
+    localStorage.removeItem('authtoken');
+    navigate('/login');
+  } 
 
   const toggleSubmenu = () => {
     setSubmenuHidden(!submenuHidden);
@@ -111,7 +117,7 @@ export const SideBar = () => {
               Friends
             </h1>
           </div>
-          <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
+          <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white" onClick={logout}>
             <i className="bi bi-box-arrow-in-right" />
             <span className="text-[15px] ml-4 text-gray-200 font-bold">
               Logout

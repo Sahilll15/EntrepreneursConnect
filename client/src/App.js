@@ -13,10 +13,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import { getLoggedInUser } from './redux/auth/authActions'
 import { useDispatch, useSelector } from 'react-redux'
 import PrivateRoutes from './utils/PrivateRoutes';
+import { fetchPosts } from './redux/posts/postActions';
 
 function App() {
   const dispatch = useDispatch()
+  const products = useSelector((state) => state.posts.posts.products);
 
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, []);
 
   return (
     <Router>
@@ -25,7 +30,7 @@ function App() {
         <Sidebar />
 
         {/* Main Content */}
-        <div className="flex-grow p-4">
+        <div className="flex-grow">
           <ToastContainer />
           <Routes>
             <Route element={<PrivateRoutes />}>
@@ -37,12 +42,17 @@ function App() {
             </Route>
 
 
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-
           </Routes>
         </div>
       </div>
+      <Routes >
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+      </Routes>
+
+
     </Router >
   );
 }

@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../redux/auth/authActions';
+import { fetchPosts } from '../redux/posts/postActions';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -32,6 +33,8 @@ const Login = () => {
       
       if (response.meta.requestStatus === "fulfilled") {
         navigate('/');
+        window.location.reload();
+     
       } 
     } catch (error) {
       console.error('An error occurred:', error);
@@ -47,6 +50,11 @@ const Login = () => {
       passwordInput.type = 'password';
     }
   };
+
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, [dispatch]);
+  
       
   return (
     <div>

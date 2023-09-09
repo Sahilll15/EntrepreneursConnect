@@ -25,10 +25,7 @@ export default function PostFormCard() {
     }
 
     try {
-
-      await dispatch(addPost({ content, media: image })).then(()=>{
-        alert(user.points)
-      })
+      await dispatch(addPost({ content, media: image }))
       await dispatch(fetchPosts());
       await getLoggedInUser();
       setContent('');

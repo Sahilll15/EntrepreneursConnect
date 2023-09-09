@@ -19,13 +19,11 @@ export const postSlice = createSlice({
         //fetchposts
         builder.addCase(fetchPosts.pending, (state, action) => {
             state.loading = true;
-        });
-        builder.addCase(fetchPosts.fulfilled, (state, action) => {
+        }).addCase(fetchPosts.fulfilled, (state, action) => {
             state.loading = false;
             state.success = true;
             state.posts = action.payload;
-        });
-        builder.addCase(fetchPosts.rejected, (state, action) => {
+        }).addCase(fetchPosts.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
         });
@@ -34,14 +32,12 @@ export const postSlice = createSlice({
         builder.addCase(addPost.pending, (state, action) => {
             state.loading = true;
         }
-        );
-        builder.addCase(addPost.fulfilled, (state, action) => {
+        ).addCase(addPost.fulfilled, (state, action) => {
             state.loading = false;
             state.success = true;
             state.post = action.payload;
         }
-        );
-        builder.addCase(addPost.rejected, (state, action) => {
+        ).addCase(addPost.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
         }
