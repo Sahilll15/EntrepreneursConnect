@@ -6,7 +6,7 @@ const { verifyJWT } = require('../middleware/auth.middleware');
 const upload = require('../middleware/upload.midleware')
 
 router.post('/createproduct', upload, verifyJWT, createProduct); // Change to 'createproduct'
-router.get('/getproducts', verifyJWT, getProducts); // Change to 'getproducts'
+router.get('/getproducts', getProducts); // Change to 'getproducts'
 router.get('/getproduct/:id', verifyJWT, getProductById); // Change to 'getproduct'
 router.delete('/deleteproduct/:id', verifyJWT, deleteProduct); // Change to 'deleteproduct'
 router.put('/updateproduct/:id', verifyJWT, updateProduct); // Change to 'updateproduct'
