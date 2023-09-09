@@ -8,18 +8,6 @@ import FollowRequestsPanel from '../components/FollowRequestsPanel';
 import PostCardSkeleton from '../components/skeletons/PostCardSkeleton';
 import BackToTopButton from '../components/BackToTop';
 
-const followRequests = [
-  {
-    id: 1,
-    name: 'User 1',
-    avatar: 'avatar1.jpg',
-  },
-  {
-    id: 2,
-    name: 'User 2',
-    avatar: 'avatar2.jpg',
-  },
-];
 
 const Home = () => {
   const dispatch = useDispatch();

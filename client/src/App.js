@@ -12,6 +12,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getLoggedInUser } from './redux/auth/authActions'
 import { useDispatch, useSelector } from 'react-redux'
+import PrivateRoutes from './utils/PrivateRoutes';
 
 function App() {
   const dispatch = useDispatch()
@@ -24,20 +25,25 @@ function App() {
         <Sidebar />
 
         {/* Main Content */}
-        <div className="flex-grow p-4"> {/* Adjust padding as needed */}
+        <div className="flex-grow p-4">
           <ToastContainer />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route element={<PrivateRoutes />}>
+              <Route path="/setting" element={<Setting />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/buy" element={<Buy />} />
+              <Route path="/chat" element={<Chat />} />
+              <Route path="/" element={<Home />} />
+            </Route>
+
+
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/setting" element={<Setting />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/buy" element={<Buy />} />
-            <Route path="/chat" element={<Chat />} />
+
           </Routes>
         </div>
       </div>
-    </Router>
+    </Router >
   );
 }
 
