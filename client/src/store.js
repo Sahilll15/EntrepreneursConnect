@@ -2,6 +2,7 @@ import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import authReducer from './redux/auth/authSlice';
 import postReducer from './redux/posts/postSlice'
 import likeReducer from './redux/likes/likeSlice'
+import notificationReducer from './redux/notification/notificationSlice'
 import CommunityReducer from './redux/community/CommunitySlice'
 import thunk from 'redux-thunk'
 import logger from 'redux-logger';
@@ -12,7 +13,8 @@ const store = configureStore({
         user: authReducer,
         posts: postReducer,
         likes: likeReducer,
-        community: CommunityReducer
+        community: CommunityReducer,
+        notifications: notificationReducer
     },
     middleware
 

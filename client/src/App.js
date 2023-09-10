@@ -34,7 +34,7 @@ function App() {
               <Route path="/buy" element={<Buy />} />
               <Route path="/chat" element={<Chat />} />
               <Route path="/" element={<Home />} />
-              <Route path="/Notification" element={<Notification />} />
+              <Route path="/notification" element={<Notification />} />
             </Route>
 
 

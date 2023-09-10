@@ -1,8 +1,55 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User = require('../models/user.models')
+const { io } = require('../index.js')
 const { sendVerificationEmail, generateverificationToken } = require('../utils/email')
+const { createNotification } = require('../controllers/Notification.controllers')
 const { successFullVerification } = require('../utils/EmailTemplates')
+
+
+const userFollowUnfollow = async (req, res) => {
+    const { followUserID } = req.params;
+    try {
+        const user = req.user._id;
+        const followUser = await User.findById(followUserID)
+        if (!followUser) {
+            return res.status(404).json({ message: "No user with this ID" });
+        }
+        const currentUser = await User.findById(user);
+        if (!currentUser) {
+            return res.status(404).json({ message: "No user with this ID" });
+        }
+
+        const isFollowing = currentUser.following.includes(followUserID);
+        if (isFollowing) {
+            currentUser.following.pull(followUserID);
+            followUser.followers.pull(user);
+        } else {
+            currentUser.following.push(followUserID);
+            followUser.followers.push(user);
+        }
+        await currentUser.save();
+        await followUser.save();
+
+        if (isFollowing) {
+            //send notification
+            const notificationMessage = `${currentUser.username} followed you.`;
+            await createNotification(currentUser._id, followUser._id, 'follow', notificationMessage);
+
+
+            res.status(200).json({ message: 'unfollowed', followUser: followUser, currentUser: currentUser });
+        } else {
+            //send notification
+            const notificationMessage = `${currentUser.username} unfollowed you.`;
+            await createNotification(currentUser._id, followUser._id, 'unfollow', notificationMessage);
+            res.status(200).json({ message: 'followed', followUser: followUser, currentUser: currentUser });
+        }
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+        console.log(error);
+    }
+}
 
 
 const loggedInUser = async (req, res) => {
@@ -19,7 +66,6 @@ const verifyemail = async (req, res) => {
     try {
         const tokenId = req.params.tokenId;
         const user = await User.findOne({ verificationToken: tokenId });
-
         if (!user) {
             return res.status(404).json({ message: 'Invalid verification token.' });
         }
@@ -177,43 +223,6 @@ const userProfile = async (req, res) => {
     }
 };
 
-
-const userFollowUnfollow = async (req, res) => {
-    const { followUserID } = req.params;
-    try {
-        const user = req.user._id;
-        const followUser = await User.findById(followUserID)
-        if (!followUser) {
-            return res.status(404).json({ message: "No user with this ID" });
-        }
-        const currentUser = await User.findById(user);
-        if (!currentUser) {
-            return res.status(404).json({ message: "No user with this ID" });
-        }
-
-        const isFollowing = currentUser.following.includes(followUserID);
-        if (isFollowing) {
-            currentUser.following.pull(followUserID);
-            followUser.followers.pull(user);
-        } else {
-            currentUser.following.push(followUserID);
-            followUser.followers.push(user);
-        }
-        await currentUser.save();
-        await followUser.save();
-
-        if (isFollowing) {
-            res.status(200).json({ message: 'unfollowed', followUser: followUser, currentUser: currentUser });
-        } else {
-            res.status(200).json({ message: 'followed', followUser: followUser, currentUser: currentUser });
-        }
-
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-        console.log(error);
-
-    }
-}
 
 
 const editProfile = async (req, res) => {
