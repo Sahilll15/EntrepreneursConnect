@@ -14,7 +14,7 @@ export default function PostFormCard() {
   const [imageAddmodel, setImageAddmodel] = useState(false);
   const loading = useSelector((state) => state.posts.loading);
   const user = useSelector((state) => state.user.user);
-  const isLoading = useSelector((state) => state.user.loading);
+  
 
 
   const handleSubmit = async (e) => {
@@ -98,7 +98,7 @@ export default function PostFormCard() {
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg"
           >
-            {loading ? 'posting...' : 'Post'}
+             Post
           </button>
         </div>
       </form>

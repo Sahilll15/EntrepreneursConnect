@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import {NavLink } from 'react-router-dom'
 import "./css/Sidebar.css";
 import { useNavigate } from "react-router-dom";
+import { getLoggedInUser } from "../redux/auth/authActions";
+import { useSelector,useDispatch } from "react-redux";
 
 export const SideBar = () => {
   const [submenuHidden, setSubmenuHidden] = useState(false);
   const [arrowRotated, setArrowRotated] = useState(false);
   const [sidebarHidden, setSidebarHidden] = useState(true);
+  const user=useSelector((state)=>state.user.user)
+  const dispatch=useDispatch();
   const navigate = useNavigate();
+  
   const logout=()=>{
     localStorage.removeItem('authtoken');
     navigate('/login');
@@ -23,6 +28,10 @@ export const SideBar = () => {
     setSidebarHidden(!sidebarHidden);
   };
 
+  useEffect(()=>{
+    dispatch(getLoggedInUser());
+  },[dispatch])
+
   return (
     <div >
       <div className="sideParent">
@@ -35,14 +44,17 @@ export const SideBar = () => {
         <div className="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-gray-900">
           <div className="text-gray-100 text-xl">
             <div className="p-2.5 mt-1 flex items-center">
-              <i className="bi bi-app-indicator px-2 py-1 rounded-md bg-blue-600" />
-              <h1 className="font-bold text-gray-200 text-[15px] ml-3">
-                TailwindCSS
-              </h1>
-              <i
-                className="bi bi-x cursor-pointer ml-28 lg:hidden"
-                onclick="openSidebar()"
+              {/* <i className="bi bi-app-indicator px-2 py-1 rounded-md bg-blue-600" /> */}
+              <img
+                src={user?.avatar?.url}
+                alt=""
+                className="w-[40px] h-[40px] rounded-full"
               />
+
+              <h1 className="font-bold text-gray-200 text-[15px] ml-3">
+                {user?.username}
+              </h1>
+           
             </div>
             <div className="my-2 bg-gray-600 h-[1px]" />
           </div>
@@ -69,6 +81,22 @@ export const SideBar = () => {
             <i class="bi bi-people"></i>
             <span className="text-[15px] ml-4 text-gray-200 font-bold">
               My Group
+            </span>
+          </div>
+          </NavLink>
+          <NavLink to={'/notification'} >
+          <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
+            <i class="bi bi-bell"></i>
+            <span className="text-[15px] ml-4 text-gray-200 font-bold">
+              Notification
+            </span>
+          </div>
+          </NavLink>
+          <NavLink to={`/profile/${user?._id}`} >
+          <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
+            <i class="bi bi-person-circle"></i>
+            <span className="text-[15px] ml-4 text-gray-200 font-bold">
+              My Profile
             </span>
           </div>
           </NavLink>
