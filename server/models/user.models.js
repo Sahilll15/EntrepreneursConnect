@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const { Product } = require('./Product.models')
+const Subscription = require('../models/subscription.models')
 
 
 const avatarUrls = [
@@ -69,6 +70,10 @@ const userSchema = new Schema(
             type: String,
             required: [true, 'Password is required'],
             minlength: [6, 'Password must be at least 8 characters long'],
+        },
+        subscription: {
+            type: String,
+            default: "regular"
         },
         followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
         following: [{ type: Schema.Types.ObjectId, ref: 'User' }],

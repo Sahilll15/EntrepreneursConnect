@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { registerUser, getProfile, loginUser, getLoggedInUser, updateProfile } from './authActions';
+import { registerUser, getProfile, loginUser, getLoggedInUser, updateProfile, FollowUnfollow } from './authActions';
 
 const initialState = {
     user: null,
@@ -9,6 +9,7 @@ const initialState = {
     error: "",
     success: false,
     token: "",
+    followunfollowLoading: false
 
 }
 
@@ -95,6 +96,24 @@ export const authSlice = createSlice({
         );
         builder.addCase(getProfile.rejected, (state, action) => {
             state.loading = false;
+            state.error = action.payload;
+        }
+        );
+
+        // Get profile reducer end
+        // Follow Unfollow reducer start
+        builder.addCase(FollowUnfollow.pending, (state, action) => {
+
+            state.followunfollowLoading = true;
+        }
+        );
+        builder.addCase(FollowUnfollow.fulfilled, (state, action) => {
+            state.followunfollowLoading = false;
+            state.user = action.payload.user;
+        }
+        );
+        builder.addCase(FollowUnfollow.rejected, (state, action) => {
+            state.followunfollowLoading = false;
             state.error = action.payload;
         }
         );

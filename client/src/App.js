@@ -7,6 +7,7 @@ import Setting from './pages/Setting';
 import Profile from './pages/Profile';
 import Buy from './pages/Buy';
 import Chat from './pages/Chat';
+import Newsletter from './components/NewsLetter';
 import Sidebar from './components/Sidebar';
 import Notification from './components/Notifications';
 import { ToastContainer } from 'react-toastify';
@@ -35,6 +36,7 @@ function App() {
               <Route path="/chat" element={<Chat />} />
               <Route path="/" element={<Home />} />
               <Route path="/notification" element={<Notification />} />
+
             </Route>
 
 

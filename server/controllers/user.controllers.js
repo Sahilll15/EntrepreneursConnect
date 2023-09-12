@@ -40,8 +40,8 @@ const userFollowUnfollow = async (req, res) => {
             res.status(200).json({ message: 'unfollowed', followUser: followUser, currentUser: currentUser });
         } else {
             //send notification
-            const notificationMessage = `${currentUser.username} unfollowed you.`;
-            await createNotification(currentUser._id, followUser._id, 'unfollow', notificationMessage);
+            // const notificationMessage = `${currentUser.username} unfollowed you.`;
+            // await createNotification(currentUser._id, followUser._id, 'unfollow', notificationMessage);
             res.status(200).json({ message: 'followed', followUser: followUser, currentUser: currentUser });
         }
 
