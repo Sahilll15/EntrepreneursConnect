@@ -12,7 +12,7 @@ export default function PostFormCard() {
   const [image, setImage] = useState(null); // Store the image in state
   const dispatch = useDispatch();
   const [imageAddmodel, setImageAddmodel] = useState(false);
-  const loading = useSelector((state) => state.posts.loading);
+  const postLoading = useSelector((state) => state.posts.postLoading);
   const user = useSelector((state) => state.user.user);
   
 
@@ -98,7 +98,7 @@ export default function PostFormCard() {
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg"
           >
-             Post
+            {postLoading ? 'Sharing...' : 'Share'}
           </button>
         </div>
       </form>

@@ -4,6 +4,7 @@ const initialState = {
     posts: [],
     postsByUser: [],
     loading: false,
+    postLoading: false,
     error: "",
     success: false,
     post: null
@@ -31,15 +32,15 @@ export const postSlice = createSlice({
 
         //addpost
         builder.addCase(addPost.pending, (state, action) => {
-            state.loading = true;
+            state.postLoading = true;
         }
         ).addCase(addPost.fulfilled, (state, action) => {
-            state.loading = false;
+            state.postLoading = false;
             state.success = true;
             state.post = action.payload;
         }
         ).addCase(addPost.rejected, (state, action) => {
-            state.loading = false;
+            state.postLoading = false;
             state.error = action.payload;
         }
         );

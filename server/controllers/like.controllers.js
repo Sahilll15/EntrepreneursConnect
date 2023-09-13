@@ -1,5 +1,8 @@
 const Like = require('../models/like.models');
 const Post = require('../models/Product.models');
+const { createNotification } = require('../controllers/Notification.controllers')
+
+
 
 const likeDislikePost = async (req, res) => {
     const { postId } = req.params;
@@ -28,7 +31,9 @@ const likeDislikePost = async (req, res) => {
                 post.likes.push(req.user._id);
                 await post.save();
             }
-
+            //send the notification
+            const notificationMessage = `${user.username} liked your post.`;
+            await createNotification(req.user._id, post.author.id, 'like', notificationMessage);
             return res.status(201).json({ msg: "Post liked", like: newLike });
         } else {
             await Like.findByIdAndDelete(like._id);

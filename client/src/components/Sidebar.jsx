@@ -1,23 +1,24 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import {NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import "./css/Sidebar.css";
 import { useNavigate } from "react-router-dom";
 import { getLoggedInUser } from "../redux/auth/authActions";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { FaCoins } from 'react-icons/fa';
 
 export const SideBar = () => {
   const [submenuHidden, setSubmenuHidden] = useState(false);
   const [arrowRotated, setArrowRotated] = useState(false);
   const [sidebarHidden, setSidebarHidden] = useState(true);
-  const user=useSelector((state)=>state.user.user)
-  const dispatch=useDispatch();
+  const user = useSelector((state) => state.user.user)
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-  const logout=()=>{
+
+  const logout = () => {
     localStorage.removeItem('authtoken');
     navigate('/login');
-  } 
+  }
 
   const toggleSubmenu = () => {
     setSubmenuHidden(!submenuHidden);
@@ -28,9 +29,10 @@ export const SideBar = () => {
     setSidebarHidden(!sidebarHidden);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(getLoggedInUser());
-  },[dispatch])
+
+  }, [dispatch])
 
   return (
     <div >
@@ -44,7 +46,7 @@ export const SideBar = () => {
         <div className="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-gray-900">
           <div className="text-gray-100 text-xl">
             <div className="p-2.5 mt-1 flex items-center">
-              {/* <i className="bi bi-app-indicator px-2 py-1 rounded-md bg-blue-600" /> */}
+
               <img
                 src={user?.avatar?.url}
                 alt=""
@@ -52,9 +54,9 @@ export const SideBar = () => {
               />
 
               <h1 className="font-bold text-gray-200 text-[15px] ml-3">
-                {user?.username}
+                {user?.username}  {user?.points}
               </h1>
-           
+
             </div>
             <div className="my-2 bg-gray-600 h-[1px]" />
           </div>
@@ -67,54 +69,54 @@ export const SideBar = () => {
             />
           </div>
           <NavLink to={'/'}>
-          <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
-            <i className="bi bi-house-door-fill" />
-            <span className="text-[15px] ml-4 text-gray-200 font-bold">
-              Home
-            </span>
-          </div>
+            <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
+              <i className="bi bi-house-door-fill" />
+              <span className="text-[15px] ml-4 text-gray-200 font-bold">
+                Home
+              </span>
+            </div>
 
           </NavLink>
-       
-      <NavLink to={'/chat'} >
-          <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
-            <i class="bi bi-people"></i>
-            <span className="text-[15px] ml-4 text-gray-200 font-bold">
-              My Group
-            </span>
-          </div>
+
+          <NavLink to={'/chat'} >
+            <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
+              <i class="bi bi-people"></i>
+              <span className="text-[15px] ml-4 text-gray-200 font-bold">
+                My Group
+              </span>
+            </div>
           </NavLink>
           <NavLink to={'/notification'} >
-          <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
-            <i class="bi bi-bell"></i>
-            <span className="text-[15px] ml-4 text-gray-200 font-bold">
-              Notification
-            </span>
-          </div>
+            <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
+              <i class="bi bi-bell"></i>
+              <span className="text-[15px] ml-4 text-gray-200 font-bold">
+                Notification
+              </span>
+            </div>
           </NavLink>
           <NavLink to={`/profile/${user?._id}`} >
-          <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
-            <i class="bi bi-person-circle"></i>
-            <span className="text-[15px] ml-4 text-gray-200 font-bold">
-              My Profile
-            </span>
-          </div>
+            <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
+              <i class="bi bi-person-circle"></i>
+              <span className="text-[15px] ml-4 text-gray-200 font-bold">
+                My Profile
+              </span>
+            </div>
           </NavLink>
           <NavLink to={'/'} >
-          <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
-            <i class="bi bi-plus-circle"></i>
-            <span className="text-[15px] ml-4 text-gray-200 font-bold">
-              Post
-            </span>
-          </div>
+            <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
+              <i class="bi bi-plus-circle"></i>
+              <span className="text-[15px] ml-4 text-gray-200 font-bold">
+                Post
+              </span>
+            </div>
           </NavLink>
           <NavLink to={'/setting'} >
-          <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
-            <i class="bi bi-gear"></i>
-            <span className="text-[15px] ml-4 text-gray-200 font-bold">
-              Setting
-            </span>
-          </div>
+            <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
+              <i class="bi bi-gear"></i>
+              <span className="text-[15px] ml-4 text-gray-200 font-bold">
+                Setting
+              </span>
+            </div>
           </NavLink>
           <div className="my-4 bg-gray-600 h-[1px]" />
           <div

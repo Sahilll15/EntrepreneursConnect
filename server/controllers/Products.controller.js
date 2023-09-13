@@ -31,18 +31,20 @@ const createProduct = async (req, res) => {
             product.media = req.file.path;
         }
 
+
         await product.save();
         console.log('adding poinsts')
         user.points += 10;
         console.log('added poinsts')
         console.log(user.points)
+        user.productsShowcased.push(product._id)
         await user.save();
 
         if (!product) {
             return res.status(400).json({ msg: "Product not created" });
         }
 
-        res.status(201).json({ product: product, mssg: "New product created" });
+        res.status(201).json({ product: product, user: user, mssg: "New product created" });
     } catch (error) {
         res.status(500).json({ error: error.message });
         console.log(error);
@@ -184,6 +186,7 @@ const saveProduct = async (req, res) => {
         console.log(error);
     }
 }
+
 
 const getSavedProducts = async (req, res) => {
     try {

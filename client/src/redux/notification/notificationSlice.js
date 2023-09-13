@@ -3,7 +3,7 @@ import { getNotifications } from './notificationActions'
 
 const initialState = {
     notifications: [],
-    loading: false,
+    notificationLoading: false,
     error: "",
     success: false,
     notification: null
@@ -22,13 +22,14 @@ export const notificationSlice = createSlice({
     extraReducers: (builder) => {
         //fetchposts
         builder.addCase(getNotifications.pending, (state, action) => {
-            state.loading = true;
+            state.notificationLoading = true;
+
         }).addCase(getNotifications.fulfilled, (state, action) => {
-            state.loading = false;
+            state.notificationLoading = false;
             state.success = true;
             state.notifications = action.payload;
         }).addCase(getNotifications.rejected, (state, action) => {
-            state.loading = false;
+            state.notificationLoading = false;
             state.error = action.payload;
         });
     }

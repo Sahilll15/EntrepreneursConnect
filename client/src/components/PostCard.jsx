@@ -66,7 +66,7 @@ const PostCard = ({ product }) => {
     >
       <i className="far fa-trash-alt"></i> Delete
     </button>
-    <button
+    {/* <button
       className="text-blue-500 hover:text-blue-700"
       onClick={() => {
         // Handle update post here
@@ -74,7 +74,7 @@ const PostCard = ({ product }) => {
       }}
     >
       <i className="far fa-edit"></i> Update
-    </button>
+    </button> */}
   </div>
 )}
 
