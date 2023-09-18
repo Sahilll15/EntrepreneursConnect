@@ -1,6 +1,7 @@
 
 
 const badges = async (user) => {
+    console.log('badge chanegd')
     if (user.points > 200) {
         user.badges = ['Expert'];
     } else if (user.points > 100) {
@@ -13,6 +14,7 @@ const badges = async (user) => {
         user.badges = [];
     }
 
+    console.log(user.badges)
     await user.save();
 };
 

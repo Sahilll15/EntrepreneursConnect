@@ -49,6 +49,17 @@ const Addcomment = async (req, res) => {
     }
 }
 
+
+const getAllComments = async (req, res) => {
+    try {
+        const comments = await Comment.find();
+        res.status(200).json({ comments: comments })
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+        console.log(error);
+    }
+}
+
 const getCommentsBypostID = async (req, res) => {
     const { postId } = req.params;
     try {
@@ -124,5 +135,6 @@ module.exports = {
     Addcomment,
     getCommentsBypostID,
     deleteComment,
-    updateComment
+    updateComment,
+    getAllComments
 }

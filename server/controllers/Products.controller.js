@@ -1,6 +1,8 @@
 const Product = require('../models/Product.models');
 const User = require('../models/user.models');
+const { badges } = require('../utils/CheckBadges')
 const fs = require('fs');
+
 const createProduct = async (req, res) => {
     const { content, tags } = req.body;
 
@@ -37,6 +39,7 @@ const createProduct = async (req, res) => {
         user.points += 10;
         console.log('added poinsts')
         console.log(user.points)
+        await badges(user);
         user.productsShowcased.push(product._id)
         await user.save();
 
