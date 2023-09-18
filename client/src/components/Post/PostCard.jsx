@@ -1,16 +1,16 @@
 // PostCard.js
 
 import React, { useEffect, useState } from 'react';
-import { formatDateTime } from '../utils/Formatdate';
-import { likePost } from '../redux/likes/likesActions';
+import { formatDateTime } from '../../utils/FormatDate';
+import { likePost } from '../../redux/likes/likesActions';
 // import { deletePost, updatePost } from '../redux/posts/postActions'; // Import the actions for deleting and updating posts
 import { useDispatch,useSelector } from 'react-redux';
 import Modal from 'react-modal';
 import CommentsModal from './CommentsModal';
-import { getLeaderBoard, getLoggedInUser } from '../redux/auth/authActions';
-import { deletePost, fetchPosts } from '../redux/posts/postActions'; 
+import { getLeaderBoard, getLoggedInUser } from '../../redux/auth/authActions';
+import { deletePost, fetchPosts } from '../../redux/posts/postActions'; 
 import { NavLink } from 'react-router-dom';
-import './css/PostCard.css'
+import '../css/PostCard.css'
 
 
 const baseUrl = 'http://localhost:4000/';

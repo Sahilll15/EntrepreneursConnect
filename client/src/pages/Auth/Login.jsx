@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../redux/auth/authActions';
-import { fetchPosts } from '../redux/posts/postActions';
+import { loginUser } from '../../redux/auth/authActions';
+import { fetchPosts } from '../../redux/posts/postActions';
 
 const Login = () => {
   const navigate = useNavigate();

@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import Navbar from "../components/Navbar";
-import { getLoggedInUser, getProfile } from "../redux/auth/authActions";
+import Navbar from "../../components/layout/ProfileNavbar";
+import { getLoggedInUser, getProfile } from "../../redux/auth/authActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import PostCard from "../components/PostCard";
-import { fetchpostByUserID } from "../redux/posts/postActions";
-import { FollowUnfollow } from "../redux/auth/authActions";
+import PostCard from "../../components/Post/PostCard";
+import { fetchpostByUserID } from "../../redux/posts/postActions";
+import { FollowUnfollow } from "../../redux/auth/authActions";
 
 
 
@@ -175,7 +175,7 @@ const Profile = () => {
           <div className="mx-auto">
   <h1 className="text-2xl font-semibold text-blueGray-700 mb-4 text-center">Posts</h1>
 
-  <div className="flex flex-col items-center">
+  <div className="flex flex-col items-center h-screen">
     {postByUserID?.length === 0 ? (
       <div className="flex justify-center w-full">
         <div className="flex flex-col items-center justify-center">
@@ -192,8 +192,6 @@ const Profile = () => {
     )}
   </div>
 </div>
-
-
         </section>
       </main>
 

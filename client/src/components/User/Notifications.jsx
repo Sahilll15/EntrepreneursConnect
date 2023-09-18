@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getNotifications } from '../redux/notification/notificationActions';
+import { getNotifications } from '../../redux/notification/notificationActions';
 import { NavLink } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
-import './css/Notification.css'
+import '../css/Notification.css'
 
 const Notification = () => {
   const dispatch = useDispatch();

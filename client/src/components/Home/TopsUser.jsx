@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaCheck, FaTimes } from 'react-icons/fa';
-import { getLeaderBoard } from '../redux/auth/authActions';
+import { getLeaderBoard } from '../../redux/auth/authActions';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 

@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { NavLink } from 'react-router-dom'
-import "./css/Sidebar.css";
+import "../css/Sidebar.css";
 import { useNavigate } from "react-router-dom";
-import { getLoggedInUser } from "../redux/auth/authActions";
+import { getLoggedInUser } from "../../redux/auth/authActions";
 import { useSelector, useDispatch } from "react-redux";
 import { FaCoins } from 'react-icons/fa';
-import { getNotifications } from "../redux/notification/notificationActions";
+import { getNotifications } from "../../redux/notification/notificationActions";
 export const SideBar = () => {
-  const [submenuHidden, setSubmenuHidden] = useState(false);
-  const [arrowRotated, setArrowRotated] = useState(false);
-  const [sidebarHidden, setSidebarHidden] = useState(true);
+  // const [submenuHidden, setSubmenuHidden] = useState(false);
+  // const [arrowRotated, setArrowRotated] = useState(false);
+  // const [sidebarHidden, setSidebarHidden] = useState(true);
   const user = useSelector((state) => state.user.user)
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,19 +23,22 @@ export const SideBar = () => {
     navigate('/login');
   }
 
-  const toggleSubmenu = () => {
-    setSubmenuHidden(!submenuHidden);
-    setArrowRotated(!arrowRotated);
-  };
+  // const toggleSubmenu = () => {
+  //   setSubmenuHidden(!submenuHidden);
+  //   setArrowRotated(!arrowRotated);
+  // };
 
-  const toggleSidebar = () => {
-    setSidebarHidden(!sidebarHidden);
-  };
+  // const toggleSidebar = () => {
+  //   setSidebarHidden(!sidebarHidden);
+  // };
+
 
   useEffect(() => {
     dispatch(getLoggedInUser());
     dispatch(getNotifications());
   }, [dispatch])
+
+  
 
   return (
     <div >
