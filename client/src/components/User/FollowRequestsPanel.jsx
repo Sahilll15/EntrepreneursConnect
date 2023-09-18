@@ -7,7 +7,7 @@ const FollowRequestsPanel = ({ followRequests }) => {
       <div className="container mx-auto">
         <h2 className="text-lg font-semibold mb-4">Follow Requests</h2>
         <ul>
-          {followRequests.map((request) => (
+          {followRequests?.map((request) => (
             <li key={request.id} className="flex justify-between items-center mb-4">
               <div className="flex items-center space-x-4">
                 <img

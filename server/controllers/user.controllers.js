@@ -247,7 +247,7 @@ const editProfile = async (req, res) => {
 
 const leaderBoard = async (req, res) => {
     try {
-        const users = await User.find().sort({ points: -1 }).limit(10)
+        const users = await User.find().sort({ points: -1 }).limit(10).select('_id avatar username points')
         res.status(200).json({ users: users, message: "success", total: users.length });
     } catch (error) {
         res.status(500).json({ message: error.message });

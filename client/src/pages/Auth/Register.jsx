@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 // import { useAuth } from "../Context/authContext";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux"
-import { registerUser } from '../redux/auth/authActions';
+import { registerUser } from '../../redux/auth/authActions';
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 const Register = () => {
@@ -12,6 +12,7 @@ const Register = () => {
   const dispatch = useDispatch();
 
   const [seepassword, setseepassword] = useState(false);
+const registerLoading= useSelector((state)=>state?.user?.loading)
   const [user, setUser] = useState({
       username:"",
       email: "",
@@ -29,8 +30,7 @@ const Register = () => {
   const handleSubmit = (e) => {
       e.preventDefault();
       dispatch(registerUser(user));
-    
-
+  
   }
 
 
@@ -43,6 +43,8 @@ const Register = () => {
         document.getElementById('password').type='text';
     }
 }
+
+
   return (
     <div>
       <section className="min-h-screen flex items-stretch text-white ">
@@ -169,7 +171,9 @@ const Register = () => {
               
               <div className="px-4 pb-2 pt-4">
                 <button className="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none">
-                  sign up 
+                  {
+                    registerLoading ? "Loading..." : "Sign up"
+                  }
                 </button>
               </div>
               <div className="p-4 text-center right-0 left-0 flex justify-center space-x-4 mt-16 lg:hidden ">

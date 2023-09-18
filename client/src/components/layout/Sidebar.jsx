@@ -1,38 +1,44 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { NavLink } from 'react-router-dom'
-import "./css/Sidebar.css";
+import "../css/Sidebar.css";
 import { useNavigate } from "react-router-dom";
-import { getLoggedInUser } from "../redux/auth/authActions";
+import { getLoggedInUser } from "../../redux/auth/authActions";
 import { useSelector, useDispatch } from "react-redux";
 import { FaCoins } from 'react-icons/fa';
-
+import { getNotifications } from "../../redux/notification/notificationActions";
 export const SideBar = () => {
-  const [submenuHidden, setSubmenuHidden] = useState(false);
-  const [arrowRotated, setArrowRotated] = useState(false);
-  const [sidebarHidden, setSidebarHidden] = useState(true);
+  // const [submenuHidden, setSubmenuHidden] = useState(false);
+  // const [arrowRotated, setArrowRotated] = useState(false);
+  // const [sidebarHidden, setSidebarHidden] = useState(true);
   const user = useSelector((state) => state.user.user)
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const notifications = useSelector((state) => state?.notifications.notifications.notifications);
+  const hasNotifications = notifications?.length > 0;
 
   const logout = () => {
     localStorage.removeItem('authtoken');
     navigate('/login');
   }
 
-  const toggleSubmenu = () => {
-    setSubmenuHidden(!submenuHidden);
-    setArrowRotated(!arrowRotated);
-  };
+  // const toggleSubmenu = () => {
+  //   setSubmenuHidden(!submenuHidden);
+  //   setArrowRotated(!arrowRotated);
+  // };
 
-  const toggleSidebar = () => {
-    setSidebarHidden(!sidebarHidden);
-  };
+  // const toggleSidebar = () => {
+  //   setSidebarHidden(!sidebarHidden);
+  // };
+
 
   useEffect(() => {
     dispatch(getLoggedInUser());
-
+    dispatch(getNotifications());
   }, [dispatch])
+
+  
 
   return (
     <div >
@@ -50,11 +56,15 @@ export const SideBar = () => {
               <img
                 src={user?.avatar?.url}
                 alt=""
-                className="w-[40px] h-[40px] rounded-full"
+                className="w-[40px] h-[40px] rounded-full border border-blue-400"
               />
 
               <h1 className="font-bold text-gray-200 text-[15px] ml-3">
-                {user?.username}  {user?.points}
+                <div className="flex-col">
+            <p> {user?.username}</p>
+          
+                </div>
+                 
               </h1>
 
             </div>
@@ -86,14 +96,16 @@ export const SideBar = () => {
               </span>
             </div>
           </NavLink>
-          <NavLink to={'/notification'} >
-            <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
-              <i class="bi bi-bell"></i>
-              <span className="text-[15px] ml-4 text-gray-200 font-bold">
-                Notification
-              </span>
-            </div>
-          </NavLink>
+
+          <NavLink to={'/notification'}>
+    <div className={`p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-${hasNotifications ? 'white' : 'blue-600'} text-${hasNotifications ? 'blue-500' : 'white'}`}>
+      <i class="bi bi-bell"></i>
+      <span className={`text-[15px] ml-4 font-bold ${hasNotifications ? 'text-blue-600' : 'text-gray-200'}`}>
+        Notification
+      </span>
+    </div>
+  </NavLink>
+         
           <NavLink to={`/profile/${user?._id}`} >
             <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
               <i class="bi bi-person-circle"></i>

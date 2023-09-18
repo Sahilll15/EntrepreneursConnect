@@ -128,7 +128,7 @@ export const registerUser = createAsyncThunk(
     async (formData, { rejectWithValue }) => {
         try {
             const response = await axios.post(
-                'http://localhost:4000/api/v1/auth/register/',
+                'https://entrepreneursconnect.onrender.com/api/v1/auth/register/',
                 {
                     username: formData.username,
                     email: formData.email,
@@ -180,5 +180,36 @@ export const loginUser = createAsyncThunk(
         }
     }
 );
+
+
+
+//get laderboard
+
+export const getLeaderBoard = createAsyncThunk(
+    'user/leaderboard',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(
+                'http://localhost:4000/api/v1/auth/leaderboard',
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('authtoken')}`,
+                    },
+                }
+            );
+            if (response.status === 200) {
+                console.log(response.data);
+                return response.data;
+            } else {
+                console.log('error');
+                return rejectWithValue(response.data.message);
+            }
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message);
+        }
+    }
+)
+
 
 

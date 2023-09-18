@@ -1,15 +1,16 @@
 // PostCard.js
 
 import React, { useEffect, useState } from 'react';
-import { formatDateTime } from '../utils/Formatdate';
-import { likePost } from '../redux/likes/likesActions';
+import { formatDateTime } from '../../utils/FormatDate';
+import { likePost } from '../../redux/likes/likesActions';
 // import { deletePost, updatePost } from '../redux/posts/postActions'; // Import the actions for deleting and updating posts
 import { useDispatch,useSelector } from 'react-redux';
 import Modal from 'react-modal';
 import CommentsModal from './CommentsModal';
-import { getLoggedInUser } from '../redux/auth/authActions';
-import { deletePost, fetchPosts } from '../redux/posts/postActions'; 
+import { getLeaderBoard, getLoggedInUser } from '../../redux/auth/authActions';
+import { deletePost, fetchPosts } from '../../redux/posts/postActions'; 
 import { NavLink } from 'react-router-dom';
+import '../css/PostCard.css'
 
 
 const baseUrl = 'http://localhost:4000/';
@@ -26,6 +27,7 @@ const PostCard = ({ product }) => {
   const handleDelete = async (id) => {
     await dispatch(deletePost(id));
     await dispatch(fetchPosts())
+    await dispatch(getLeaderBoard());
   };
 
   const handleUpdate = async (id) => {
@@ -51,14 +53,15 @@ const PostCard = ({ product }) => {
     setIsOptionsMenuOpen(!isOptionsMenuOpen);
   };
 
+
   
   return (
-    <div key={product._id} className="bg-white rounded-lg shadow-md p-4 mb-4 border border">
+    <div key={product._id} className=" post-card bg-white rounded-lg shadow-md p-4 mb-4 border  hover:focus">
       <div className="relative">
       {isOptionsMenuOpen && (
   <div className="flex flex-col absolute right-0 top-0 mt-2 bg-white p-2 rounded shadow-md border border-solid-2">
     <button
-      className="text-red-500 hover:text-red-700 mb-2" // Added mb-2 class for margin bottom
+      className="text-red-500 hover:text-red-700 mb-2" 
       onClick={() => {
         // Handle delete post here
         handleDelete(product._id);
@@ -81,14 +84,14 @@ const PostCard = ({ product }) => {
       </div>
       <div className="flex items-center mb-4">
       <NavLink to={`/profile/${product.author.id}`}>
-      <img
-          src={product.author.avatar}
-          alt={`${product.author.name}'s avatar`}
-          className="w-8 h-8 rounded-full mr-3 border border-solid-4"
-        />
-        
-      </NavLink>
-       
+  <img
+    src={product.author.avatar}
+    alt={`${product.author.name}'s avatar`}
+    className={`w-8 h-8 rounded-full mr-3 border border-solid-4 ${
+      isLiked ? 'avatar-animation' : ''
+    }`}
+  />
+</NavLink>
 
         <div>
           <p className="text-lg font-semibold">{product.author.name}</p>

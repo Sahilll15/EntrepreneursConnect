@@ -4,7 +4,7 @@ const ResetPwd = () => {
   return (
     <div>
       <div className="antialiased  w-full ">
-        <div className="max-w-full mx-auto my-10 bg-white p-3 rounded-xl border-2 shadow-xl">
+        <div className="max-w-full mx-auto my-10 bg-white p-3 rounded-xl border-2 shadow-xl  border-gray-300 ">
           <h1 className="text-4xl font-medium">Reset password</h1>
           <p className="text-slate-500">
             Fill up the form to reset the password

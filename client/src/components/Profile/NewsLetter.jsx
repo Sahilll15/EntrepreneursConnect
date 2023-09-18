@@ -16,7 +16,7 @@ const Newsletter = () => {
       {subscriptionStatus === 0 ? (
         <div className="flex items-center justify-center w-full h-30 mt-5">
           {/* Subscribe content */}
-          <div className="bg-white rounded-2xl border shadow-xl p-10 w-full">
+          <div className="bg-white rounded-2xl border shadow-xl p-10 w-full border-gray-300">
             <div className="flex flex-col items-center space-y-4">
               <h1 className="font-bold text-2xl text-gray-700 w-full text-center">Email Subscription</h1>
               <p className="text-sm text-gray-500 text-center w-full">Don't miss the latest trends going on.</p>
@@ -33,7 +33,7 @@ const Newsletter = () => {
       ) : (
         <div className="flex items-center justify-center w-full h-30 mt-5 ">
           {/* Unsubscribe content */}
-          <div className="bg-white rounded-2xl border shadow-xl p-10 w-full">
+          <div className="bg-white rounded-2xl border shadow-xl p-10 w-full border-gray-300">
             <div className="flex flex-col items-center space-y-4">
               <h1 className="font-bold text-2xl text-gray-700 w-full text-center">Email Unsubscribe</h1>
               <p className="text-sm text-gray-500 text-center w-full">Sorry to see you go, give us one more chance?</p>

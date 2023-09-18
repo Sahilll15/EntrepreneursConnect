@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
-import Sidebar from '../components/Sidebar';
-import PostFormCard from '../components/PostFormCard';
+import Sidebar from '../components/layout/Sidebar';
+import PostFormCard from '../components/Post/PostFormCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts } from '../redux/posts/postActions';
-import PostCard from '../components/PostCard';
-import FollowRequestsPanel from '../components/FollowRequestsPanel';
-import PostCardSkeleton from '../components/skeletons/PostCardSkeleton';
-import BackToTopButton from '../components/BackToTop';
+import PostCard from '../components/Post/PostCard';
+import FollowRequestsPanel from '../components/User/FollowRequestsPanel';
+import PostCardSkeleton from '../components/Skeleton/PostCardSkeleton';
+import BackToTopButton from '../utils/BackToTop';
 import { toast } from 'react-toastify';
+import TopsUser from '../components/Home/TopsUser';
+import MainLayout from '../components/layout/MainLayout';
 
 
 const Home = () => {
@@ -22,8 +24,9 @@ const Home = () => {
   return (  
     <>
   
-    <div className="flex justify-center p-4">
-      <div className="w-full md:w-4/3 lg:w-2/4 lg:mr-10">
+    <MainLayout >
+
+   
         <PostFormCard />
         <div>
           {products?.length === 0 ? (
@@ -34,9 +37,10 @@ const Home = () => {
             ))
           )}
         </div>
-      </div>
-
-    </div>
+              <div className='hidden lg:inline'>
+              <TopsUser />
+              </div>
+              </MainLayout>
     <BackToTopButton />
     </>
   );
