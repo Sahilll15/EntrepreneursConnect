@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { registerUser, getProfile, loginUser, getLoggedInUser, updateProfile, FollowUnfollow, getLeaderBoard } from './authActions';
+import { getSearchUser, registerUser, getProfile, loginUser, getLoggedInUser, updateProfile, FollowUnfollow, getLeaderBoard, getUserStats } from './authActions';
 
 const initialState = {
     user: null,
@@ -11,7 +11,9 @@ const initialState = {
     token: "",
     followunfollowLoading: false,
     registerUserLoading: false,
-    leaderboard: []
+    leaderboard: [],
+    userStats: [],
+    searchUser: []
 
 }
 
@@ -137,6 +139,44 @@ export const authSlice = createSlice({
             state.error = action.payload;
         }
         );
+
+        // Get LeaderBoard reducer end
+        // Get User Stats reducer start
+
+        builder.addCase(getUserStats.pending, (state, action) => {
+
+            state.loading = true;
+        }
+        );
+        builder.addCase(getUserStats.fulfilled, (state, action) => {
+            state.loading = false;
+            state.userStats = action.payload.userStats;
+        }
+        );
+        builder.addCase(getUserStats.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        }
+        );
+
+        // Get User Stats reducer end
+        // Get Search User reducer start
+        builder.addCase(getSearchUser.pending, (state, action) => {
+
+            state.loading = true;
+        }
+        );
+        builder.addCase(getSearchUser.fulfilled, (state, action) => {
+            state.loading = false;
+            state.searchUser = action.payload.users;
+        }
+        );
+        builder.addCase(getSearchUser.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        }
+        );
+
 
 
     },

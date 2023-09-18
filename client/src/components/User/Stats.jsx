@@ -1,6 +1,8 @@
 import React from "react";
 
-const stats = () => {
+const Stats = () => {
+
+
   return (
     <div>
       <section className="text-gray-800 body-font">
@@ -61,4 +63,4 @@ const stats = () => {
   );
 };
 
-export default stats;
+export default Stats;

@@ -213,3 +213,56 @@ export const getLeaderBoard = createAsyncThunk(
 
 
 
+
+export const getUserStats = createAsyncThunk(
+    'user/stats',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(
+                'http://localhost:4000/api/v1/auth/userstats',
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('authtoken')}`,
+                    },
+                }
+            );
+            if (response.status === 200) {
+                console.log(response.data);
+                return response.data;
+            } else {
+                console.log('error');
+                return rejectWithValue(response.data.message);
+            }
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message);
+        }
+    }
+)
+
+
+export const getSearchUser = createAsyncThunk(
+    'user/search',
+    async (search, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(
+                `http://localhost:4000/api/v1/auth/searchuser?username=${search}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('authtoken')}`,
+                    },
+                }
+            );
+            if (response.status === 200) {
+                console.log(response.data);
+                return response.data;
+            } else {
+                console.log('error');
+                return rejectWithValue(response.data.message);
+            }
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message);
+        }
+    }
+)

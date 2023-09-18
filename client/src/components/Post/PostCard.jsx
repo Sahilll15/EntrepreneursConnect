@@ -1,9 +1,6 @@
-// PostCard.js
-
 import React, { useEffect, useState } from 'react';
 import { formatDateTime } from '../../utils/FormatDate';
 import { likePost } from '../../redux/likes/likesActions';
-// import { deletePost, updatePost } from '../redux/posts/postActions'; // Import the actions for deleting and updating posts
 import { useDispatch,useSelector } from 'react-redux';
 import Modal from 'react-modal';
 import CommentsModal from './CommentsModal';
@@ -11,6 +8,10 @@ import { getLeaderBoard, getLoggedInUser } from '../../redux/auth/authActions';
 import { deletePost, fetchPosts } from '../../redux/posts/postActions'; 
 import { NavLink } from 'react-router-dom';
 import '../css/PostCard.css'
+
+
+
+
 
 
 const baseUrl = 'http://localhost:4000/';
@@ -28,9 +29,6 @@ const PostCard = ({ product }) => {
     await dispatch(deletePost(id));
     await dispatch(fetchPosts())
     await dispatch(getLeaderBoard());
-  };
-
-  const handleUpdate = async (id) => {
   };
 
 
@@ -53,8 +51,8 @@ const PostCard = ({ product }) => {
     setIsOptionsMenuOpen(!isOptionsMenuOpen);
   };
 
-
   
+
   return (
     <div key={product._id} className=" post-card bg-white rounded-lg shadow-md p-4 mb-4 border  hover:focus">
       <div className="relative">
@@ -105,11 +103,12 @@ const PostCard = ({ product }) => {
       )}
       <div className="flex justify-between text-gray-600 text-sm">
         <div>
-          <span className="mr-2">
-            <i className={`far fa-thumbs-up text-${isLiked ? 'green' : 'blue'}-500`}></i> Likes {product.likes.length}
+          <span className="mr-2 text-xl">
+            <i className={`far  fa-thumbs-up text-${isLiked ? 'green' : 'blue'}-500`}></i>  {product.likes.length}
+            
           </span>
-          <span>
-            <i className="far fa-comment text-gray-500"></i> Comments {product.comments.length}
+          <span className='text-xl'>
+            <i className="far fa-comment text-gray-500 font-bold text-xl"></i>  {product.comments.length}
           </span>
         </div>
         <div className="flex items-center space-x-2">
@@ -148,7 +147,7 @@ const PostCard = ({ product }) => {
       <CommentsModal
         isOpen={isCommentsModalOpen}
         onRequestClose={closeCommentsModal}
-        comments={product.comments}
+        postId={product._id}
       />
     </div>
   );

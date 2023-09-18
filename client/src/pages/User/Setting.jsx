@@ -13,10 +13,6 @@ const Setting = () => {
         <NewsLetter />
         <ResetPwd />
       </MainLayout>
-
-    
-    
-     
     </div>
   );
 };

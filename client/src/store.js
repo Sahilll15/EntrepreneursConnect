@@ -4,6 +4,7 @@ import postReducer from './redux/posts/postSlice'
 import likeReducer from './redux/likes/likeSlice'
 import notificationReducer from './redux/notification/notificationSlice'
 import CommunityReducer from './redux/community/CommunitySlice'
+import commentReducer from './redux/comments/commentSlice'
 import thunk from 'redux-thunk'
 import logger from 'redux-logger';
 
@@ -14,7 +15,8 @@ const store = configureStore({
         posts: postReducer,
         likes: likeReducer,
         community: CommunityReducer,
-        notifications: notificationReducer
+        notifications: notificationReducer,
+        comments: commentReducer
     },
     middleware
 
