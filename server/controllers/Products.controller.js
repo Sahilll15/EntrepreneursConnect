@@ -87,6 +87,12 @@ const deleteProduct = async (req, res) => {
         const product = await Product.findById(id);
         const user = req.user._id;
 
+        const ExistingUser = await User.findById(user);
+
+        if (!ExistingUser) {
+            return res.status(400).json({ mssg: 'User not found' });
+        }
+
         if (!product) {
             res.status(400).json({ mssg: 'No product with this id' });
         }
@@ -101,7 +107,8 @@ const deleteProduct = async (req, res) => {
         }
 
         const deletedProduct = await Product.findByIdAndDelete(id);
-
+        ExistingUser.points -= 10;
+        await ExistingUser.save();
 
         res.status(200).json({ mssg: "Product deleted successfully", product: deletedProduct });
 
