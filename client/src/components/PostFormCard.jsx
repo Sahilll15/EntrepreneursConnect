@@ -5,7 +5,7 @@ import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { addPost,fetchPosts } from '../redux/posts/postActions';
 import { useSelector,useDispatch } from 'react-redux';
 import Preloader from '../components/Preloader'
-import { getLoggedInUser } from '../redux/auth/authActions';
+import { getLeaderBoard, getLoggedInUser } from '../redux/auth/authActions';
 
 export default function PostFormCard() {
   const [content, setContent] = useState('');
@@ -27,7 +27,8 @@ export default function PostFormCard() {
     try {
       await dispatch(addPost({ content, media: image }))
       await dispatch(fetchPosts());
-      await getLoggedInUser();
+      await dispatch(getLoggedInUser());
+      await dispatch(getLeaderBoard());
       setContent('');
       setImage(null);
     } catch (error) {

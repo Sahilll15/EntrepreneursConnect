@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getNotifications } from '../redux/notification/notificationActions';
 import { NavLink } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
+import './css/Notification.css'
 
 const Notification = () => {
   const dispatch = useDispatch();
@@ -14,12 +15,12 @@ const Notification = () => {
   }, []);
 
   return (
-    <div>
-      <div className="flex justify-center">
+    <div >
+      <div className=" flex justify-center">
         <div className="w-full md:w-2/3 lg:w-2/4">
           <div className="mt-10">
             <h2>Notifications</h2>
-            <div className="mt-5">
+            <div className="mt-5 ">
               {isLoading ? (
                 // Display a loading skeleton while loading
                 <div className="animate-pulse flex justify-between border border-black p-3 mb-3">
@@ -35,7 +36,7 @@ const Notification = () => {
               ) : (
                 // Display notifications when not loading
                 notifications?.map((notification) => (
-                  <div className="flex justify-between border border-black p-3 mb-3" key={notification.id}>
+                  <div className="flex justify-between border border-gray-400 rounded-lg p-3 mb-3 notify" key={notification.id}>
                     <div className="flex">
                       <div className="mr-3">
                         <NavLink
@@ -44,12 +45,12 @@ const Notification = () => {
                           <img
                             src={notification?.sender?.user?.avatar?.url}
                             alt="avatar"
-                            className="w-10 h-10 rounded-full border border-black"
+                            className="w-10 h-10 rounded-full border border-gray-600"
                           />
                         </NavLink>
                       </div>
                       <div>
-                        <p className='text-2xl   text-green-400'>{notification.content}</p>
+                        <p className='text-2xl   text-black'>{notification.content}</p>
                         <p className='text-gray-500'>{formatDistanceToNow(new Date(notification.timestamp), { addSuffix: true })}</p>
                       </div>
                     </div>

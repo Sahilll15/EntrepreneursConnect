@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
-import { getProfile } from "../redux/auth/authActions";
+import { getLoggedInUser, getProfile } from "../redux/auth/authActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import PostCard from "../components/PostCard";
@@ -17,22 +17,18 @@ const Profile = () => {
   const { id } = useParams();
   const loggedInUser=user?._id;
   const followunfollowLoading=useSelector((state)=>state?.user?.followunfollowLoading)
-  // console.log(ProfileUser)
 
 
   const followunfollow = async() => {
    await dispatch(FollowUnfollow(id));
-   await dispatch(getProfile(id))
-  
+   await dispatch(getProfile(id));
+   await dispatch(getLoggedInUser());
+
   }
-
-
-
 
   useEffect(()=>{
     dispatch(getProfile(id))
     dispatch(fetchpostByUserID(id))
-    
   },[dispatch])
 
   return (

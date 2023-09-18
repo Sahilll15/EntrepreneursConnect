@@ -8,6 +8,7 @@ import FollowRequestsPanel from '../components/FollowRequestsPanel';
 import PostCardSkeleton from '../components/skeletons/PostCardSkeleton';
 import BackToTopButton from '../components/BackToTop';
 import { toast } from 'react-toastify';
+import TopsUser from '../components/TopsUser';
 
 
 const Home = () => {
@@ -22,7 +23,7 @@ const Home = () => {
   return (  
     <>
   
-    <div className="flex justify-center p-4">
+    <div className="flex justify-center p-4 ">
       <div className="w-full md:w-4/3 lg:w-2/4 lg:mr-10">
         <PostFormCard />
         <div>
@@ -34,7 +35,13 @@ const Home = () => {
             ))
           )}
         </div>
+
+        
       </div>
+              <div className='hidden lg:inline'>
+              <TopsUser />
+              </div>
+           
 
     </div>
     <BackToTopButton />
