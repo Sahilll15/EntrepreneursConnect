@@ -7,6 +7,7 @@ import PostCard from "../../components/Post/PostCard";
 import { fetchpostByUserID } from "../../redux/posts/postActions";
 import { FollowUnfollow } from "../../redux/auth/authActions";
 import { getcomment } from "../../redux/comments/commentActions";
+import BackToTopButton from "../../utils/BackToTop";
 
 
 
@@ -224,7 +225,7 @@ const Profile = () => {
         </section>
       </main>
 
-      
+        <BackToTopButton />
  </div>
   );
 };
