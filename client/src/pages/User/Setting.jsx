@@ -1,5 +1,4 @@
 import React from "react";
-import Sidebar from '../../components/layout/Sidebar'
 import EditProfile from "../../components/Profile/EditProfile";
 import NewsLetter from "../../components/Profile/NewsLetter";
 import ResetPwd from "../../components/Profile/ResetPwd";

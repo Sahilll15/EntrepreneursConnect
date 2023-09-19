@@ -4,7 +4,6 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux"
 import { registerUser } from '../../redux/auth/authActions';
-import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 const Register = () => {
 
