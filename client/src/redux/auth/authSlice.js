@@ -13,7 +13,8 @@ const initialState = {
     registerUserLoading: false,
     leaderboard: [],
     userStats: [],
-    searchUser: []
+    searchUser: [],
+    initialLoading: false
 
 }
 
@@ -61,6 +62,7 @@ export const authSlice = createSlice({
             state.loading = false;
             state.user = action.payload.user;
             state.isAuthenticated = true;
+            state.initialLoading = true
         }
         );
         builder.addCase(getLoggedInUser.rejected, (state, action) => {
