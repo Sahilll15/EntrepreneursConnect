@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { formatDateTime } from '../../utils/FormatDate';
 import { likePost } from '../../redux/likes/likesActions';
 import { useDispatch, useSelector } from 'react-redux';
 import CommentsModal from './CommentsModal';
@@ -14,6 +13,11 @@ import { faComment, faTimes,faThumbsUp,faShareSquare,faEllipsisV,FaThumbsUp } fr
 const baseUrl = 'http://localhost:4000/';
 
 const PostCard = ({ product ,comments}) => {
+   const formatDateTime = (isoDateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    return new Date(isoDateString).toLocaleDateString(undefined, options);
+};
+
   const dispatch = useDispatch();
   const [isLiked, setIsLiked] = useState(false);
   const [isCommentsModalOpen, setIsCommentsModalOpen] = useState(false);
