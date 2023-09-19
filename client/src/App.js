@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Register from './pages/Auth/Register';
@@ -15,9 +15,28 @@ import 'react-toastify/dist/ReactToastify.css';
 import io from 'socket.io-client';
 import PrivateRoutes from './utils/PrivateRoutes';
 import UserStatisticsPage from './components/User/userStatstics';
-
+import { getLoggedInUser } from './redux/auth/authActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { Loader } from 'rsuite';
 
 function App() {
+  const dispatch = useDispatch();
+  const initialLoading = useSelector((state) => state?.user?.initialLoading)
+
+
+  useEffect(() => {
+    dispatch(getLoggedInUser());
+  }, [])
+
+  if (!initialLoading) {
+    return (
+      <div className="flex flex-col justify-center items-center h-screen">
+        <div className="animate-spin rounded-full border-t-4 border-blue-500 border-opacity-25 h-20 w-20"></div>
+        <div>Loading....</div>
+      </div>
+    )
+  }
+
   return (
     <Router>
       <Routes>
