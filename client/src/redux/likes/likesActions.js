@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-
+const host = process.env.REACT_APP_API_HOST
 
 export const likePost = createAsyncThunk(
     'likePost',
@@ -10,7 +10,7 @@ export const likePost = createAsyncThunk(
             const token = localStorage.getItem('authtoken');
 
             const response = await axios.post(
-                `http://localhost:4000/api/v1/likes/likeDislikePost/${postId}`,
+                `${host}/api/v1/likes/likeDislikePost/${postId}`,
                 {},
                 {
                     headers: {

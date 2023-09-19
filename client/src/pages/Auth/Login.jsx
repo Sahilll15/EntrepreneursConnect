@@ -55,7 +55,6 @@ const Login = () => {
     dispatch(fetchPosts());
   }, [dispatch]);
   
-      
   return (
     <div>
     <section className="min-h-screen flex items-stretch text-white ">

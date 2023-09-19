@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom";
 import PostCard from "../../components/Post/PostCard";
 import { fetchpostByUserID } from "../../redux/posts/postActions";
 import { FollowUnfollow } from "../../redux/auth/authActions";
+import { formatDateTime } from "../../utils/FormatDate";
+import { getcomment } from "../../redux/comments/commentActions";
 
 
 
@@ -19,6 +21,7 @@ const Profile = () => {
   const followunfollowLoading=useSelector((state)=>state?.user?.followunfollowLoading)
   const [badge,setBadge]=useState(ProfileUser?.badges)
   const [hoverBadge,setHoverBadge]=useState(false);
+  const comments = useSelector((state) => state?.comments?.comments);
 
 
   const handleMouseEnter = () => {
@@ -39,6 +42,7 @@ const Profile = () => {
   useEffect(()=>{
     dispatch(getProfile(id))
     dispatch(fetchpostByUserID(id))
+    dispatch(getcomment())
   },[dispatch])
 
   return (
@@ -212,7 +216,7 @@ const Profile = () => {
     ) : (
       postByUserID?.map((product) => (
         <div className="w-2/3" key={product._id}>
-          <PostCard product={product} />
+          <PostCard product={product} comments={comments} key={product?._id} />
         </div>
       ))
     )}

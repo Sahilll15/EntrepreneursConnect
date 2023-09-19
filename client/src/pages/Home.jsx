@@ -10,15 +10,18 @@ import BackToTopButton from '../utils/BackToTop';
 import { toast } from 'react-toastify';
 import TopsUser from '../components/Home/TopsUser';
 import MainLayout from '../components/layout/MainLayout';
+import { getcomment } from '../redux/comments/commentActions';
 
 
 const Home = () => {
   const dispatch = useDispatch();
 
-  const products = useSelector((state) => state.posts.posts.products);
+  const products = useSelector((state) => state?.posts?.posts?.products);
+  const comments = useSelector((state) => state?.comments?.comments);
 
   useEffect(() => {
     dispatch(fetchPosts());
+    dispatch(getcomment());
   }, [dispatch]);
 
   return (  
@@ -33,7 +36,7 @@ const Home = () => {
             <PostCardSkeleton />
           ) : (
             products?.map((product) => (
-              <PostCard product={product} key={product._id} />
+              <PostCard product={product} comments={comments} key={product?._id} />
             ))
           )}
         </div>
@@ -47,3 +50,4 @@ const Home = () => {
 };
 
 export default Home;
+

@@ -2,14 +2,14 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
+const host = process.env.REACT_APP_API_HOST
 
 
 export const FollowUnfollow = createAsyncThunk(
     'user/followunfollow',
     async (userID, { rejectWithValue }) => {
         try {
-            const response = await axios.put(`http://localhost:4000/api/v1/auth/userfollowunfollow/${userID}`, {}, {
+            const response = await axios.put(`${host}/api/v1/auth/userfollowunfollow/${userID}`, {}, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${localStorage.getItem('authtoken')}`,
@@ -17,7 +17,6 @@ export const FollowUnfollow = createAsyncThunk(
 
             })
             if (response.status === 200) {
-                console.log(response.data);
                 return response.data;
             }
             else {
@@ -35,7 +34,7 @@ export const getProfile = createAsyncThunk(
     'user/getProfile',
     async (id, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`http://localhost:4000/api/v1/auth/userprofile/${id}`, {
+            const response = await axios.get(`${host}/api/v1/auth/userprofile/${id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${localStorage.getItem('authtoken')}`,
@@ -43,7 +42,6 @@ export const getProfile = createAsyncThunk(
 
             })
             if (response.status === 200) {
-                console.log(response.data);
                 return response.data;
             }
             else {
@@ -63,7 +61,7 @@ export const updateProfile = createAsyncThunk(
     async (formData, { rejectWithValue }) => {
         try {
             const response = await axios.put(
-                'http://localhost:4000/api/v1/auth/editprofile/',
+                `${host}/api/v1/auth/editprofile/`,
                 {
                     username: formData.username,
                     email: formData.email,
@@ -79,11 +77,9 @@ export const updateProfile = createAsyncThunk(
             );
 
             if (response.status === 200) {
-                console.log(response.data);
                 toast.success(response.data.message);
                 return response.data;
             } else {
-                console.log('error');
                 toast.error(response.data.message);
                 return rejectWithValue(response.data.message);
             }
@@ -101,7 +97,7 @@ export const getLoggedInUser = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await axios.get(
-                'http://localhost:4000/api/v1/auth/loggedinuser/',
+                `${host}/api/v1/auth/loggedinuser/`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -110,10 +106,8 @@ export const getLoggedInUser = createAsyncThunk(
                 }
             );
             if (response.status === 200) {
-                console.log(response.data);
                 return response.data;
             } else {
-                console.log('error');
                 return rejectWithValue(response.data.message);
             }
         } catch (error) {
@@ -128,7 +122,7 @@ export const registerUser = createAsyncThunk(
     async (formData, { rejectWithValue }) => {
         try {
             const response = await axios.post(
-                'https://entrepreneursconnect.onrender.com/api/v1/auth/register/',
+                `${host}/api/v1/auth/register/`,
                 {
                     username: formData.username,
                     email: formData.email,
@@ -137,11 +131,9 @@ export const registerUser = createAsyncThunk(
             );
 
             if (response.status === 200) {
-                console.log(response.data);
                 toast.success(response.data.message);
                 return response.data.user;
             } else {
-                console.log('error');
                 toast.error(response.data.message);
                 return rejectWithValue(response.data.message);
             }
@@ -158,7 +150,7 @@ export const loginUser = createAsyncThunk(
     async (user, { rejectWithValue }) => {
         try {
             const response = await axios.post(
-                'http://localhost:4000/api/v1/auth/login/',
+                `${host}/api/v1/auth/login/`,
                 {
                     email: user.email,
                     password: user.password,
@@ -166,7 +158,6 @@ export const loginUser = createAsyncThunk(
             );
 
             if (response.status === 200) {
-                console.log(response.data);
                 toast.success(response.data.message);
                 localStorage.setItem('authtoken', response.data.token);
                 return response.data;
@@ -175,6 +166,7 @@ export const loginUser = createAsyncThunk(
                 return rejectWithValue(response.data.message);
             }
         } catch (error) {
+            console.log(error)
             toast.error(error.response?.data?.message);
             return rejectWithValue(error.response?.data?.message);
         }
@@ -190,7 +182,7 @@ export const getLeaderBoard = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await axios.get(
-                'http://localhost:4000/api/v1/auth/leaderboard',
+                `${host}/api/v1/auth/leaderboard`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -199,10 +191,8 @@ export const getLeaderBoard = createAsyncThunk(
                 }
             );
             if (response.status === 200) {
-                console.log(response.data);
                 return response.data;
             } else {
-                console.log('error');
                 return rejectWithValue(response.data.message);
             }
         } catch (error) {
@@ -219,7 +209,7 @@ export const getUserStats = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await axios.get(
-                'http://localhost:4000/api/v1/auth/userstats',
+                `${host}/api/v1/auth/userstats`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -228,10 +218,8 @@ export const getUserStats = createAsyncThunk(
                 }
             );
             if (response.status === 200) {
-                console.log(response.data);
                 return response.data;
             } else {
-                console.log('error');
                 return rejectWithValue(response.data.message);
             }
         } catch (error) {
@@ -246,7 +234,7 @@ export const getSearchUser = createAsyncThunk(
     async (search, { rejectWithValue }) => {
         try {
             const response = await axios.get(
-                `http://localhost:4000/api/v1/auth/searchuser?username=${search}`,
+                `${host}/api/v1/auth/searchuser?username=${search}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -255,7 +243,6 @@ export const getSearchUser = createAsyncThunk(
                 }
             );
             if (response.status === 200) {
-                console.log(response.data);
                 return response.data;
             } else {
                 console.log('error');
