@@ -42,9 +42,23 @@ const createGroup = async (req, res) => {
 
 const getGroups = async (req, res) => {
     try {
-        const groups = await Group.find().sort({ createdAt: -1 })
-        const total = groups.length
-        res.status(200).json({ groups: groups, mssg: "groups fetched successfully", qty: total });
+        const groups = await Group.find()
+            .populate('groupAdmin', 'username')
+            .populate('members', 'username')
+            .sort({ createdAt: -1 });
+        const total = groups.length;
+
+        const formattedGroups = groups.map(group => ({
+            _id: group._id,
+            name: group.groupname,
+            description: group.description,
+            groupAdmin: group.groupAdmin.username,
+            members: [group.members.map((member) => member.username)],
+            createdAt: group.createdAt,
+            updatedAt: group.updatedAt,
+        }));
+
+        res.status(200).json({ groups: formattedGroups, mssg: "Groups fetched successfully", qty: total });
     } catch (error) {
         res.status(500).json({ error: error.message });
         console.log(error);

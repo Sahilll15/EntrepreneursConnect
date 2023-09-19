@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { fetchPosts, addPost, deletePost, fetchpostByUserID } from './postActions'
+import { fetchPosts, addPost, deletePost, fetchpostByUserID, fetchProductsByFollowing } from './postActions'
 const initialState = {
     posts: [],
     postsByUser: [],
@@ -70,6 +70,21 @@ export const postSlice = createSlice({
             state.postsByUser = action.payload;
         }
         ).addCase(fetchpostByUserID.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        }
+        );
+
+        //fetchproductsbyfollowing
+        builder.addCase(fetchProductsByFollowing.pending, (state, action) => {
+            state.loading = true;
+        }
+        ).addCase(fetchProductsByFollowing.fulfilled, (state, action) => {
+            state.loading = false;
+            state.success = true;
+            state.posts = action.payload;
+        }
+        ).addCase(fetchProductsByFollowing.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
         }

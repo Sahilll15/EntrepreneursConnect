@@ -54,11 +54,16 @@ export const SideBar = () => {
         <div className="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-gray-900">
           <div className="text-gray-100 text-xl">
             <div className="p-2.5 mt-1 flex items-center">
-              <img
-                src={user?.avatar?.url}
-                alt=""
-                className="w-[40px] h-[40px] rounded-full border border-blue-400"
-              />
+            <img
+                          alt={user?.badges}
+                          src={user?.avatar?.url}
+                          className={`w-[40px] h-[40px] rounded-full border  ${
+                            user?.badges[0] === "Expert"
+                              ? "border-red-600"
+                              : "border-none"
+                          } `}
+             
+                        />
               <h1 className="font-bold text-gray-200 text-[15px] ml-3">
                 <div className="flex-col">
                   <p> {user?.username}</p>
@@ -71,7 +76,7 @@ export const SideBar = () => {
             <i className="bi bi-search text-sm" />
             <input
               type="text"
-              placeholder="Search"
+              placeholder="Find people"
               name="username"
               className="text-[15px] ml-4 w-full bg-transparent focus:outline-none"
               onChange={(e) => setSearchUsername({ ...searchUsername, [e.target.name]: e.target.value })}
@@ -116,7 +121,8 @@ export const SideBar = () => {
 
           <NavLink to={'/notification'}>
             <div className={`p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-${hasNotifications ? 'white' : 'blue-600'} text-${hasNotifications ? 'blue-500' : 'white'}`}>
-              <i class="bi bi-bell"></i>
+              <i class="bi bi-bell"></i> 
+              {notifications?.length}
               <span className={`text-[15px] ml-4 font-bold ${hasNotifications ? 'text-blue-600' : 'text-gray-200'}`}>
                 Notification
               </span>
