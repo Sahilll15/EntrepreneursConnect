@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import {createCommunity} from '../../redux/community/CommunityAcitions'
+import {createCommunity,getCommunity} from '../../redux/community/CommunityAcitions'
+
 
 const ChatHeader = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -47,10 +48,12 @@ const ChatHeader = () => {
     setIsImportantMsgPopupVisible(false);
   };
 
-  const handleSave = (e) => {
+  const handleSave =async (e) => {
     e.preventDefault();
     console.log(formData)
-    dispatch(createCommunity(formData))
+   await dispatch(createCommunity(formData))
+    await dispatch(getCommunity())
+
     closeForm();
 
   };

@@ -10,7 +10,7 @@ router.get('/getproducts', getProducts); // Change to 'getproducts'
 router.get('/getproduct/:id', verifyJWT, getProductById); // Change to 'getproduct'
 router.delete('/deleteproduct/:id', verifyJWT, deleteProduct); // Change to 'deleteproduct'
 router.put('/updateproduct/:id', verifyJWT, updateProduct); // Change to 'updateproduct'
-router.get('/getproductsById/:userId', verifyJWT, getProductByUserId); // Change to 'getproductsById'
+router.get('/getproductsById/:userId', verifyJWT, getProductByUserId);
 router.post('/saveproduct/:productID', verifyJWT, saveProduct);
 router.get('/getsavedproducts', verifyJWT, getSavedProducts);
 router.get('/getproductsbyfollowing', verifyJWT, getProductsByFollowing);

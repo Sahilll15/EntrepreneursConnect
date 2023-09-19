@@ -61,6 +61,10 @@ const PostCard = ({ product ,comments}) => {
   const firstComment = commentsById?.length > 0 ? commentsById[0] : null;
 
   return (
+
+    <>
+
+
     <div key={product._id} className="post-card bg-white rounded-lg shadow-md p-4 mb-4 border hover:focus">
       <div className="relative">
         {isOptionsMenuOpen && (
@@ -156,6 +160,7 @@ const PostCard = ({ product ,comments}) => {
         comments={comments}
       />
     </div>
+    </>
   );
 };
 

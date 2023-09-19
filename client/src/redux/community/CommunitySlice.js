@@ -25,7 +25,7 @@ export const communitySlice = createSlice({
             .addCase(createCommunity.fulfilled, (state, action) => {
                 state.loading = false;
                 state.community = action.payload;
-                state.communities.push(action.payload);
+                // state.communities.push(action.payload);
             })
             .addCase(createCommunity.rejected, (state, action) => {
                 state.loading = false;

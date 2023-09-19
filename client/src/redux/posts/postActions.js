@@ -5,6 +5,33 @@ import { toast } from 'react-toastify';
 const token = localStorage.getItem('authtoken')
 const host = process.env.REACT_APP_API_HOST
 
+
+export const fetchProductsByFollowing = createAsyncThunk(
+    'posts/fetchProductsByFollowing',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(`${host}/api/v1/products/getproductsByFollowing/`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (response.status === 200) {
+                console.log(response.data);
+                return response.data;
+            } else {
+                toast.error(response.data.message);
+                return rejectWithValue(response.data.message);
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message);
+            return rejectWithValue(error.response?.data?.message);
+        }
+    }
+
+
+)
+
 export const fetchpostByUserID = createAsyncThunk(
     'posts/fetchpostByUserID',
     async (id, { rejectWithValue }) => {
@@ -29,6 +56,7 @@ export const fetchpostByUserID = createAsyncThunk(
     }
 
 )
+
 
 export const fetchPosts = createAsyncThunk(
     'posts/fetchPosts',
