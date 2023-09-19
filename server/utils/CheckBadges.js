@@ -1,5 +1,4 @@
 
-
 const badges = async (user) => {
     if (user.points > 200) {
         user.badges = ['Expert'];

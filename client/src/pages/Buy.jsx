@@ -1,7 +1,7 @@
 import React from 'react';
 import Boost from '../components/boost';
 import Reff from '../components/refral';
-import Stats from '../components/stats';
+import Stats from '../components/User/Stats';
 
 const Buy = () => {
   return (

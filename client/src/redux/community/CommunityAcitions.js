@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-
+const host = process.env.REACT_APP_API_HOST
 
 
 export const createCommunity = createAsyncThunk(
@@ -9,7 +9,7 @@ export const createCommunity = createAsyncThunk(
     async (formData, { rejectWithValue }) => {
         try {
             const response = await axios.post(
-                'http://localhost:4000/api/v1/groups/creategroup/',
+                `${host}/api/v1/groups/creategroup/`,
                 {
                     groupname: formData.groupName,
                     description: formData.bio,
@@ -48,7 +48,7 @@ export const getCommunity = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await axios.get(
-                'http://localhost:4000/api/v1/groups/getgroups/',
+                `${host}/api/v1/groups/getgroups/`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -67,6 +67,8 @@ export const getCommunity = createAsyncThunk(
             return rejectWithValue(error.response?.data?.message);
         }
     })
+
+
 
 
 

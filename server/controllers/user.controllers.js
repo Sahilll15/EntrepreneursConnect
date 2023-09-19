@@ -1,10 +1,12 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User = require('../models/user.models')
+const Post = require('../models/Product.models')
 const { io } = require('../index.js')
 const { sendVerificationEmail, generateverificationToken } = require('../utils/email')
 const { createNotification } = require('../controllers/Notification.controllers')
 const { successFullVerification } = require('../utils/EmailTemplates')
+
 
 
 const userFollowUnfollow = async (req, res) => {
@@ -259,16 +261,29 @@ const searchUser = async (req, res) => {
     try {
         const { username } = req.query;
 
-        const users = await User.find({ username: { $regex: username, $options: 'i' } }).select('-password')
+        const users = await User.find({ username: { $regex: username, $options: 'i' } }).select('_id username avatar')
         if (users.length === 0) {
             return res.status(404).json({ message: "No user with this username" });
         }
-        res.status(200).json({ users: users, message: "success", total: users.length })
+
+        //remove the current user account
+        const currentUserID = req.user._id;
+        const currentUser = await User.findById(currentUserID);
+        if (!currentUser) {
+            return res.status(404).json({ message: "No user with this ID" });
+        }
+
+        const filteredUsers = users.filter((user) => user._id.toString() !== currentUserID.toString());
+
+
+        res.status(200).json({ users: filteredUsers, message: "success", total: filteredUsers.length })
     } catch (error) {
         res.status(500).json({ message: error.message });
         console.log(error);
     }
 }
+
+
 
 const userRecommendation = async (req, res) => {
     try {
@@ -301,6 +316,61 @@ const userRecommendation = async (req, res) => {
 }
 
 
+//getUser stats
+
+const getUserPosts = async (userId) => {
+    const posts = await Post.find({ "author.id": userId });
+    return posts;
+}
+
+const getTotalPostLikes = async (posts) => {
+    let totalLikes = 0;
+    posts.forEach(post => {
+        totalLikes += post.likes.length;
+    })
+    return totalLikes;
+}
+
+
+const getTotalPostComments = async (posts) => {
+    let totalComments = 0;
+    posts.forEach(post => {
+        totalComments += post.comments.length;
+    })
+    return totalComments;
+}
+
+
+const getUserStats = async (req, res) => {
+
+    try {
+        const userId = req.user._id;
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: "No user with this ID" });
+        }
+
+        const posts = await getUserPosts(userId);
+        const totalLikes = await getTotalPostLikes(posts);
+        const totalComments = await getTotalPostComments(posts);
+        const userStats = {
+            totalPosts: posts.length,
+            totalLikes: totalLikes,
+            totalComments: totalComments,
+            followers: user.followers,
+            following: user.following,
+            points: user.points
+        }
+        res.status(200).json({ userStats: userStats, message: "success" });
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+        console.log(error);
+    }
+}
+
+
 module.exports = {
     registerUser,
     loginUser,
@@ -313,6 +383,7 @@ module.exports = {
     searchUser,
     userRecommendation,
     verifyemail,
-    loggedInUser
+    loggedInUser,
+    getUserStats
 
 }

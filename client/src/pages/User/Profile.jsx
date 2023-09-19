@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/layout/ProfileNavbar";
 import { getLoggedInUser, getProfile } from "../../redux/auth/authActions";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom";
 import PostCard from "../../components/Post/PostCard";
 import { fetchpostByUserID } from "../../redux/posts/postActions";
 import { FollowUnfollow } from "../../redux/auth/authActions";
+import { formatDateTime } from "../../utils/FormatDate";
+import { getcomment } from "../../redux/comments/commentActions";
 
 
 
@@ -17,7 +19,18 @@ const Profile = () => {
   const { id } = useParams();
   const loggedInUser=user?._id;
   const followunfollowLoading=useSelector((state)=>state?.user?.followunfollowLoading)
+  const [badge,setBadge]=useState(ProfileUser?.badges)
+  const [hoverBadge,setHoverBadge]=useState(false);
+  const comments = useSelector((state) => state?.comments?.comments);
 
+
+  const handleMouseEnter = () => {
+    setHoverBadge(true);
+  };
+
+  const handleMouseLeave = () => {
+    setHoverBadge(false);
+  };
 
   const followunfollow = async() => {
    await dispatch(FollowUnfollow(id));
@@ -29,6 +42,7 @@ const Profile = () => {
   useEffect(()=>{
     dispatch(getProfile(id))
     dispatch(fetchpostByUserID(id))
+    dispatch(getcomment())
   },[dispatch])
 
   return (
@@ -73,16 +87,32 @@ const Profile = () => {
           <div className="container mx-auto px-4">
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
               <div className="px-6">
-                <div className="flex flex-wrap justify-center">
-                  <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
-                    <div className="relative">
-                      <img
-                        alt="..."
-                        src={ProfileUser?.avatar?.url}
-                        className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
-                      />
-                    </div>
-                  </div>
+              <div className="flex flex-wrap justify-center">
+    <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
+    <div className="flex flex-col items-center"> 
+          <div className="flex-shrink-0">
+          <img
+                          alt={ProfileUser?.badges}
+                          src={ProfileUser?.avatar?.url}
+                          className={`shadow-xl rounded-full h-auto align-middle absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px border-4 ${
+                            ProfileUser?.badges[0] === "Expert"
+                              ? "border-red-600"
+                              : "border-none"
+                          } hover:border-8 hover:border-red-600`}
+                          onMouseEnter={handleMouseEnter}
+                          onMouseLeave={handleMouseLeave} 
+                        />
+          </div>
+          <div className="mt-4">
+          <p className="text-xl font-semibold leading-normal mb-2 text-blueGray-700 ">
+              {
+                hoverBadge ? badge : null
+              }
+          </p>
+            </div>
+        </div>
+    </div>
+                  
                   <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
     {loggedInUser !== ProfileUser?._id && (
       <div className="py-6 px-3 mt-32 sm:mt-0">
@@ -144,7 +174,7 @@ const Profile = () => {
                   </h3>
                         <div className="flex items-center justify-center gap-4">
                         <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-        <i className="fas fa-star text-yellow-400"></i> {ProfileUser?.level}
+        <i className="fas fa-star text-yellow-400"></i> {ProfileUser?.badges[0] || "No badges yet"}
       </div>
                   <div className="mb-2 text-blueGray-600">
                   <i className="fas fa-coins text-yellow-400"></i>
@@ -153,11 +183,11 @@ const Profile = () => {
 
                         </div>
                  
-                  <div>
+                  {/* <div>
                   <p><i className="fa-solid fa-medal" style={{color: "#D4Af37",}} />8 
                   &nbsp; <i className="fa-solid fa-medal" style={{color: "#BBC2CC",}} />6  
                   &nbsp; <i className="fa-solid fa-medal" style={{color: "#B08D57",}} />5</p>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                   <div className="flex flex-wrap justify-center">
@@ -186,7 +216,7 @@ const Profile = () => {
     ) : (
       postByUserID?.map((product) => (
         <div className="w-2/3" key={product._id}>
-          <PostCard product={product} />
+          <PostCard product={product} comments={comments} key={product?._id} />
         </div>
       ))
     )}

@@ -3,13 +3,13 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const token = localStorage.getItem('authtoken')
-
+const host = process.env.REACT_APP_API_HOST
 
 export const fetchpostByUserID = createAsyncThunk(
     'posts/fetchpostByUserID',
     async (id, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`http://localhost:4000/api/v1/products/getproductsById/${id}`, {
+            const response = await axios.get(`${host}/api/v1/products/getproductsById/${id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
@@ -34,7 +34,7 @@ export const fetchPosts = createAsyncThunk(
     'posts/fetchPosts',
     async (_, { rejectWithValue }) => {
         try {
-            const response = await axios.get('http://localhost:4000/api/v1/products/getproducts/', {
+            const response = await axios.get(`${host}/api/v1/products/getproducts/`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
@@ -60,7 +60,7 @@ export const addPost = createAsyncThunk(
         try {
 
             const response = await axios.post(
-                'http://localhost:4000/api/v1/products/createproduct/',
+                `${host}/api/v1/products/createproduct/`,
                 {
                     content: formData.content,
                     media: formData.media
@@ -88,7 +88,7 @@ export const deletePost = createAsyncThunk(
     'post/deletepost',
     async (postId, { rejectWithValue }) => {
         try {
-            const response = await axios.delete(`http://localhost:4000/api/v1/products/deleteproduct/${postId}`, {
+            const response = await axios.delete(`${host}/api/v1/products/deleteproduct/${postId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`

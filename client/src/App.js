@@ -14,7 +14,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import io from 'socket.io-client';
 import PrivateRoutes from './utils/PrivateRoutes';
-import UserStatisticsPage from './components/Profile/userStatstics';
+import UserStatisticsPage from './components/User/userStatstics';
 
 
 function App() {
