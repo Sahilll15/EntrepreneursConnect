@@ -130,7 +130,7 @@ const PostCard = ({ product ,comments}) => {
           ) : null}
         </div>
       </div>
-
+            <hr  className='my-4 '/>
       {firstComment && (
         <div className="flex items-center mb-2">
           <NavLink to={`/profile/${firstComment.commentedBy.id}`}>
