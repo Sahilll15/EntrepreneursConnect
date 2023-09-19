@@ -18,9 +18,21 @@ import UserStatisticsPage from './components/User/userStatstics';
 import BackToTopButton from './utils/BackToTop';
 import GroupDescussion from './pages/GroupDescussion';
 import PageNotFound from './pages/PageNotFound';
+import { useDispatch, useSelector } from 'react-redux';
+import { getLoggedInUser } from './redux/auth/authActions';
 
 
 function App() {
+
+  const initialLoading = useSelector((state) => state?.user?.initialLoading);
+
+  const dispatch = useDispatch();
+
+
+  useEffect(() => {
+    dispatch(getLoggedInUser());
+  }, [dispatch]);
+
 
 
   return (
@@ -34,7 +46,11 @@ function App() {
           element={
             <>
               <div className="flex">
-                <Sidebar />
+                {
+                  initialLoading ?
+                    <Sidebar /> : null
+                }
+
                 <div className="flex-grow">
                   <ToastContainer />
                   <PrivateRoutes />
