@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { formatDateTime } from '../../utils/FormatDate';
 import { likePost } from '../../redux/likes/likesActions';
 import { useDispatch, useSelector } from 'react-redux';
-import Modal from 'react-modal';
 import CommentsModal from './CommentsModal';
 import { getLeaderBoard, getLoggedInUser } from '../../redux/auth/authActions';
 import { deletePost, fetchPosts } from '../../redux/posts/postActions';
