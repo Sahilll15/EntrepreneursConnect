@@ -15,6 +15,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import io from 'socket.io-client';
 import PrivateRoutes from './utils/PrivateRoutes';
 import UserStatisticsPage from './components/User/userStatstics';
+import BackToTopButton from './utils/BackToTop';
+import GroupDescussion from './pages/GroupDescussion';
+import PageNotFound from './pages/PageNotFound';
 
 
 function App() {
@@ -47,6 +50,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/newsletter" element={<Newsletter />} />
           <Route path="/userstatistics" element={<UserStatisticsPage />} />
+          <Route path="/groupDiscussion/:id" element={<GroupDescussion />} />
+
         </Route>
 
         <Route
@@ -64,8 +69,10 @@ function App() {
           }
         >
           <Route path="/profile/:id" element={<Profile />} />
+          <Route path='*' element={<PageNotFound />} />
         </Route>
       </Routes>
+      <BackToTopButton />
     </Router>
   );
 }

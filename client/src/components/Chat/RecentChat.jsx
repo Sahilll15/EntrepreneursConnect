@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCommunity } from "../../redux/community/CommunityAcitions";
 import { getLoggedInUser } from "../../redux/auth/authActions";
+import { NavLink } from "react-router-dom";
 
 const RecentChat = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const RecentChat = () => {
       <div className="p-4">
         <h1 className="text-2xl font-semibold mb-4">{user?.username}</h1>
         {groups?.map((group) => (
+          <NavLink to={`/groupDiscussion/${group._id}`}>
           <div
             key={group._id}
             className="bg-white rounded-lg shadow-md mb-4 p-4"
@@ -47,8 +49,11 @@ const RecentChat = () => {
            */}
           
           </div>
+          </NavLink>
         ))}
+        
       </div>
+      
     </div>
   );
 };
