@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 import PostCard from "../../components/Post/PostCard";
 import { fetchpostByUserID } from "../../redux/posts/postActions";
 import { FollowUnfollow } from "../../redux/auth/authActions";
-import { formatDateTime } from "../../utils/FormatDate";
 import { getcomment } from "../../redux/comments/commentActions";
 
 

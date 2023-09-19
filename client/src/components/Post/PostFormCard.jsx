@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { addPost,fetchPosts } from '../../redux/posts/postActions';
 import { useSelector,useDispatch } from 'react-redux';
-import Preloader from '../../utils/Preloader'
 import { getLeaderBoard, getLoggedInUser } from '../../redux/auth/authActions';
 
 export default function PostFormCard() {
