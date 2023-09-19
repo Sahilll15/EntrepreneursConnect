@@ -94,7 +94,7 @@ const PostCard = ({ product ,comments}) => {
       <p className="text-xl font-semibold mb-4">{product.content}</p>
 
       {product?.media && (
-        <img src={`${baseUrl}${product.media}`} alt="Post media" className="w-96 rounded-lg mb-4" />
+        <img src={`${baseUrl}/${product.media}`} alt="Post media" className="w-96 rounded-lg mb-4" />
       )}
       <div className="flex justify-between text-gray-600 text-sm">
         <div>
