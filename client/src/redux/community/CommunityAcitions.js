@@ -70,8 +70,114 @@ export const getCommunity = createAsyncThunk(
 
 
 
+export const getCommunityById = createAsyncThunk(
+    'community/getCommunityById',
+    async (groupId, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(
+                `${host}/api/v1/groups/getgroupbyid/${groupId}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('authtoken')}`,
+                    },
+                }
+            );
+            if (response.status === 200) {
+                console.log(response.data);
+                return response.data;
+            } else {
+                console.log('error');
+                return rejectWithValue(response.data.message);
+            }
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message);
+        }
+    }
+)
+
+
+export const createDiscussionCommunity = createAsyncThunk(
+    'community/createDiscussion',
+    async ({ newTitle, newContent, id }, { rejectWithValue }) => {
+        try {
+            const response = await axios.post(`${host}/api/v1/groups/creatediscussion/${id}`,
+                {
+                    title: newTitle,
+                    content: newContent,
+                }
+                , {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('authtoken')}`,
+                    }
+                })
+            if (response.status === 201) {
+                console.log(response.data);
+                return response.data;
+            }
+            else {
+                console.log('error');
+                return rejectWithValue(response.data.message);
+            }
+
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message);
+        }
+    }
+)
+
+
+export const getCommunityDiscussion = createAsyncThunk(
+    'community/getCommunityDiscussion',
+    async (id, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(`${host}/api/v1/groups/getdiscussions/${id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('authtoken')}`,
+                }
+            })
+            if (response.status === 200) {
+                console.log(response.data);
+                return response.data;
+            }
+            else {
+                console.log('error');
+                return rejectWithValue(response.data.message);
+            }
+
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message);
+        }
+    }
+)
 
 
 
+export const getGroupsJoined = createAsyncThunk(
+    'community/getGroupsJoined',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(`${host}/api/v1/groups/getgroupsjoined/`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('authtoken')}`,
+                }
+            })
+            if (response.status === 200) {
+                console.log(response.data);
+                return response.data;
+            }
+            else {
+                console.log('error');
+                return rejectWithValue(response.data.message);
+            }
+
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message);
+        }
+    }
+)
 
 

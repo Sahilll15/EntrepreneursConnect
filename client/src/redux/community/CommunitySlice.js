@@ -1,12 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { createCommunity, getCommunity } from './CommunityAcitions'
+import { createCommunity, getCommunity, getCommunityById, createDiscussionCommunity, getCommunityDiscussion, getGroupsJoined } from './CommunityAcitions'
 
 
 const initialState = {
     community: null,
     communities: [],
     loading: false,
-    error: null
+    error: null,
+    communityById: null,
+    discussion: null,
+    discussions: [],
+    discussionLoading: false,
+    groupsJoined: []
 
 }
 
@@ -44,8 +49,65 @@ export const communitySlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             }
+            ).addCase(getCommunityById.pending, (state, action) => {
+                state.loading = true;
+            }).addCase(getCommunityById.fulfilled, (state, action) => {
+                state.loading = false;
+                state.communityById = action.payload;
+            }).addCase(getCommunityById.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+
+            .addCase(createDiscussionCommunity.pending, (state, action) => {
+                state.loading = true;
+                state.discussionLoading = true;
+            }
             )
+            .addCase(createDiscussionCommunity.fulfilled, (state, action) => {
+                state.loading = false;
+                state.discussion = action.payload;
+                state.discussionLoading = false;
+            }
+            )
+            .addCase(createDiscussionCommunity.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+                state.discussionLoading = false;
+            }
+            )
+            .addCase(getCommunityDiscussion.pending, (state, action) => {
+                state.loading = true;
+            }
+            )
+            .addCase(getCommunityDiscussion.fulfilled, (state, action) => {
+                state.loading = false;
+                state.discussions = action.payload.discussions;
+            }
+            )
+            .addCase(getCommunityDiscussion.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            }
+            )
+            .addCase(getGroupsJoined.pending, (state, action) => {
+                state.loading = true;
+            }
+            )
+            .addCase(getGroupsJoined.fulfilled, (state, action) => {
+                state.loading = false;
+                state.groupsJoined = action.payload.groups;
+            }
+            )
+            .addCase(getGroupsJoined.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            }
+            )
+
+
     }
+
 
 
 })

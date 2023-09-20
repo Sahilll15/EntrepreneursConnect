@@ -6,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { getLoggedInUser, getSearchUser } from "../../redux/auth/authActions";
 import { useSelector, useDispatch } from "react-redux";
 import { getNotifications } from "../../redux/notification/notificationActions";
+import { getGroupsJoined } from "../../redux/community/CommunityAcitions";
+import { getCommunityDiscussion } from "../../redux/community/CommunityAcitions";
+import { getCommunityById } from "../../redux/community/CommunityAcitions";
 export const SideBar = () => {
 
   const user = useSelector((state) => state.user.user)
@@ -18,6 +21,7 @@ export const SideBar = () => {
   let searchedUser = useSelector((state) => state?.user?.searchUser)
 
   const notifications = useSelector((state) => state?.notifications.notifications.notifications);
+  const groupsJoined = useSelector((state) => state?.community?.groupsJoined)
   const hasNotifications = notifications?.length > 0;
 
   const logout = () => {
@@ -38,7 +42,10 @@ export const SideBar = () => {
     }
     dispatch(getLoggedInUser());
     dispatch(getNotifications());
+    dispatch(getGroupsJoined());
   }, [dispatch, searchUsername.username])
+
+
 
 
 
@@ -54,16 +61,15 @@ export const SideBar = () => {
         <div className="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-gray-900">
           <div className="text-gray-100 text-xl">
             <div className="p-2.5 mt-1 flex items-center">
-            <img
-                          alt={user?.badges}
-                          src={user?.avatar?.url}
-                          className={`w-[40px] h-[40px] rounded-full border  ${
-                            user?.badges[0] === "Expert"
-                              ? "border-red-600"
-                              : "border-none"
-                          } `}
-             
-                        />
+              <img
+                alt={user?.badges}
+                src={user?.avatar?.url}
+                className={`w-[40px] h-[40px] rounded-full border  ${user?.badges[0] === "Expert"
+                  ? "border-red-600"
+                  : "border-none"
+                  } `}
+
+              />
               <h1 className="font-bold text-gray-200 text-[15px] ml-3">
                 <div className="flex-col">
                   <p> {user?.username}</p>
@@ -121,7 +127,7 @@ export const SideBar = () => {
 
           <NavLink to={'/notification'}>
             <div className={`p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-${hasNotifications ? 'white' : 'blue-600'} text-${hasNotifications ? 'blue-500' : 'white'}`}>
-              <i class="bi bi-bell"></i> 
+              <i class="bi bi-bell"></i>
               {notifications?.length}
               <span className={`text-[15px] ml-4 font-bold ${hasNotifications ? 'text-blue-600' : 'text-gray-200'}`}>
                 Notification
@@ -169,7 +175,7 @@ export const SideBar = () => {
             <i class="bi bi-person-square"></i>
             <div className="flex justify-between w-full items-center">
               <span className="text-[15px] ml-4 text-gray-200 font-bold">
-                Profile
+                Groups
               </span>
               <span className="text-sm rotate-180" id="arrow">
                 <i className="bi bi-chevron-down" />
@@ -180,15 +186,24 @@ export const SideBar = () => {
             className="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
             id="submenu"
           >
-            <h1 className="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">
-              Social
-            </h1>
-            <h1 className="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">
-              Personal
-            </h1>
-            <h1 className="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">
-              Friends
-            </h1>
+            {
+              groupsJoined?.map((group) => (
+                <NavLink to={`/groupDiscussion/${group._id}`}
+                  onClick={() => {
+                    dispatch(getCommunityById(group._id));
+                    dispatch(getCommunityDiscussion(group._id));
+                  }}
+                >
+                  <div
+                    key={group._id}
+                    className=" rounded-lg shadow-md mb-4"
+                  >
+                    <h2 className="text-xl  text-white">{group.name}</h2>
+                    <p className="text-gray-600 mt-1">{group.groupAdmin}</p>
+                  </div>
+                </NavLink>
+              ))
+            }
           </div>
           <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white" onClick={logout}>
             <i className="bi bi-box-arrow-in-right" />

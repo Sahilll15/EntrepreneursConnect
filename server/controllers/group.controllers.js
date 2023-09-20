@@ -1,4 +1,4 @@
-const { Group, Discussion } = require('../models/group.models')
+const { Group, GroupDiscussion } = require('../models/group.models')
 const User = require('../models/user.models')
 
 
@@ -64,6 +64,36 @@ const getGroups = async (req, res) => {
         console.log(error);
     }
 }
+
+
+const getGroupById = async (req, res) => {
+    const { groupId } = req.params;
+    try {
+        const group = await Group.findById(groupId).populate('groupAdmin', 'username').populate('members', 'username')
+        if (!group) {
+            return res.status(400).json({ msg: "Group does not exist" })
+        }
+
+        const formatedGroup = {
+            _id: group._id,
+            groupname: group.groupname,
+            description: group.description,
+            groupAdmin: group.groupAdmin.username,
+            members: [group.members.map((member) => member.username)],
+            createdAt: group.createdAt,
+            updatedAt: group.updatedAt,
+
+        }
+
+        res.status(200).json({ group: formatedGroup, mssg: "Group fetched successfully" })
+
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+        console.log(error);
+    }
+}
+
+
 
 //search groups
 const searchGroups = async (req, res) => {
@@ -168,7 +198,7 @@ const createDiscussion = async (req, res) => {
             return res.status(400).json({ msg: "You are not a member of this group" })
         }
 
-        const newDiscussion = await Discussion.create({
+        const newDiscussion = await GroupDiscussion.create({
             groupId,
             title,
             content,
@@ -190,16 +220,29 @@ const createDiscussion = async (req, res) => {
 const getDiscussions = async (req, res) => {
     const { groupId } = req.params;
     try {
-        const discussion = await Discussion.find({ groupId });
-        if (!discussion) {
-            return res.status(400).json({ msg: "No discussion found" })
+        const discussions = await GroupDiscussion.find({ groupId }).populate('author', 'username avatar').sort({ createdAt: -1 })
+        if (!discussions || discussions.length === 0) {
+            return res.status(400).json({ msg: "No discussions found" });
         }
-        res.status(200).json({ discussion: discussion, mssg: "discussion fetched successfully" })
+
+        const formattedData = discussions.map(discussion => ({
+            _id: discussion._id,
+            title: discussion.title,
+            content: discussion.content,
+            author: {
+                username: discussion.author.username,
+                avatar: discussion.author.avatar,
+            },
+            createdAt: discussion.createdAt,
+            updatedAt: discussion.updatedAt,
+        }));
+
+        res.status(200).json({ discussions: formattedData, mssg: "Discussions fetched successfully" });
     } catch (error) {
-        res.status(500).json({ error: error.message })
-        console.log(error);
+        res.status(500).json({ error: error.message });
+        console.error(error);
     }
-}
+};
 
 const deleteDiscussion = async (req, res) => {
     const { groupId, discussionId } = req.params;
@@ -209,20 +252,19 @@ const deleteDiscussion = async (req, res) => {
             return res.status(400).json({ msg: "Group does not exist" })
         }
         const user = req.user._id;
-        const discussion = await Discussion.findById(discussionId);
+        const discussion = await GroupDiscussion.findById(discussionId);
         if (!discussion) {
             return res.status(400).json({ msg: "Discussion does not exist" })
         }
-        //check if user is part of the group
         if (!GroupExist.members.includes(user)) {
             return res.status(400).json({ msg: "You are not a member of this group" })
         }
-        //check if user is the author of the discussion
+
         if (discussion.author.toString() !== user.toString()) {
             return res.status(401).json({ msg: "You are not authorized to delete this discussion" })
         }
 
-        await Discussion.findByIdAndDelete(discussionId);
+        await GroupDiscussion.findByIdAndDelete(discussionId);
 
         res.status(200).json({ msg: "Discussion deleted successfully" })
 
@@ -232,6 +274,32 @@ const deleteDiscussion = async (req, res) => {
     }
 }
 
+
+const getGroupsJoinedByUser = async (req, res) => {
+    try {
+        const user = req.user._id;
+        const groups = await Group.find({ members: user })
+            .populate('groupAdmin', 'username')
+            .populate('members', 'username')
+            .sort({ createdAt: -1 });
+        const total = groups.length;
+
+        const formattedGroups = groups.map(group => ({
+            _id: group._id,
+            name: group.groupname,
+            description: group.description,
+            groupAdmin: group.groupAdmin.username,
+            members: [group.members.map((member) => member.username)],
+            createdAt: group.createdAt,
+            updatedAt: group.updatedAt,
+        }));
+
+        res.status(200).json({ groups: formattedGroups, mssg: "Groups fetched successfully", qty: total });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+        console.log(error);
+    }
+}
 
 
 module.exports = {
@@ -243,6 +311,8 @@ module.exports = {
     deleteGroup,
     createDiscussion,
     getDiscussions,
-    deleteDiscussion
+    deleteDiscussion,
+    getGroupById,
+    getGroupsJoinedByUser
 
 }
