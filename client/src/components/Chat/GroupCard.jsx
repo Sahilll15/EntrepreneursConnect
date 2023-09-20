@@ -1,7 +1,7 @@
 import React from 'react';
-import { joinGroup, getGroupsJoined, getCommunity } from '../../redux/community/CommunityAcitions';
+import { joinGroup, getGroupsJoined, getCommunity, leaveGroup } from '../../redux/community/CommunityAcitions';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { Await, NavLink } from 'react-router-dom';
 
 const GroupCard = ({ group }) => {
     const dispatch = useDispatch();
@@ -9,7 +9,7 @@ const GroupCard = ({ group }) => {
 
     const handleJoinLeaveGroup = async (groupId, isMember) => {
         if (isMember) {
-            // dispatch(leaveGroup(groupId));
+            await dispatch(leaveGroup(groupId));
         } else {
             await dispatch(joinGroup(groupId));
         }
