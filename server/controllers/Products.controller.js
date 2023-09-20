@@ -51,7 +51,7 @@ const createProduct = async (req, res) => {
                 ContentType: file.mimetype,
             };
 
-            s3.upload(params, async (error, data) => {
+            await s3.upload(params, async (error, data) => {
                 if (error) {
                     console.log(error);
                     return res.status(500).json({ error: error.message });
@@ -59,26 +59,43 @@ const createProduct = async (req, res) => {
 
                 if (data) {
                     product.media = data.Location;
-                    await product.save();
-                    console.log('uploaded to s3', data.Location)
                 }
+
+                // Save the product here after potentially setting the media property
+                await product.save();
+
+                // Rest of your code for updating user and other actions
+                console.log('Adding points....');
+                user.points += 10;
+                console.log('Added points....');
+                console.log(user.points);
+                await badges(user);
+                user.productsShowcased.push(product._id);
+                await user.save();
+
+                res.status(201).json({ product, user, msg: "New product created" });
             });
+        } else {
+            // If there is no file, save the product without the media property
+            await product.save();
+
+            // Rest of your code for updating user and other actions
+            console.log('Adding points....');
+            user.points += 10;
+            console.log('Added points....');
+            console.log(user.points);
+            await badges(user);
+            user.productsShowcased.push(product._id);
+            await user.save();
+
+            res.status(201).json({ product, user, msg: "New product created" });
         }
-
-        console.log('Adding points');
-        user.points += 10;
-        console.log('Added points');
-        console.log(user.points);
-        await badges(user);
-        user.productsShowcased.push(product._id);
-        await user.save();
-
-        res.status(201).json({ product, user, msg: "New product created" });
     } catch (error) {
         res.status(500).json({ error: error.message });
         console.error(error);
     }
 };
+
 
 
 const getProducts = async (req, res) => {
