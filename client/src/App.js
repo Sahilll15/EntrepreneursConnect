@@ -36,60 +36,65 @@ function App() {
 
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+    <>
 
-        <Route
-          path="/"
-          element={
-            <>
-              <div className="flex">
-                {
-                  initialLoading ?
-                    <Sidebar /> : null
-                }
+      <ToastContainer />
+      <Router>
+        <Routes>
 
-                <div className="flex-grow">
-                  <ToastContainer />
-                  <PrivateRoutes />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
+          <Route
+            path="/"
+            element={
+              <>
+                <div className="flex">
+                  {
+                    initialLoading ?
+                      <Sidebar /> : null
+                  }
+
+                  <div className="flex-grow">
+
+                    <PrivateRoutes />
+                  </div>
                 </div>
-              </div>
-            </>
-          }
-        >
-          <Route path="/setting" element={<Setting />} />
-          <Route path="/buy" element={<Buy />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/notification" element={<Notification />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/newsletter" element={<Newsletter />} />
-          <Route path="/userstatistics" element={<UserStatisticsPage />} />
-          <Route path="/groupDiscussion/:id" element={<GroupDescussion />} />
+              </>
+            }
+          >
+            <Route path="/setting" element={<Setting />} />
+            <Route path="/buy" element={<Buy />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/notification" element={<Notification />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/newsletter" element={<Newsletter />} />
+            <Route path="/userstatistics" element={<UserStatisticsPage />} />
+            <Route path="/groupDiscussion/:id" element={<GroupDescussion />} />
 
-        </Route>
+          </Route>
 
-        <Route
-          path="/"
-          element={
-            <>
-              <div className="flex">
+          <Route
+            path="/"
+            element={
+              <>
+                <div className="flex">
 
-                <div className="flex-grow">
-                  <ToastContainer />
-                  <PrivateRoutes />
+                  <div className="flex-grow">
+                    <ToastContainer />
+                    <PrivateRoutes />
+                  </div>
                 </div>
-              </div>
-            </>
-          }
-        >
-          <Route path="/profile/:id" element={<Profile />} />
-          <Route path='*' element={<PageNotFound />} />
-        </Route>
-      </Routes>
-      <BackToTopButton />
-    </Router>
+              </>
+            }
+          >
+            <Route path="/profile/:id" element={<Profile />} />
+            <Route path='*' element={<PageNotFound />} />
+          </Route>
+        </Routes>
+        <BackToTopButton />
+      </Router>
+    </>
   );
 }
 

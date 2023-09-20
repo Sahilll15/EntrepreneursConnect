@@ -1,0 +1,35 @@
+/* Add hover effect */
+.post-card:hover {
+    border: 2px solid #3498db; /* Change the border on hover */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a box shadow on hover */
+    transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Add a smooth transition effect */
+  }
+  
+  /* Avatar animation */
+.avatar-animation {
+    animation: pulse 1s infinite alternate;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.1);
+    }
+  }
+  
+  /* Like button animation */
+  .like-button-animation {
+    animation: bounce 0.5s ease-in-out infinite;
+  }
+  
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+  
