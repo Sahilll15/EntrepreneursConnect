@@ -18,7 +18,7 @@ const store = configureStore({
         notifications: notificationReducer,
         comments: commentReducer
     },
-    middleware
+    // middleware
 
 
 })

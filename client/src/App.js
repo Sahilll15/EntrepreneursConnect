@@ -18,62 +18,85 @@ import UserStatisticsPage from './components/User/userStatstics';
 import BackToTopButton from './utils/BackToTop';
 import GroupDescussion from './pages/GroupDescussion';
 import PageNotFound from './pages/PageNotFound';
+import BoostPost from './pages/BoostPost';
+import { useDispatch, useSelector } from 'react-redux';
+import { getLoggedInUser } from './redux/auth/authActions';
 
 
 function App() {
 
+  const initialLoading = useSelector((state) => state?.user?.initialLoading);
+
+  const dispatch = useDispatch();
+
+
+  useEffect(() => {
+    dispatch(getLoggedInUser());
+  }, [dispatch]);
+
+
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+    <>
 
-        <Route
-          path="/"
-          element={
-            <>
-              <div className="flex">
-                <Sidebar />
-                <div className="flex-grow">
-                  <ToastContainer />
-                  <PrivateRoutes />
+      <ToastContainer />
+      <Router>
+        <Routes>
+
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
+          <Route
+            path="/"
+            element={
+              <>
+                <div className="flex">
+                  {
+                    initialLoading ?
+                      <Sidebar /> : null
+                  }
+
+                  <div className="flex-grow">
+
+                    <PrivateRoutes />
+                  </div>
                 </div>
-              </div>
-            </>
-          }
-        >
-          <Route path="/setting" element={<Setting />} />
-          <Route path="/buy" element={<Buy />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/notification" element={<Notification />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/newsletter" element={<Newsletter />} />
-          <Route path="/userstatistics" element={<UserStatisticsPage />} />
-          <Route path="/groupDiscussion/:id" element={<GroupDescussion />} />
+              </>
+            }
+          >
+            <Route path="/setting" element={<Setting />} />
+            <Route path="/buy" element={<Buy />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/notification" element={<Notification />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/newsletter" element={<Newsletter />} />
+            <Route path="/userstatistics" element={<UserStatisticsPage />} />
+            <Route path="/groupDiscussion/:id" element={<GroupDescussion />} />
+            <Route path="/boost" element={<BoostPost />} />
 
-        </Route>
+          </Route>
 
-        <Route
-          path="/"
-          element={
-            <>
-              <div className="flex">
+          <Route
+            path="/"
+            element={
+              <>
+                <div className="flex">
 
-                <div className="flex-grow">
-                  <ToastContainer />
-                  <PrivateRoutes />
+                  <div className="flex-grow">
+                    <ToastContainer />
+                    <PrivateRoutes />
+                  </div>
                 </div>
-              </div>
-            </>
-          }
-        >
-          <Route path="/profile/:id" element={<Profile />} />
-          <Route path='*' element={<PageNotFound />} />
-        </Route>
-      </Routes>
-      <BackToTopButton />
-    </Router>
+              </>
+            }
+          >
+            <Route path="/profile/:id" element={<Profile />} />
+            <Route path='*' element={<PageNotFound />} />
+          </Route>
+        </Routes>
+        <BackToTopButton />
+      </Router>
+    </>
   );
 }
 

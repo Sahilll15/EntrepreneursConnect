@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Card from './Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
-import { addPost,fetchPosts } from '../../redux/posts/postActions';
-import { useSelector,useDispatch } from 'react-redux';
+import { addPost, fetchPosts } from '../../redux/posts/postActions';
+import { useSelector, useDispatch } from 'react-redux';
 import { getLeaderBoard, getLoggedInUser } from '../../redux/auth/authActions';
 
 export default function PostFormCard() {
@@ -13,7 +13,7 @@ export default function PostFormCard() {
   const [imageAddmodel, setImageAddmodel] = useState(false);
   const postLoading = useSelector((state) => state.posts.postLoading);
   const user = useSelector((state) => state.user.user);
-  
+
 
 
   const handleSubmit = async (e) => {
@@ -26,7 +26,6 @@ export default function PostFormCard() {
     try {
       await dispatch(addPost({ content, media: image }))
       await dispatch(fetchPosts());
-      await dispatch(getLoggedInUser());
       await dispatch(getLeaderBoard());
       setContent('');
       setImage(null);
@@ -40,16 +39,16 @@ export default function PostFormCard() {
     setContent(e.target.value);
   };
 
-  const handleImageUpload = (e) => {
+  const handleMediaUpload = (e) => {
     const selectedImage = e.target.files[0];
-    setImage(selectedImage); // Set the selected image in state
+    setImage(selectedImage);
   };
 
-  useEffect(()=>{
-    if (!user) {
-      dispatch(getLoggedInUser());
-    }
-  },[dispatch,user])
+  // useEffect(() => {
+  //   if (!user) {
+  //     dispatch(getLoggedInUser());
+  //   }
+  // }, [dispatch, user])
 
   return (
     <Card noPadding={false}>
@@ -75,10 +74,10 @@ export default function PostFormCard() {
             </label>
             <input
               type="file"
-              id="image"
-              name="image"
-              accept="image/*"
-              onChange={handleImageUpload}
+              id="media"
+              name="media"
+              accept="image/*, video/*" // Updated accept attribute
+              onChange={handleMediaUpload}
               className="w-full border rounded-lg py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
@@ -92,7 +91,7 @@ export default function PostFormCard() {
           </div>
         </div>
 
-     
+
         <div className="text-right">
           <button
             type="submit"

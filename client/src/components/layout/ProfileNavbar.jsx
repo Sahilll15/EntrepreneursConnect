@@ -39,7 +39,7 @@ const Navbar = () => {
             data-te-collapse-item
           >
         
-            <NavLink
+            {/* <NavLink
               className="mb-4 ml-2 mr-5 mt-3 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mb-0 lg:mt-0"
               href="#"
             >
@@ -49,7 +49,7 @@ const Navbar = () => {
                 alt="TE Logo"
                 loading="lazy"
               />
-            </NavLink>
+            </NavLink> */}
             {/* Left navigation links */}
             <ul
               className="list-style-none mr-auto flex flex-col pl-0 lg:flex-row"
@@ -129,15 +129,7 @@ const Navbar = () => {
                 data-te-dropdown-menu-ref
               >
                 {/* First dropdown menu items */}
-                <li>
-                  <NavLink
-                    className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-                    href="#"
-                    data-te-dropdown-item-ref
-                  >
-                    Action
-                  </NavLink>
-                </li>
+                
                 <li>
                   <NavLink
                     className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
@@ -165,23 +157,7 @@ const Navbar = () => {
               data-te-dropdown-alignment="end"
             >
               {/* Second dropdown trigger */}
-              <NavLink
-                className="hidden-arrow flex items-center whitespace-nowrap transition duration-150 ease-in-out motion-reduce:transition-none"
-                href="#"
-                id="dropdownMenuButton2"
-                role="button"
-                data-te-dropdown-toggle-ref
-                aria-expanded="false"
-              >
-                {/* User avatar */}
-                <img
-                  src="https://tecdn.b-cdn.net/img/new/avatars/2.jpg"
-                  className="rounded-full"
-                  style={{ height: 25, width: 25 }}
-                  alt
-                  loading="lazy"
-                />
-              </NavLink>
+              
               {/* Second dropdown menu */}
               <ul
                 className="absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block"

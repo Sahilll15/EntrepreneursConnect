@@ -62,10 +62,10 @@ const discussionSchema = new mongoose.Schema({
 // Create the Group model
 const Group = mongoose.model('Group', groupSchema);
 
-const Discussion = mongoose.model('Discussion', discussionSchema);
+const GroupDiscussion = mongoose.model('Discussion', discussionSchema);
 
 
 module.exports = {
     Group,
-    Discussion
+    GroupDiscussion
 };
