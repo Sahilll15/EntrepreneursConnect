@@ -23,12 +23,16 @@ const TopsUser = () => {
   }, []);
 
   return (
+    <div>
+    
     <div
       className={`fixed right-0 top-0 w-80 bg-white border rounded-lg border-gray-300 p-4 overflow-y-auto m-4 shadow-md transition-opacity ${
         showComponent ? 'opacity-100' : 'opacity-0 translate-y-4'
       }`}
     >
       <div className="container mx-auto">
+      <h2 className="text-lg font-semibold mb-4">Featured Users</h2>
+      <p>the one who paid </p><br/>
         <h2 className="text-lg font-semibold mb-4">Top Users</h2>
         <ul>
           {topusers?.map((user) => (
@@ -50,7 +54,13 @@ const TopsUser = () => {
             </li>
           ))}
         </ul>
+        
       </div>
+
+    </div>
+
+    
+
     </div>
   );
 };

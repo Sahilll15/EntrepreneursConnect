@@ -86,12 +86,14 @@ const PostCard = ({ product, comments }) => {
           </NavLink>
 
           <div>
+          <NavLink to={`/profile/${product.author.id}`}>
             <p className="text-lg font-semibold">{product.author.name}</p>
+          </NavLink>  
             <p className="text-gray-600 text-sm">{formatDateTime(product.createdAt)}</p>
           </div>
         </div>
         <p className="text-xl font-semibold mb-4">{product.content}</p>
-
+<center>
         {product?.media && (
           // Check if the media URL ends with a common image or video file extension
           /\.(jpg|jpeg|png|gif)$/i.test(product.media) ? (
@@ -105,6 +107,7 @@ const PostCard = ({ product, comments }) => {
             </video>
           )
         )}
+</center>
 
         <div className="flex justify-between text-gray-600 text-sm">
           <div>
