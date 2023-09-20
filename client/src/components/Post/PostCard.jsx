@@ -60,7 +60,7 @@ const PostCard = ({ product, comments }) => {
     <>
 
 
-      <div key={product._id} className="post-card bg-white rounded-lg shadow-md p-4 mb-4 border hover:focus" style={{ maxHeight: '600px' }}>
+      <div key={product._id} className="post-card bg-white rounded-lg shadow-md p-4 mb-4 border hover:focus" >
         <div className="relative">
           {isOptionsMenuOpen && (
             <div className="flex flex-col absolute right-0 top-0 mt-2 bg-white p-2 rounded shadow-md border border-solid-2">
