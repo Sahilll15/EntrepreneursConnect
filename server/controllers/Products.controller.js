@@ -2,6 +2,18 @@ const Product = require('../models/Product.models');
 const User = require('../models/user.models');
 const { badges } = require('../utils/CheckBadges')
 const fs = require('fs');
+const path = require('path')
+const AWS = require('aws-sdk')
+require('dotenv').config();
+
+
+AWS.config.update({
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: 'ap-south-1'
+});
+
+const s3 = new AWS.S3();
 
 const createProduct = async (req, res) => {
     const { content, tags } = req.body;
@@ -28,29 +40,43 @@ const createProduct = async (req, res) => {
             },
         });
 
-        // Check if a media file was uploaded
         if (req.file) {
-            product.media = req.file.path;
+            const file = req.file;
+            const fileKey = Date.now() + '-' + file.originalname;
+
+            const params = {
+                Bucket: process.env.AWS_BUCKET_NAME,
+                Key: fileKey,
+                Body: file.buffer,
+                ContentType: file.mimetype,
+            };
+
+            s3.upload(params, async (error, data) => {
+                if (error) {
+                    console.log(error);
+                    return res.status(500).json({ error: error.message });
+                }
+
+                if (data) {
+                    product.media = data.Location;
+                    await product.save();
+                    console.log('uploaded to s3', data.Location)
+                }
+            });
         }
 
-
-        await product.save();
-        console.log('adding poinsts')
+        console.log('Adding points');
         user.points += 10;
-        console.log('added poinsts')
-        console.log(user.points)
+        console.log('Added points');
+        console.log(user.points);
         await badges(user);
-        user.productsShowcased.push(product._id)
+        user.productsShowcased.push(product._id);
         await user.save();
 
-        if (!product) {
-            return res.status(400).json({ msg: "Product not created" });
-        }
-
-        res.status(201).json({ product: product, user: user, mssg: "New product created" });
+        res.status(201).json({ product, user, msg: "New product created" });
     } catch (error) {
         res.status(500).json({ error: error.message });
-        console.log(error);
+        console.error(error);
     }
 };
 

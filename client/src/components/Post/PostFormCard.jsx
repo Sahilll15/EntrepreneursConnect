@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Card from './Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
-import { addPost,fetchPosts } from '../../redux/posts/postActions';
-import { useSelector,useDispatch } from 'react-redux';
+import { addPost, fetchPosts } from '../../redux/posts/postActions';
+import { useSelector, useDispatch } from 'react-redux';
 import { getLeaderBoard, getLoggedInUser } from '../../redux/auth/authActions';
 
 export default function PostFormCard() {
@@ -13,7 +13,7 @@ export default function PostFormCard() {
   const [imageAddmodel, setImageAddmodel] = useState(false);
   const postLoading = useSelector((state) => state.posts.postLoading);
   const user = useSelector((state) => state.user.user);
-  
+
 
 
   const handleSubmit = async (e) => {
@@ -42,14 +42,14 @@ export default function PostFormCard() {
 
   const handleImageUpload = (e) => {
     const selectedImage = e.target.files[0];
-    setImage(selectedImage); // Set the selected image in state
+    setImage(selectedImage);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (!user) {
       dispatch(getLoggedInUser());
     }
-  },[dispatch,user])
+  }, [dispatch, user])
 
   return (
     <Card noPadding={false}>
@@ -92,7 +92,7 @@ export default function PostFormCard() {
           </div>
         </div>
 
-     
+
         <div className="text-right">
           <button
             type="submit"
