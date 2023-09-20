@@ -40,7 +40,7 @@ export default function PostFormCard() {
     setContent(e.target.value);
   };
 
-  const handleImageUpload = (e) => {
+  const handleMediaUpload = (e) => {
     const selectedImage = e.target.files[0];
     setImage(selectedImage);
   };
@@ -75,10 +75,10 @@ export default function PostFormCard() {
             </label>
             <input
               type="file"
-              id="image"
-              name="image"
-              accept="image/*"
-              onChange={handleImageUpload}
+              id="media"
+              name="media"
+              accept="image/*, video/*" // Updated accept attribute
+              onChange={handleMediaUpload}
               className="w-full border rounded-lg py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>

@@ -96,6 +96,49 @@ const createProduct = async (req, res) => {
     }
 };
 
+const deleteProduct = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const product = await Product.findById(id);
+        const user = req.user._id;
+
+        const existingUser = await User.findById(user);
+
+        if (!existingUser) {
+            return res.status(400).json({ msg: 'User not found' });
+        }
+
+        if (!product) {
+            res.status(400).json({ msg: 'No product with this id' });
+        }
+
+        if (product.author.id.toString() !== user.toString()) {
+            return res.status(401).json({ msg: "You are not authorized to delete this product" });
+        }
+
+        // Delete the file from AWS S3
+        if (product.media) {
+            const s3Params = {
+                Bucket: process.env.AWS_BUCKET_NAME,
+                Key: product.media.split('/').pop(),
+            };
+
+            await s3.deleteObject(s3Params).promise();
+        }
+
+        const deletedProduct = await Product.findByIdAndDelete(id);
+        existingUser.points -= 10;
+        await existingUser.save();
+
+        res.status(200).json({ msg: "Product deleted successfully", product: deletedProduct });
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+        console.log(error);
+    }
+}
+
 
 
 const getProducts = async (req, res) => {
@@ -126,43 +169,7 @@ const getProductById = async (req, res) => {
     }
 }
 
-const deleteProduct = async (req, res) => {
-    const { id } = req.params;
 
-    try {
-        const product = await Product.findById(id);
-        const user = req.user._id;
-
-        const ExistingUser = await User.findById(user);
-
-        if (!ExistingUser) {
-            return res.status(400).json({ mssg: 'User not found' });
-        }
-
-        if (!product) {
-            res.status(400).json({ mssg: 'No product with this id' });
-        }
-
-        if (product.author.id.toString() !== user.toString()) {
-            return res.status(401).json({ mssg: "You are not authorized to delete this product" });
-        }
-
-        //unlink the image
-        if (product.media) {
-            fs.unlinkSync(product.media);
-        }
-
-        const deletedProduct = await Product.findByIdAndDelete(id);
-        ExistingUser.points -= 10;
-        await ExistingUser.save();
-
-        res.status(200).json({ mssg: "Product deleted successfully", product: deletedProduct });
-
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-        console.log(error);
-    }
-}
 
 const updateProduct = async (req, res) => {
     const { id } = req.params;
