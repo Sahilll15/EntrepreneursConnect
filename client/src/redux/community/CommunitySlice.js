@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { createCommunity, getCommunity, getCommunityById, createDiscussionCommunity, getCommunityDiscussion, getGroupsJoined } from './CommunityAcitions'
+import { createCommunity, getCommunity, getCommunityById, searchGroups, createDiscussionCommunity, getCommunityDiscussion, getGroupsJoined } from './CommunityAcitions'
 
 
 const initialState = {
@@ -11,8 +11,7 @@ const initialState = {
     discussion: null,
     discussions: [],
     discussionLoading: false,
-    groupsJoined: []
-
+    groupsJoined: [],
 }
 
 
@@ -105,12 +104,20 @@ export const communitySlice = createSlice({
             }
             )
 
-
+            .addCase(searchGroups.pending, (state, action) => {
+                state.loading = true;
+            })
+            .addCase(searchGroups.fulfilled, (state, action) => {
+                state.loading = false;
+                state.communities = action.payload;
+            })
+            .addCase(searchGroups.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
     }
-
-
-
 })
 
 
 export default communitySlice.reducer;
+

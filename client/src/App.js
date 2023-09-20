@@ -18,6 +18,7 @@ import UserStatisticsPage from './components/User/userStatstics';
 import BackToTopButton from './utils/BackToTop';
 import GroupDescussion from './pages/GroupDescussion';
 import PageNotFound from './pages/PageNotFound';
+import BoostPost from './pages/BoostPost';
 import { useDispatch, useSelector } from 'react-redux';
 import { getLoggedInUser } from './redux/auth/authActions';
 
@@ -71,6 +72,7 @@ function App() {
             <Route path="/newsletter" element={<Newsletter />} />
             <Route path="/userstatistics" element={<UserStatisticsPage />} />
             <Route path="/groupDiscussion/:id" element={<GroupDescussion />} />
+            <Route path="/boost" element={<BoostPost />} />
 
           </Route>
 

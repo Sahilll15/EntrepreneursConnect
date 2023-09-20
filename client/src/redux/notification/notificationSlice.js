@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { getNotifications } from './notificationActions'
+import { getNotifications, deleteAllNotificatiosn } from './notificationActions'
 
 const initialState = {
     notifications: [],
@@ -29,6 +29,19 @@ export const notificationSlice = createSlice({
             state.success = true;
             state.notifications = action.payload;
         }).addCase(getNotifications.rejected, (state, action) => {
+            state.notificationLoading = false;
+            state.error = action.payload;
+        });
+
+        //delete all notifications
+        builder.addCase(deleteAllNotificatiosn.pending, (state, action) => {
+            state.notificationLoading = true;
+
+        }).addCase(deleteAllNotificatiosn.fulfilled, (state, action) => {
+            state.notificationLoading = false;
+            state.success = true;
+            state.notifications = [];
+        }).addCase(deleteAllNotificatiosn.rejected, (state, action) => {
             state.notificationLoading = false;
             state.error = action.payload;
         });

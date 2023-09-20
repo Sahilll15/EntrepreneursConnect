@@ -181,3 +181,65 @@ export const getGroupsJoined = createAsyncThunk(
 )
 
 
+
+export const searchGroups = createAsyncThunk(
+    'community/searchGroups',
+    async (searchTerm, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(`${host}/api/v1/groups/searchgroups?groupname=${searchTerm}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('authtoken')}`,
+                }
+            })
+            if (response.status === 200) {
+                console.log(response.data);
+                return response.data;
+            }
+            else {
+                console.log('error');
+                return rejectWithValue(response.data.message);
+            }
+
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message);
+        }
+    }
+
+)
+
+
+//join groups
+
+export const joinGroup = createAsyncThunk(
+    'community/joinGroup',
+    async (groupId, { rejectWithValue }) => {
+        try {
+            const response = await axios.put(`${host}/api/v1/groups/joingroup/${groupId}`, {},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('authtoken')}`,
+                    }
+                })
+            if (response.status === 201) {
+                console.log(response.data);
+                toast.success(response.data.mssg);
+                return response.data;
+            }
+            else {
+                console.log('error');
+                toast.error(response.data.message);
+                return rejectWithValue(response.data.message);
+            }
+
+        } catch (error) {
+            toast.error(error.response?.data?.message);
+            return rejectWithValue(error.response?.data?.message);
+        }
+    }
+)
+
+
+
+

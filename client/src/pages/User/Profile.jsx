@@ -170,7 +170,7 @@ const Profile = () => {
                 </div>
                 <div className="text-center mt-12">
                   <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 ">
-                    {ProfileUser?.username}
+                    {ProfileUser?.username} &nbsp; <i class="bi bi-patch-check"></i> <p className="text-xs">only show this tick if he pays</p>
                   </h3>
                         <div className="flex items-center justify-center gap-4">
                         <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">

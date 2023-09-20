@@ -53,6 +53,9 @@ const getGroups = async (req, res) => {
             name: group.groupname,
             description: group.description,
             groupAdmin: group.groupAdmin.username,
+            joinedMembers: [
+                group.members.map((member) => member._id)
+            ],
             members: [group.members.map((member) => member.username)],
             createdAt: group.createdAt,
             updatedAt: group.updatedAt,
@@ -79,6 +82,9 @@ const getGroupById = async (req, res) => {
             groupname: group.groupname,
             description: group.description,
             groupAdmin: group.groupAdmin.username,
+            joinedMembers: [
+                group.members.map((member) => member._id)
+            ],
             members: [group.members.map((member) => member.username)],
             createdAt: group.createdAt,
             updatedAt: group.updatedAt,
@@ -95,20 +101,6 @@ const getGroupById = async (req, res) => {
 
 
 
-//search groups
-const searchGroups = async (req, res) => {
-    try {
-        const { groupname } = req.query;
-        const groups = await Group.find({ groupname: { $regex: groupname, $options: 'i' } });
-        const total = groups.length
-
-        res.status(200).json({ groups: groups, msgs: "groups fetched successfully", qty: total });
-
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-        console.log(error);
-    }
-}
 
 const JoinGroup = async (req, res) => {
     const { groupId } = req.params;
@@ -289,6 +281,9 @@ const getGroupsJoinedByUser = async (req, res) => {
             name: group.groupname,
             description: group.description,
             groupAdmin: group.groupAdmin.username,
+            joinedMembers: [
+                group.members.map((member) => member._id)
+            ],
             members: [group.members.map((member) => member.username)],
             createdAt: group.createdAt,
             updatedAt: group.updatedAt,
@@ -300,6 +295,42 @@ const getGroupsJoinedByUser = async (req, res) => {
         console.log(error);
     }
 }
+
+
+//search groups
+const searchGroups = async (req, res) => {
+    try {
+        const { groupname } = req.query;
+        const groups = await Group.find({ groupname: { $regex: groupname, $options: 'i' } })
+            .populate('groupAdmin', 'username')
+            .populate('members', 'username')
+            .sort({ createdAt: -1 });
+
+        const total = groups.length
+
+        const formattedGroups = groups.map(group => ({
+            _id: group._id,
+            name: group.groupname,
+            description: group.description,
+            groupAdmin: group.groupAdmin.username,
+            joinedMembers: [
+                group.members.map((member) => member._id)
+            ],
+            members: [group.members.map((member) => member.username)],
+            createdAt: group.createdAt,
+            updatedAt: group.updatedAt,
+        })
+
+        )
+
+        res.status(200).json({ groups: formattedGroups, msgs: "groups fetched successfully", qty: total });
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+        console.log(error);
+    }
+}
+
 
 
 module.exports = {
