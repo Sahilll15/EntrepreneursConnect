@@ -71,13 +71,14 @@ const Home = () => {
           {products?.length === 0 ? (
             <PostCardSkeleton />
           ) : (
-            <div className="grid grid-cols-2 gap-4">
+            <>
+
               {products?.map((product) => (
                 <div key={product?._id}>
                   <PostCard product={product} comments={comments} />
                 </div>
               ))}
-            </div>
+            </>
           )}
         </div>
 
