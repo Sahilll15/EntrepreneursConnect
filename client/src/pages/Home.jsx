@@ -53,17 +53,15 @@ const Home = () => {
         <div className="flex">
           <div className="flex justify-left gap-4 mb-2">
             <p
-              className={`border border-gray-300 rounded-lg p-2 hover:cursor-pointer ${
-                activeTab === 'ForYou' ? 'text-black bg-blue-300' : ''
-              }`}
+              className={`border border-gray-300 rounded-lg p-2 hover:cursor-pointer ${activeTab === 'ForYou' ? 'text-black bg-blue-300' : ''
+                }`}
               onClick={() => handleTabClick('ForYou')}
             >
               For You
             </p>
             <p
-              className={`border border-gray-300 rounded-lg p-2 hover:cursor-pointer ${
-                activeTab === 'Following' ? 'text-black bg-blue-300' : ''
-              }`}
+              className={`border border-gray-300 rounded-lg p-2 hover:cursor-pointer ${activeTab === 'Following' ? 'text-black bg-blue-300' : ''
+                }`}
               onClick={() => handleTabClick('Following')}
             >
               Following

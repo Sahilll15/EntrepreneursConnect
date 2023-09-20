@@ -242,6 +242,8 @@ const getProductsByFollowing = async (req, res) => {
     }
 };
 
+
+
 module.exports = {
     createProduct,
     getProducts,
