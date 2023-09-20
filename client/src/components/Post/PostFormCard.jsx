@@ -26,7 +26,6 @@ export default function PostFormCard() {
     try {
       await dispatch(addPost({ content, media: image }))
       await dispatch(fetchPosts());
-      await dispatch(getLoggedInUser());
       await dispatch(getLeaderBoard());
       setContent('');
       setImage(null);
@@ -45,11 +44,11 @@ export default function PostFormCard() {
     setImage(selectedImage);
   };
 
-  useEffect(() => {
-    if (!user) {
-      dispatch(getLoggedInUser());
-    }
-  }, [dispatch, user])
+  // useEffect(() => {
+  //   if (!user) {
+  //     dispatch(getLoggedInUser());
+  //   }
+  // }, [dispatch, user])
 
   return (
     <Card noPadding={false}>

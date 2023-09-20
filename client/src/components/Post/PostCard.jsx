@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { likePost } from '../../redux/likes/likesActions';
 import { useDispatch, useSelector } from 'react-redux';
 import CommentsModal from './CommentsModal';
-import { getLeaderBoard, getLoggedInUser } from '../../redux/auth/authActions';
+import { getLeaderBoard } from '../../redux/auth/authActions';
 import { deletePost, fetchPosts } from '../../redux/posts/postActions';
 import { NavLink } from 'react-router-dom';
 import '../css/PostCard.css';
@@ -52,11 +52,6 @@ const PostCard = ({ product, comments }) => {
   };
 
   const commentsById = comments?.filter((comment) => comment?.postId === product?._id);
-
-  useEffect(() => {
-    dispatch(getLoggedInUser());
-  }, [dispatch]);
-
 
   const firstComment = commentsById?.length > 0 ? commentsById[0] : null;
 

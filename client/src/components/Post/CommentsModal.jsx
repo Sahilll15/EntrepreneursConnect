@@ -8,9 +8,9 @@ import { getcomment } from '../../redux/comments/commentActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { NavLink } from 'react-router-dom';
-import { getLoggedInUser } from '../../redux/auth/authActions'; 
+import { getLoggedInUser } from '../../redux/auth/authActions';
 
-const CommentsModal = ({ isOpen, onRequestClose, postId,comments }) => {
+const CommentsModal = ({ isOpen, onRequestClose, postId, comments }) => {
   const dispatch = useDispatch();
   const [newComment, setNewComment] = useState('');
 
@@ -18,9 +18,9 @@ const CommentsModal = ({ isOpen, onRequestClose, postId,comments }) => {
     setNewComment(e.target.value);
   };
 
-  const user=useSelector((state)=>state?.user?.user)
-  const commentLoading=useSelector((state)=>state?.comments?.commentLoading)
-  
+  const user = useSelector((state) => state?.user?.user)
+  const commentLoading = useSelector((state) => state?.comments?.commentLoading)
+
   const handlePostComment = async (e) => {
     e.preventDefault();
     await dispatch(addcomment({ postId, newComment }));
@@ -31,9 +31,9 @@ const CommentsModal = ({ isOpen, onRequestClose, postId,comments }) => {
 
   const commentsById = comments?.filter((comment) => comment?.postId === postId);
 
-  useEffect(() => {
-    dispatch(getLoggedInUser());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getLoggedInUser());
+  // }, [dispatch]);
 
   return (
     <Modal
@@ -60,8 +60,8 @@ const CommentsModal = ({ isOpen, onRequestClose, postId,comments }) => {
                 {/* add navlink */}
                 <NavLink to={`/profile/${user?._id}`} className='text-blue-600'>{user?.username} </NavLink>
                 write the first comment
-            </div>
-            
+              </div>
+
             )
           }
           {commentsById?.map((comment) => (
@@ -80,7 +80,7 @@ const CommentsModal = ({ isOpen, onRequestClose, postId,comments }) => {
             value={newComment}
             onChange={handleCommentChange}
             className="w-full p-2 border rounded focus:outline-none focus:ring focus:border-blue-300 transition duration-300 ease-in-out"
-            style={{ resize: 'none' }} 
+            style={{ resize: 'none' }}
           ></textarea>
           <div className="flex justify-end mt-2">
             <button
