@@ -20,10 +20,20 @@ console.log(PORT);
 
 app.use(express.json());
 
-// Define a CORS middleware to allow requests only from a specific origin
+
 const corsOptions = {
-    origin: 'https://entrepreneursconnect.vercel.app',
+    origin: ['https://entrepreneursconnect.vercel.app', 'http://localhost:4000'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    optionsSuccessStatus: 200,
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    maxAge: 3600,
+
+    error: (err) => {
+        return res.status(403).json({ error: 'CORS request is not allowed.' });
+    },
 };
 
 app.use(cors(corsOptions));
