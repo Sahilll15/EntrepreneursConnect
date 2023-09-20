@@ -15,13 +15,13 @@ const GroupDiscussion = () => {
   const group = useSelector((state) => state?.community?.communityById?.group);
   const discussions = useSelector((state) => state?.community?.discussions);
   const user = useSelector((state) => state?.user?.user);
+  let initialLoading = useSelector((state) => state?.user?.initialLoading)
   const [newTitle, setNewTitle] = useState('');
   const [newContent, setNewContent] = useState('');
   const discussionLoading = useSelector((state) => state?.community?.discussionLoading);
 
-
-
-
+  // State to control the initial loader visibility
+  const [showLoader, setShowLoader] = useState(true);
 
   const handleSubmit = async () => {
     await dispatch(createDiscussionCommunity({ newTitle, newContent, id }));
@@ -41,12 +41,22 @@ const GroupDiscussion = () => {
 
   useEffect(() => {
 
+    const loaderTimeout = setTimeout(() => {
+      setShowLoader(false);
+    }, 1000);
     dispatch(getCommunityById(id));
     dispatch(getCommunityDiscussion(id));
+    return () => clearTimeout(loaderTimeout);
+  }, [dispatch, id]);
 
-
-
-  }, [dispatch]);
+  if (showLoader) {
+    return (
+      <div className="flex flex-col justify-center items-center h-screen">
+        <div className="animate-spin rounded-full border-t-4 border-blue-500 border-opacity-25 h-20 w-20"></div>
+        <div>Discussion Loading....</div>
+      </div>
+    );
+  }
 
   if (!group?.joinedMembers[0]?.includes(user?._id)) {
     return (
@@ -60,8 +70,6 @@ const GroupDiscussion = () => {
       </div>
     );
   }
-
-
 
   return (
     <GroupDiscussionLayout>

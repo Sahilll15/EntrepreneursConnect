@@ -72,7 +72,6 @@ const Home = () => {
             <PostCardSkeleton />
           ) : (
             <>
-
               {products?.map((product) => (
                 <div key={product?._id}>
                   <PostCard product={product} comments={comments} />

@@ -241,5 +241,32 @@ export const joinGroup = createAsyncThunk(
 )
 
 
+export const leaveGroup = createAsyncThunk(
+    'community/leaveGroup',
+    async (groupId, { rejectWithValue }) => {
+        try {
+            const response = await axios.put(`${host}/api/v1/groups/leavegroup/${groupId}`, {},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('authtoken')}`,
+                    }
+                })
+            if (response.status === 201) {
+                console.log(response.data);
+                toast.success(response.data.mssg);
+                return response.data;
+            }
+            else {
+                console.log('error');
+                toast.error(response.data.message);
+                return rejectWithValue(response.data.message);
+            }
 
+        } catch (error) {
+            toast.error(error.response?.data?.message);
+            return rejectWithValue(error.response?.data?.message);
+        }
+    }
 
+)
