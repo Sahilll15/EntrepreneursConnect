@@ -22,7 +22,7 @@ app.use(express.json());
 
 
 const corsOptions = {
-    origin: ['https://entrepreneursconnect.vercel.app', 'http://localhost:4000'],
+    origin: ['https://entrepreneursconnect.vercel.app', 'http://localhost:3000'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     optionsSuccessStatus: 200,
     preflightContinue: false,
