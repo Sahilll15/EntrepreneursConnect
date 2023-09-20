@@ -1,18 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCommunity } from "../../redux/community/CommunityAcitions";
 import { getLoggedInUser } from "../../redux/auth/authActions";
 import { NavLink } from "react-router-dom";
+import { searchGroups } from "../../redux/community/CommunityAcitions";
+import { getGroupsJoined } from "../../redux/community/CommunityAcitions";
+import GroupCard from "./GroupCard";
 
 const RecentChat = () => {
   const dispatch = useDispatch();
   const groups = useSelector((state) => state?.community?.communities?.groups);
+  const groupsJoined = useSelector((state) => state?.community?.groupsJoined)
   const user = useSelector((state) => state.user.user);
+  const [searchText, setSearchText] = useState('')
+  const [activeTab, setActiveTab] = useState("ALLGROUPS");
+
+  const handleTabClick = (tabName) => {
+    setActiveTab(tabName);
+  };
+
+
+  const filteredGroups = activeTab === 'ALLGROUPS' ? groups : groupsJoined;
+
 
   useEffect(() => {
-    dispatch(getCommunity());
+    if (activeTab === 'ALLGROUPS') {
+      dispatch(getCommunity());
+    } else {
+      dispatch(getGroupsJoined());
+    }
     dispatch(getLoggedInUser());
-  }, [dispatch]);
+  }, [dispatch, activeTab]);
 
   const handleUpdateGroup = (groupId) => {
     console.log("Update Group:", groupId);
@@ -25,14 +43,24 @@ const RecentChat = () => {
   return (
     <div className="h-screen bg-gray-100">
 
+
+
+
       <div className="pt-2 relative mx-auto mt-2 text-gray-600">
         <input
           className="border-2 border-gray-300 w-full bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
           type="search"
           name="search"
+          value={searchText}
+          onChange={(e) => {
+            setSearchText(e.target.value)
+            dispatch(searchGroups(searchText))
+          }
+          }
           placeholder="Search"
         />
-        <button type="submit" className="absolute right-0 top-0 mt-5 mr-4">
+        <button type="submit" className="absolute right-0 top-0 mt-5 mr-4"
+        >
           <svg
             className="text-gray-600 h-4 w-4 fill-current"
             xmlns="http://www.w3.org/2000/svg"
@@ -52,29 +80,36 @@ const RecentChat = () => {
         </button>
       </div>
 
+      <div className="flex mt-4">
+        <div className="flex justify-around gap-4 mb-2 w-full">
+          <p
+            className={`border border-gray-300 w-full text-center rounded-lg p-2 hover:cursor-pointer ${activeTab === 'ALLGROUPS' ? 'text-black bg-blue-300' : ''}`}
+            onClick={() => handleTabClick('ALLGROUPS')}
+          >
+            All Groups
+          </p>
+          <p
+            className={`border border-gray-300  w-full text-center rounded-lg p-2 hover:cursor-pointer ${activeTab === 'JOINED' ? 'text-black bg-blue-300' : ''}`}
+            onClick={() => handleTabClick('JOINED')}
+          >
+            Joined
+          </p>
+        </div>
+      </div>
+
       <div className="p-4">
         <h3 className="text-xl font-semibold mb-4">
           Featuerd/Boosted groups (those who pade money){" "}
         </h3>
 
         <h1 className="text-xl font-semibold mb-4">your groups </h1>
-        {groups?.map((group) => (
-          <NavLink to={`/groupDiscussion/${group._id}`}>
-          <div
-            key={group._id}
-            className="bg-white rounded-lg shadow-md mb-4 p-4 hover:shadow-lg hover:border-4 hover:bg-gray-100 transition duration-300"
-          >
-            <h2 className="text-xl font-semibold text-gray-800">
-            <i class="fa-solid fa-user-group"></i> {group.name}
-              <p className="text-right">
-                <i class="fa-regular fa-star" />
-                <i class="fa-solid fa-star" style={{ color: "#d8c70e" }} />
-              </p>
-            </h2>
-            <p className="text-gray-600 mt-1">{group.groupAdmin}</p>
-          </div>
-        </NavLink>
+
+        {filteredGroups?.map((group) => (
+
+          <GroupCard group={group} />
+
         ))}
+
       </div>
       <h3 className="text-xl font-semibold mb-4">TOP 10 groups </h3>
     </div>

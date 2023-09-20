@@ -60,7 +60,7 @@ const PostCard = ({ product, comments }) => {
     <>
 
 
-      <div key={product._id} className="post-card bg-white rounded-lg shadow-md p-4 mb-4 border hover:focus" style={{ maxHeight: '600px' }}>
+      <div key={product._id} className="post-card bg-white rounded-lg shadow-md p-4 mb-4 border hover:focus" >
         <div className="relative">
           {isOptionsMenuOpen && (
             <div className="flex flex-col absolute right-0 top-0 mt-2 bg-white p-2 rounded shadow-md border border-solid-2">
@@ -86,28 +86,28 @@ const PostCard = ({ product, comments }) => {
           </NavLink>
 
           <div>
-          <NavLink to={`/profile/${product.author.id}`}>
-            <p className="text-lg font-semibold">{product.author.name}</p>
-          </NavLink>  
+            <NavLink to={`/profile/${product.author.id}`}>
+              <p className="text-lg font-semibold">{product.author.name}</p>
+            </NavLink>
             <p className="text-gray-600 text-sm">{formatDateTime(product.createdAt)}</p>
           </div>
         </div>
         <p className="text-xl font-semibold mb-4">{product.content}</p>
-<center>
-        {product?.media && (
-          // Check if the media URL ends with a common image or video file extension
-          /\.(jpg|jpeg|png|gif)$/i.test(product.media) ? (
-            // Render an image if it's an image URL
-            <img src={product.media} alt="Post media" className="w-96 rounded-lg mb-4" />
-          ) : (
-            // Render a video if it's a video URL
-            <video controls className="w-96 rounded-lg mb-4">
-              <source src={product.media} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          )
-        )}
-</center>
+        <center>
+          {product?.media && (
+            // Check if the media URL ends with a common image or video file extension
+            /\.(jpg|jpeg|png|gif)$/i.test(product.media) ? (
+              // Render an image if it's an image URL
+              <img src={product.media} alt="Post media" className="w-96 rounded-lg mb-4" />
+            ) : (
+              // Render a video if it's a video URL
+              <video controls className="w-96 rounded-lg mb-4">
+                <source src={product.media} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            )
+          )}
+        </center>
 
         <div className="flex justify-between text-gray-600 text-sm">
           <div>

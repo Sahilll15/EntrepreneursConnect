@@ -2,7 +2,7 @@ const Comment = require('../models/comments.models')
 const Post = require('../models/Product.models')
 const User = require('../models/user.models')
 const Like = require('../models/like.models')
-
+const { createNotification } = require('../controllers/Notification.controllers')
 
 const Addcomment = async (req, res) => {
     const { postId } = req.params;
@@ -25,6 +25,10 @@ const Addcomment = async (req, res) => {
             },
             comment: comment
         })
+
+        //create notification
+        await createNotification(req.user._id, post.author.id, 'comment', `${req.user.username} commented on your post ${comment}`);
+
         await post.comments.push(req.user._id);
         await post.save();
         await newComment.save();

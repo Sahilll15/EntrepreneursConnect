@@ -22,6 +22,8 @@ const getNotifications = async (req, res) => {
 
 
 
+
+
 const createNotification = async (senderId, receiverId, type, content) => {
     try {
         const senderUser = await User.findById(senderId);
@@ -58,8 +60,22 @@ const createNotification = async (senderId, receiverId, type, content) => {
 };
 
 
+const deleteAllNotification = async (req, res) => {
+    try {
+        const user = req.user._id;
+        await Notification.deleteMany({ receiver: user });
+        res.status(200).json({ message: 'success' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+        console.log(error);
+    }
+}
+
+
+
 
 module.exports = {
     getNotifications,
-    createNotification
+    createNotification,
+    deleteAllNotification
 }
