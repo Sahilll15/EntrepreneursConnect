@@ -1,20 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { likePost } from '../../redux/likes/likesActions';
-import { useDispatch, useSelector } from 'react-redux';
-import CommentsModal from './CommentsModal';
-import { getLeaderBoard } from '../../redux/auth/authActions';
-import { deletePost, fetchPosts } from '../../redux/posts/postActions';
-import { NavLink } from 'react-router-dom';
-import '../css/PostCard.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComment, faTimes, faThumbsUp, faShareSquare, faEllipsisV, FaThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useState } from "react";
+import { likePost } from "../../redux/likes/likesActions";
+import { useDispatch, useSelector } from "react-redux";
+import CommentsModal from "./CommentsModal";
+import { getLeaderBoard } from "../../redux/auth/authActions";
+import { deletePost, fetchPosts } from "../../redux/posts/postActions";
+import { NavLink } from "react-router-dom";
+import "../css/PostCard.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faComment,
+  faTimes,
+  faThumbsUp,
+  faShareSquare,
+  faEllipsisV,
+  FaThumbsUp,
+} from "@fortawesome/free-solid-svg-icons";
 
-
-const baseUrl = process.env.REACT_APP_API_HOST
+const baseUrl = process.env.REACT_APP_API_HOST;
 
 const PostCard = ({ product, comments }) => {
   const formatDateTime = (isoDateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+    };
     return new Date(isoDateString).toLocaleDateString(undefined, options);
   };
 
@@ -22,10 +34,8 @@ const PostCard = ({ product, comments }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isCommentsModalOpen, setIsCommentsModalOpen] = useState(false);
   const [isOptionsMenuOpen, setIsOptionsMenuOpen] = useState(false);
-  const [updatedContent, setUpdatedContent] = useState('');
+  const [updatedContent, setUpdatedContent] = useState("");
   const user = useSelector((state) => state?.user?.user);
-
-
 
   const handleDelete = async (id) => {
     await dispatch(deletePost(id));
@@ -51,28 +61,35 @@ const PostCard = ({ product, comments }) => {
     setIsOptionsMenuOpen(!isOptionsMenuOpen);
   };
 
-  const commentsById = comments?.filter((comment) => comment?.postId === product?._id);
+  const commentsById = comments?.filter(
+    (comment) => comment?.postId === product?._id
+  );
 
   const firstComment = commentsById?.length > 0 ? commentsById[0] : null;
 
   return (
-
     <>
+      <div
+        key={product._id}
+        className="post-card bg-white rounded-lg shadow-md p-4 mb-4 border hover:focus"
+      >
+        {/* {product?.author?.id === user?._id ? (
+              <center>
+              <p className='bg-green-400 text-lg border-3 border-black cursor-pointer hover:bg-green-300'>Boost Post</p>
+              </center>
+            ) : null} */}
 
-
-      <div key={product._id} className="post-card bg-white rounded-lg shadow-md p-4 mb-4 border hover:focus" >
         <div className="relative">
           {isOptionsMenuOpen && (
-            <div className="flex flex-col absolute right-0 top-0 mt-2 bg-white p-2 rounded shadow-md border border-solid-2">
-              <button
-                className="text-red-500 hover:text-red-700 mb-2"
-                onClick={() => {
-                  // Handle delete post here
-                  handleDelete(product._id);
-                }}
-              >
-                <FontAwesomeIcon icon={faTimes} /> Delete
+            <div className="flex flex-col absolute right-0 top-0 mt-2  p-2 rounded  ">
+              <button onClick={() => {
+                // Handle delete post here
+                handleDelete(product._id);
+              }}
+                type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">DELETE <i class="fa-solid fa-trash"></i>
               </button>
+
+
             </div>
           )}
         </div>
@@ -81,7 +98,8 @@ const PostCard = ({ product, comments }) => {
             <img
               src={product.author.avatar}
               alt={`${product.author.name}'s avatar`}
-              className={`w-8 h-8 rounded-full mr-3 border border-solid-4 ${isLiked ? 'avatar-animation' : ''}`}
+              className={`w-8 h-8 rounded-full mr-3 border border-solid-4 ${isLiked ? "avatar-animation" : ""
+                }`}
             />
           </NavLink>
 
@@ -89,7 +107,9 @@ const PostCard = ({ product, comments }) => {
             <NavLink to={`/profile/${product.author.id}`}>
               <p className="text-lg font-semibold">{product.author.name}</p>
             </NavLink>
-            <p className="text-gray-600 text-sm">{formatDateTime(product.createdAt)}</p>
+            <p className="text-gray-600 text-sm">
+              {formatDateTime(product.createdAt)}
+            </p>
           </div>
         </div>
         <p className="text-xl font-semibold mb-4">{product.content}</p>
@@ -102,22 +122,30 @@ const PostCard = ({ product, comments }) => {
                 <source src={product.media} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
-            )
-          )}
+            ))}
         </center>
 
         <div className="flex justify-between text-gray-600 text-sm">
           <div>
             <span className="mr-2 text-xl">
-              <FontAwesomeIcon icon={faThumbsUp} className={`text-${isLiked ? 'green' : 'blue'}-500`} /> {product.likes.length}
+              <FontAwesomeIcon
+                icon={faThumbsUp}
+                className={`text-${isLiked ? "green" : "blue"}-500`}
+              />{" "}
+              {product.likes.length}
             </span>
             <span className="text-xl">
-              <FontAwesomeIcon icon={faComment} className="text-gray-500 font-bold text-xl" /> {product.comments.length}
+              <FontAwesomeIcon
+                icon={faComment}
+                className="text-gray-500 font-bold text-xl"
+              />{" "}
+              {product.comments.length}
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <button
-              className={`text-${isLiked ? 'green' : 'blue'}-500 hover:text-${isLiked ? 'green' : 'blue'}-700`}
+              className={`text-${isLiked ? "green" : "blue"}-500 hover:text-${isLiked ? "green" : "blue"
+                }-700`}
               onClick={() => {
                 handleLike(product._id);
               }}
@@ -133,14 +161,28 @@ const PostCard = ({ product, comments }) => {
             <button className="text-gray-500 hover:text-gray-700">
               <FontAwesomeIcon icon={faShareSquare} /> Share
             </button>
+
             {product?.author?.id === user?._id ? (
-              <button className="text-gray-500 hover:text-gray-700" onClick={toggleOptionsMenu}>
+              // <p>this btn is to boost post</p>
+              <button
+                className="text-gray-500 hover:text-gray-700"
+                onClick={toggleOptionsMenu}
+              >
+                <i class="fa-solid fa-rocket"></i>
+              </button>
+            ) : null}
+
+            {product?.author?.id === user?._id ? (
+              <button
+                className="text-gray-500 hover:text-gray-700"
+                onClick={toggleOptionsMenu}
+              >
                 <FontAwesomeIcon icon={faEllipsisV} />
               </button>
             ) : null}
           </div>
         </div>
-        <hr className='my-4 ' />
+        <hr className="my-4 " />
         {firstComment ? (
           <div className="flex items-center mb-2">
             <NavLink to={`/profile/${firstComment.commentedBy.id}`}>
@@ -152,7 +194,9 @@ const PostCard = ({ product, comments }) => {
             </NavLink>
             <div className="flex-grow">
               <div className="bg-gray-100 rounded-lg p-3 shadow-md">
-                <p className="text-sm font-semibold text-gray-800">{firstComment.commentedBy.name}</p>
+                <p className="text-sm font-semibold text-gray-800">
+                  {firstComment.commentedBy.name}
+                </p>
                 <p className="text-gray-600 text-sm">{firstComment.comment}</p>
               </div>
             </div>
@@ -160,7 +204,6 @@ const PostCard = ({ product, comments }) => {
         ) : (
           <div className="text-gray-600 text-sm mb-2">No comments yet</div>
         )}
-
 
         <CommentsModal
           isOpen={isCommentsModalOpen}
