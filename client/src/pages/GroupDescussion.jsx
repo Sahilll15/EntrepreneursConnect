@@ -108,9 +108,9 @@ const GroupDiscussion = () => {
             </p>
           </div>
           <div className="absolute top-3 right-2">
-            <button onClick={openModal}>
-              <p className="text-xl hover:text-black text-gray-500"><i className="fa-solid fa-gear"></i></p>
-            </button>
+            <div onClick={openModal}>
+              <p className="text-xl hover:text-black cursor-pointer text-gray-500"><i className="fa-solid fa-gear"></i></p>
+            </div>
           </div>
         </div>
         <p className="text-lg">{group?.description}</p>
@@ -120,7 +120,7 @@ const GroupDiscussion = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg shadow-lg">
 
-            <button onClick={closeModal}>Close</button>
+            <div className="text-2xl cursor-pointer text-right" onClick={closeModal}><i class="fa-regular fa-rectangle-xmark"></i></div>
 
             {/* Add your modal content here */}
             <Setting/>

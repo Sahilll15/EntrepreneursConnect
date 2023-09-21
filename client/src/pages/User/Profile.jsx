@@ -9,20 +9,19 @@ import { FollowUnfollow } from "../../redux/auth/authActions";
 import { getcomment } from "../../redux/comments/commentActions";
 import BackToTopButton from "../../utils/BackToTop";
 
-
-
 const Profile = () => {
   const dispatch = useDispatch();
   const ProfileUser = useSelector((state) => state?.user?.profileUser);
-  const user=useSelector((state)=>state.user?.user)
-  const postByUserID=useSelector((state)=>state.posts.postsByUser.products)
+  const user = useSelector((state) => state.user?.user);
+  const postByUserID = useSelector((state) => state.posts.postsByUser.products);
   const { id } = useParams();
-  const loggedInUser=user?._id;
-  const followunfollowLoading=useSelector((state)=>state?.user?.followunfollowLoading)
-  const [badge,setBadge]=useState(ProfileUser?.badges)
-  const [hoverBadge,setHoverBadge]=useState(false);
+  const loggedInUser = user?._id;
+  const followunfollowLoading = useSelector(
+    (state) => state?.user?.followunfollowLoading
+  );
+  const [badge, setBadge] = useState(ProfileUser?.badges);
+  const [hoverBadge, setHoverBadge] = useState(false);
   const comments = useSelector((state) => state?.comments?.comments);
-
 
   const handleMouseEnter = () => {
     setHoverBadge(true);
@@ -32,23 +31,21 @@ const Profile = () => {
     setHoverBadge(false);
   };
 
-  const followunfollow = async() => {
-   await dispatch(FollowUnfollow(id));
-   await dispatch(getProfile(id));
-   await dispatch(getLoggedInUser());
+  const followunfollow = async () => {
+    await dispatch(FollowUnfollow(id));
+    await dispatch(getProfile(id));
+    await dispatch(getLoggedInUser());
+  };
 
-  }
-
-  useEffect(()=>{
-    dispatch(getProfile(id))
-    dispatch(fetchpostByUserID(id))
-    dispatch(getcomment())
-  },[dispatch])
+  useEffect(() => {
+    dispatch(getProfile(id));
+    dispatch(fetchpostByUserID(id));
+    dispatch(getcomment());
+  }, [dispatch]);
 
   return (
-   
     <div>
-         <Navbar/>
+      <Navbar />
       <main className="profile-page">
         <section className="relative block h-500-px">
           <div
@@ -87,11 +84,11 @@ const Profile = () => {
           <div className="container mx-auto px-4">
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
               <div className="px-6">
-              <div className="flex flex-wrap justify-center">
-    <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
-    <div className="flex flex-col items-center"> 
-          <div className="flex-shrink-0">
-          <img
+                <div className="flex flex-wrap justify-center">
+                  <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
+                    <div className="flex flex-col items-center">
+                      <div className="flex-shrink-0">
+                        <img
                           alt={ProfileUser?.badges}
                           src={ProfileUser?.avatar?.url}
                           className={`shadow-xl rounded-full h-auto align-middle absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px border-4 ${
@@ -100,45 +97,46 @@ const Profile = () => {
                               : "border-none"
                           } hover:border-8 hover:border-red-600`}
                           onMouseEnter={handleMouseEnter}
-                          onMouseLeave={handleMouseLeave} 
+                          onMouseLeave={handleMouseLeave}
                         />
-          </div>
-          <div className="mt-4">
-          <p className="text-xl font-semibold leading-normal mb-2 text-blueGray-700 ">
-              {
-                hoverBadge ? badge : null
-              }
-          </p>
-            </div>
-        </div>
-    </div>
-                  
-                  <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
-    {loggedInUser !== ProfileUser?._id && (
-      <div className="py-6 px-3 mt-32 sm:mt-0">
-        <button
-          onClick={followunfollow}
-          className={`${
-            ProfileUser?.followers?.includes(loggedInUser)
-              ? "bg-red-500 active:bg-red-600"
-              : "bg-blue-500 active:bg-blue-600"
-          } uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150`}
-          type="button"
-        >
-          {followunfollowLoading ? "Loading..." : (ProfileUser?.followers?.includes(loggedInUser) ? "Unfollow" : "Follow")}
-        </button>
-      </div>
-    )}
-  </div>
+                      </div>
+                      <div className="mt-4">
+                        <p className="text-xl font-semibold leading-normal mb-2 text-blueGray-700 ">
+                          {hoverBadge ? badge : null}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
 
+                  <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
+                    {loggedInUser !== ProfileUser?._id && (
+                      <div className="py-6 px-3 mt-32 sm:mt-0">
+                        <button
+                          onClick={followunfollow}
+                          className={`${
+                            ProfileUser?.followers?.includes(loggedInUser)
+                              ? "bg-red-500 active:bg-red-600"
+                              : "bg-blue-500 active:bg-blue-600"
+                          } uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150`}
+                          type="button"
+                        >
+                          {followunfollowLoading
+                            ? "Loading..."
+                            : ProfileUser?.followers?.includes(loggedInUser)
+                            ? "Unfollow"
+                            : "Follow"}
+                        </button>
+                      </div>
+                    )}
+                  </div>
 
                   <div className="w-full lg:w-4/12 px-4 lg:order-1">
                     <div className="flex justify-center py-4 lg:pt-4 pt-8">
                       <div className="mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          {ProfileUser?.followers ?
-                          ProfileUser?.followers.length : 0
-                        } 
+                          {ProfileUser?.followers
+                            ? ProfileUser?.followers.length
+                            : 0}
                         </span>
                         <span className="text-sm text-blueGray-400">
                           Followers
@@ -146,9 +144,9 @@ const Profile = () => {
                       </div>
                       <div className="mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                        {ProfileUser?.following ?
-                          ProfileUser?.following.length : 0
-                        }
+                          {ProfileUser?.following
+                            ? ProfileUser?.following.length
+                            : 0}
                         </span>
                         <span className="text-sm text-blueGray-400">
                           Following
@@ -156,13 +154,12 @@ const Profile = () => {
                       </div>
                       <div className="lg:mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                        {ProfileUser?.productsShowcased ?
-                          ProfileUser?.productsShowcased?.length : 0
-                        }
-
+                          {ProfileUser?.productsShowcased
+                            ? ProfileUser?.productsShowcased?.length
+                            : 0}
                         </span>
                         <span className="text-sm text-blueGray-400">
-                          Products  
+                          Products
                         </span>
                       </div>
                     </div>
@@ -170,19 +167,21 @@ const Profile = () => {
                 </div>
                 <div className="text-center mt-12">
                   <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 ">
-                    {ProfileUser?.username} &nbsp; <i class="bi bi-patch-check"></i> <p className="text-xs">only show this tick if he pays</p>
+                    {ProfileUser?.username} &nbsp;{" "}
+                    <i class="bi bi-patch-check"></i>{" "}
+                    <p className="text-xs">only show this tick if he pays</p>
                   </h3>
-                        <div className="flex items-center justify-center gap-4">
-                        <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-        <i className="fas fa-star text-yellow-400"></i> {ProfileUser?.badges[0] || "No badges yet"}
-      </div>
-                  <div className="mb-2 text-blueGray-600">
-                  <i className="fas fa-coins text-yellow-400"></i>
-                    {ProfileUser?.points || 0}
+                  <div className="flex items-center justify-center gap-4">
+                    <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+                      <i className="fas fa-star text-yellow-400"></i>{" "}
+                      {ProfileUser?.badges[0] || "No badges yet"}
+                    </div>
+                    <div className="mb-2 text-blueGray-600">
+                      <i className="fas fa-coins text-yellow-400"></i>
+                      {ProfileUser?.points || 0}
+                    </div>
                   </div>
 
-                        </div>
-                 
                   {/* <div>
                   <p><i className="fa-solid fa-medal" style={{color: "#D4Af37",}} />8 
                   &nbsp; <i className="fa-solid fa-medal" style={{color: "#BBC2CC",}} />6  
@@ -193,9 +192,8 @@ const Profile = () => {
                   <div className="flex flex-wrap justify-center">
                     <div className="w-full lg:w-9/12 px-4">
                       <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
-                      {ProfileUser?.bio}
+                        {ProfileUser?.bio}
                       </p>
-                  
                     </div>
                   </div>
                 </div>
@@ -203,30 +201,37 @@ const Profile = () => {
             </div>
           </div>
           <div className="mx-auto">
-  <h1 className="text-2xl font-semibold text-blueGray-700 mb-4 text-center">Posts</h1>
-
-  <div className="flex flex-col items-center h-screen">
-    {postByUserID?.length === 0 ? (
-      <div className="flex justify-center w-full">
-        <div className="flex flex-col items-center justify-center">
-          <i className="far fa-folder-open text-6xl text-blueGray-300"></i>
-          <h1 className="text-2xl text-blueGray-300">No posts yet</h1>
-        </div>
-      </div>
-    ) : (
-      postByUserID?.map((product) => (
-        <div className="w-2/3" key={product._id}>
-          <PostCard product={product} comments={comments} key={product?._id} />
-        </div>
-      ))
-    )}
-  </div>
-</div>
+            <h1 className="text-2xl font-semibold text-blueGray-700 mb-4 text-center">
+              Posts 
+            </h1>
+                  
+          
+            <div className="flex flex-col items-center h-screen">
+              {postByUserID?.length === 0 ? (
+                <div className="flex justify-center w-full">
+                  <div className="flex flex-col items-center justify-center">
+                    <i className="far fa-folder-open text-6xl text-blueGray-300"></i>
+                    <h1 className="text-2xl text-blueGray-300">No posts yet</h1>
+                  </div>
+                </div>
+              ) : (
+                postByUserID?.map((product) => (
+                  <div className="w-2/3" key={product._id}>
+                    <PostCard
+                      product={product}
+                      comments={comments}
+                      key={product?._id}
+                    />
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
         </section>
       </main>
 
-        <BackToTopButton />
- </div>
+      <BackToTopButton />
+    </div>
   );
 };
 
