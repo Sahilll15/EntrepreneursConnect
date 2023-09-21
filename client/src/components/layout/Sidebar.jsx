@@ -213,16 +213,17 @@ export const SideBar = () => {
 
       <div className="MobileBtm">
         {/* component */}
-        <div className="w-full ">
+        <div className="w-full  ">
           {/* <section id="bottom-navigation" class="md:hidden block fixed inset-x-0 bottom-0 z-10 bg-white shadow"> // if shown only tablet/mobile*/}
           <section
             id="bottom-navigation"
             className="block fixed inset-x-0 bottom-0 z-10 bg-white shadow"
           >
-            <div id="tabs" className="flex justify-between">
-              <a
-                href="#"
-                className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
+            <div id="tabs" className="flex justify-between mx-5">
+            <NavLink to={'/'}>
+              <div
+                
+                className="w-full focus:text-teal-500 hover:text-teal-500  justify-center inline-block text-center pt-2 pb-1"
               >
                 <svg
                   width={25}
@@ -273,7 +274,10 @@ export const SideBar = () => {
                   </g>
                 </svg>
                 <span className="tab tab-home block text-xs">Home</span>
-              </a>
+              </div>
+              </NavLink>
+
+              <NavLink to={'/chat'}>
               <a
                 href="#"
                 className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
@@ -328,6 +332,9 @@ export const SideBar = () => {
                 </svg>
                 <span className="tab tab-kategori block text-xs">My Group</span>
               </a>
+              </NavLink>
+
+              <NavLink to={'/userstatistics'}>
               <a
                 href="#"
                 className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
@@ -363,8 +370,13 @@ export const SideBar = () => {
                     />
                   </g>
                 </svg>
-                <span className="tab tab-explore block text-xs">Post</span>
+                <span className="tab tab-explore block text-xs">Statistics</span>
               </a>
+              </NavLink>
+
+           
+
+              <NavLink to={'/notification'}>
               <a
                 href="#"
                 className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
@@ -418,9 +430,12 @@ export const SideBar = () => {
                   </g>
                 </svg>
                 <span className="tab tab-whishlist block text-xs">
-                  Profile
+                Notification
                 </span>
               </a>
+              </NavLink>
+
+              <NavLink to={`/profile/${user?._id}`} >
               <a
                 href="#"
                 className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
@@ -475,6 +490,8 @@ export const SideBar = () => {
                 </svg>
                 <span className="tab tab-account block text-xs">Profile</span>
               </a>
+              </NavLink>
+              
             </div>
           </section>
         </div>
