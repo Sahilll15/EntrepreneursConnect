@@ -41,11 +41,7 @@ const RecentChat = () => {
   };
 
   return (
-    <div className="h-screen bg-gray-100">
-
-
-
-
+    <div className="h-screen">
       <div className="pt-2 relative mx-auto mt-2 text-gray-600">
         <input
           className="border-2 border-gray-300 w-full bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
@@ -111,7 +107,6 @@ const RecentChat = () => {
         ))}
 
       </div>
-      <h3 className="text-xl font-semibold mb-4">TOP 10 groups </h3>
     </div>
   );
 };
