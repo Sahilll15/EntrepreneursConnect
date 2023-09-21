@@ -95,12 +95,9 @@ const PostCard = ({ product, comments }) => {
         <p className="text-xl font-semibold mb-4">{product.content}</p>
         <center>
           {product?.media && (
-            // Check if the media URL ends with a common image or video file extension
             /\.(jpg|jpeg|png|gif)$/i.test(product.media) ? (
-              // Render an image if it's an image URL
               <img src={product.media} alt="Post media" className="w-96 rounded-lg mb-4" />
             ) : (
-              // Render a video if it's a video URL
               <video controls className="w-96 rounded-lg mb-4">
                 <source src={product.media} type="video/mp4" />
                 Your browser does not support the video tag.
@@ -125,7 +122,7 @@ const PostCard = ({ product, comments }) => {
                 handleLike(product._id);
               }}
             >
-              <FontAwesomeIcon icon={isLiked ? faThumbsUp : faThumbsUp} /> Like
+              <FontAwesomeIcon icon={isLiked ? faThumbsUp : faThumbsUp} /> Liked
             </button>
             <button
               className="text-gray-500 hover:text-gray-700"
