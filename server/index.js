@@ -32,6 +32,7 @@ const corsOptions = {
     maxAge: 3600,
 
     error: (err) => {
+        console.log(err)
         return res.status(403).json({ error: 'CORS request is not allowed.' });
     },
 };
