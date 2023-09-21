@@ -5,6 +5,8 @@ import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux"
 import { registerUser } from '../../redux/auth/authActions';
 import { useSelector } from "react-redux";
+import LOGO from '../../components/LOGO/Logo.png'
+
 const Register = () => {
 
 
@@ -114,7 +116,10 @@ const registerLoading= useSelector((state)=>state?.user?.loading)
           </div>
           <div className="w-full py-6 z-20">
             <h1 className="my-6">
-              <h1>Entrepreneurs Connect Logo</h1>
+              <center>
+                <img src={LOGO} alt="Logo Here" style={{width:'50%'}} />
+              </center>
+
             </h1>
             <div className="py-6 space-x-2">
               <span className="w-10 h-10 items-center justify-center inline-flex rounded-full font-bold text-lg border-2 border-white">

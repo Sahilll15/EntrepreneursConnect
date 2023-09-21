@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../redux/auth/authActions';
 import { fetchPosts } from '../../redux/posts/postActions';
+import LOGO from '../../components/LOGO/Logo.png'
 
 const Login = () => {
   const navigate = useNavigate();
@@ -126,7 +127,9 @@ const Login = () => {
           </div>
           <div className="w-full py-6 z-20">
             <h1 className="my-6">
-              <h1>Entrepreneurs Connect Logo</h1>
+              <center>
+              <img src={LOGO} alt="Logo Here" style={{width: '50%'}} />
+              </center>
             </h1>
             <br />
             <p className="text-gray-100"> Lets Connect Your Social Account </p>
