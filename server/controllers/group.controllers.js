@@ -212,11 +212,8 @@ const getDiscussions = async (req, res) => {
     const { groupId } = req.params;
     try {
         const discussions = await GroupDiscussion.find({ groupId }).populate('author', 'username avatar').sort({ createdAt: -1 })
-        if (!discussions || discussions.length === 0) {
-            return res.status(400).json({ msg: "No discussions found" });
-        }
 
-        const formattedData = discussions.map(discussion => ({
+        const formattedData = discussions?.map(discussion => ({
             _id: discussion._id,
             title: discussion.title,
             content: discussion.content,

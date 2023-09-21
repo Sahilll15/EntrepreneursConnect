@@ -74,6 +74,8 @@ const GroupDiscussion = () => {
     );
   }
 
+
+
   return (
     <GroupDiscussionLayout>
       <div className='bg-gray-200 w-full'>
@@ -98,6 +100,12 @@ const GroupDiscussion = () => {
 
           <div className='flex-1 overflow-y-auto'>
             <div className='mb-4 '>
+              {
+                discussions.length === 0 ? (
+                  <div className='text-center text-2xl font-semibold'>No Discussions Yet</div>
+                ) : null
+              }
+
               {discussions.map((conversation, index) => (
                 <div key={index} className='mb-2 bg-gray-100 rounded-lg p-4'>
                   <div className='flex'>
