@@ -7,7 +7,8 @@ const initialState = {
     postLoading: false,
     error: "",
     success: false,
-    post: null
+    post: null,
+    postByFollowing: []
 }
 
 
@@ -82,7 +83,7 @@ export const postSlice = createSlice({
         ).addCase(fetchProductsByFollowing.fulfilled, (state, action) => {
             state.loading = false;
             state.success = true;
-            state.posts = action.payload;
+            state.postByFollowing = action.payload;
         }
         ).addCase(fetchProductsByFollowing.rejected, (state, action) => {
             state.loading = false;

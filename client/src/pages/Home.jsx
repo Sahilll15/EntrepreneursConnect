@@ -15,6 +15,7 @@ const Home = () => {
   const [activeTab, setActiveTab] = useState('ForYou');
 
   const products = useSelector((state) => state?.posts?.posts?.products);
+  const productsByFollowing = useSelector((state) => state?.posts?.postByFollowing?.products)
   const comments = useSelector((state) => state?.comments?.comments);
   const initialLoading = useSelector((state) => state?.user?.initialLoading);
 
@@ -35,6 +36,12 @@ const Home = () => {
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
   };
+
+
+  const filteredPost = activeTab === 'ForYou' ? products : productsByFollowing
+
+
+
 
   if (!initialLoading) {
     return (
@@ -72,7 +79,7 @@ const Home = () => {
             <PostCardSkeleton />
           ) : (
             <>
-              {products?.map((product) => (
+              {filteredPost?.map((product) => (
                 <div key={product?._id}>
                   <PostCard product={product} comments={comments} />
                 </div>
