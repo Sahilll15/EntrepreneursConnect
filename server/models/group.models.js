@@ -40,10 +40,6 @@ const discussionSchema = new mongoose.Schema({
         ref: 'Group',
         required: true,
     },
-    title: {
-        type: String,
-        required: true,
-    },
     content: {
         type: String,
         required: true,
