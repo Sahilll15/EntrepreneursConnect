@@ -99,11 +99,10 @@ export const getCommunityById = createAsyncThunk(
 
 export const createDiscussionCommunity = createAsyncThunk(
     'community/createDiscussion',
-    async ({ newTitle, newContent, id }, { rejectWithValue }) => {
+    async ({ newContent, id }, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${host}/api/v1/groups/creatediscussion/${id}`,
                 {
-                    title: newTitle,
                     content: newContent,
                 }
                 , {

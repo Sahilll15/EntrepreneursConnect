@@ -24,8 +24,9 @@ const GroupDiscussion = () => {
   const [showLoader, setShowLoader] = useState(true);
 
   const handleSubmit = async () => {
-    await dispatch(createDiscussionCommunity({ newTitle, newContent, id }));
+    await dispatch(createDiscussionCommunity({ newContent, id }));
     await dispatch(getCommunityDiscussion(id));
+    setNewContent('')
   };
 
   const formatDateTime = (isoDateString) => {
@@ -131,8 +132,10 @@ const GroupDiscussion = () => {
                   <path fill="#fff" d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"></path>
                 </svg>
               </div>
-              <span class="ml-1 text-white transition-all duration-300 group-hover:text-transparent">Send</span>
-              {discussionLoading ? '' : ''}
+              <span class="ml-1 text-white transition-all duration-300 group-hover:text-transparent">
+                Send
+              </span>
+
             </button>
 
 

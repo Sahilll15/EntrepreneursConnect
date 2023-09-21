@@ -175,15 +175,15 @@ const deleteGroup = async (req, res) => {
 
 const createDiscussion = async (req, res) => {
     const { groupId } = req.params;
-    const { title, content } = req.body;
+    const { content } = req.body;
     try {
         const GroupExist = await Group.findById(groupId);
         if (!GroupExist) {
             return res.status(400).json({ msg: "Group does not exist" })
         }
         const user = req.user._id;
-        if (!title || !content) {
-            return res.status(400).json({ msg: "All fields are required" })
+        if (!content) {
+            return res.status(400).json({ msg: "content is  required" })
         }
 
         if (!GroupExist.members.includes(user)) {
@@ -192,7 +192,6 @@ const createDiscussion = async (req, res) => {
 
         const newDiscussion = await GroupDiscussion.create({
             groupId,
-            title,
             content,
             author: user
         }
