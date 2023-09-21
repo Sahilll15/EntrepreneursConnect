@@ -81,7 +81,7 @@ export const communitySlice = createSlice({
             )
             .addCase(getCommunityDiscussion.fulfilled, (state, action) => {
                 state.loading = false;
-                state.discussions = action.payload.discussions;
+                state.discussions = action.payload.discussions || [];
             }
             )
             .addCase(getCommunityDiscussion.rejected, (state, action) => {

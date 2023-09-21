@@ -83,13 +83,13 @@ const PostCard = ({ product, comments }) => {
           {isOptionsMenuOpen && (
             <div className="flex flex-col absolute right-0 top-0 mt-2  p-2 rounded  ">
               <button onClick={() => {
-                  // Handle delete post here
-                  handleDelete(product._id);
-                }}
-                 type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">DELETE <i class="fa-solid fa-trash"></i>
-            </button>
+                // Handle delete post here
+                handleDelete(product._id);
+              }}
+                type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">DELETE <i class="fa-solid fa-trash"></i>
+              </button>
 
-              
+
             </div>
           )}
         </div>
@@ -98,9 +98,8 @@ const PostCard = ({ product, comments }) => {
             <img
               src={product.author.avatar}
               alt={`${product.author.name}'s avatar`}
-              className={`w-8 h-8 rounded-full mr-3 border border-solid-4 ${
-                isLiked ? "avatar-animation" : ""
-              }`}
+              className={`w-8 h-8 rounded-full mr-3 border border-solid-4 ${isLiked ? "avatar-animation" : ""
+                }`}
             />
           </NavLink>
 
@@ -115,17 +114,10 @@ const PostCard = ({ product, comments }) => {
         </div>
         <p className="text-xl font-semibold mb-4">{product.content}</p>
         <center>
-          {product?.media &&
-            // Check if the media URL ends with a common image or video file extension
-            (/\.(jpg|jpeg|png|gif)$/i.test(product.media) ? (
-              // Render an image if it's an image URL
-              <img
-                src={product.media}
-                alt="Post media"
-                className="w-96 rounded-lg mb-4"
-              />
+          {product?.media && (
+            /\.(jpg|jpeg|png|gif)$/i.test(product.media) ? (
+              <img src={product.media} alt="Post media" className="w-96 rounded-lg mb-4" />
             ) : (
-              // Render a video if it's a video URL
               <video controls className="w-96 rounded-lg mb-4">
                 <source src={product.media} type="video/mp4" />
                 Your browser does not support the video tag.
@@ -152,14 +144,13 @@ const PostCard = ({ product, comments }) => {
           </div>
           <div className="flex items-center space-x-2">
             <button
-              className={`text-${isLiked ? "green" : "blue"}-500 hover:text-${
-                isLiked ? "green" : "blue"
-              }-700`}
+              className={`text-${isLiked ? "green" : "blue"}-500 hover:text-${isLiked ? "green" : "blue"
+                }-700`}
               onClick={() => {
                 handleLike(product._id);
               }}
             >
-              <FontAwesomeIcon icon={isLiked ? faThumbsUp : faThumbsUp} /> Like
+              <FontAwesomeIcon icon={isLiked ? faThumbsUp : faThumbsUp} /> Liked
             </button>
             <button
               className="text-gray-500 hover:text-gray-700"

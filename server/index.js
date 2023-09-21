@@ -21,23 +21,23 @@ console.log(PORT);
 app.use(express.json());
 
 
-const corsOptions = {
-    origin: ['https://entrepreneursconnect.vercel.app', 'http://localhost:3000'],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    optionsSuccessStatus: 200,
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
-    credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    maxAge: 3600,
+// const corsOptions = {
+//     origin: ['https://entrepreneursconnect.vercel.app', 'http://localhost:3000'],
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//     optionsSuccessStatus: 200,
+//     preflightContinue: false,
+//     optionsSuccessStatus: 204,
+//     credentials: true,
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+//     maxAge: 3600,
 
-    error: (err) => {
-        console.log(err)
-        return res.status(403).json({ error: 'CORS request is not allowed.' });
-    },
-};
+//     error: (err) => {
+//         console.log(err)
+//         return res.status(403).json({ error: 'CORS request is not allowed.' });
+//     },
+// };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 Server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
