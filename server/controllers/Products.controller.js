@@ -61,19 +61,25 @@ const createProduct = async (req, res) => {
                     product.media = data.Location;
                 }
 
+                // Save the product here after potentially setting the media property
                 await product.save();
+
+                // Rest of your code for updating user and other actions
                 console.log('Adding points....');
                 user.points += 10;
                 console.log('Added points....');
                 console.log(user.points);
                 await badges(user);
+                user.productsShowcased.push(product._id);
                 await user.save();
+
                 res.status(201).json({ product, user, msg: "New product created" });
             });
-
         } else {
+            // If there is no file, save the product without the media property
             await product.save();
 
+            // Rest of your code for updating user and other actions
             console.log('Adding points....');
             user.points += 10;
             console.log('Added points....');
@@ -123,7 +129,6 @@ const deleteProduct = async (req, res) => {
 
         const deletedProduct = await Product.findByIdAndDelete(id);
         existingUser.points -= 10;
-        existingUser.productsShowcased.pull(id);
         await existingUser.save();
 
         res.status(200).json({ msg: "Product deleted successfully", product: deletedProduct });
