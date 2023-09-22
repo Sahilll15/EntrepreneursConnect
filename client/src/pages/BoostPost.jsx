@@ -4,8 +4,6 @@ const BoostPage = () => {
   return (
 
     <BoostPageLayout >
-
-
       <div className="bg-white mt-1" >
         <section className="" >
           <div className="container px-6 py-8 mx-auto">

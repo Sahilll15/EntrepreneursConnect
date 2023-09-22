@@ -11,14 +11,14 @@ const Comment = ({ comment }) => {
         <NavLink to={`/profile/${comment?.commentedBy?._id}`}>
           <img
             src={comment?.commentedBy?.avatar?.url}
-            alt={`${comment?.commentedBy?.name}'s avatar`}
+            alt={`${comment?.commentedBy?.username}'s avatar`}
             className="w-14 h-14 rounded-full border border-gray-700"
           />
         </NavLink>
       </div>
       <div className="flex-grow">
         <div className="bg-gray-100 rounded-lg p-3 shadow-md">
-          <p className="text-sm font-semibold text-gray-800">{comment?.commentedBy?.name}</p>
+          <p className="text-sm font-semibold text-gray-800">{comment?.commentedBy?.username}</p>
           <p className="text-gray-600 text-sm">{comment?.comment}</p>
           <p className="text-gray-400 text-xs">{formattedDate}</p>
         </div>

@@ -92,8 +92,8 @@ const Profile = () => {
                           alt={ProfileUser?.badges}
                           src={ProfileUser?.avatar?.url}
                           className={`shadow-xl rounded-full h-auto align-middle absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px border-4 ${ProfileUser?.badges[0] === "Expert"
-                              ? "border-red-600"
-                              : "border-none"
+                            ? "border-red-600"
+                            : "border-none"
                             } hover:border-8 hover:border-red-600`}
                           onMouseEnter={handleMouseEnter}
                           onMouseLeave={handleMouseLeave}
@@ -113,8 +113,8 @@ const Profile = () => {
                         <button
                           onClick={followunfollow}
                           className={`${ProfileUser?.followers?.includes(loggedInUser)
-                              ? "bg-red-500 active:bg-red-600"
-                              : "bg-blue-500 active:bg-blue-600"
+                            ? "bg-red-500 active:bg-red-600"
+                            : "bg-blue-500 active:bg-blue-600"
                             } uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150`}
                           type="button"
                         >
