@@ -21,7 +21,7 @@ const createProduct = async (req, res) => {
     try {
         const author = req.user._id;
         console.log(author);
-        const user = await User.findById(author);
+        const user = await User.findById(author)
 
         if (!user) {
             return res.status(400).json({ msg: "User not found" });
@@ -33,12 +33,10 @@ const createProduct = async (req, res) => {
 
         const product = new Product({
             content,
-            author: {
-                id: author,
-                name: req.user.username,
-                avatar: req.user.avatar.url,
-            },
+            author: author
         });
+
+
 
         if (req.file) {
             const file = req.file;
@@ -50,6 +48,7 @@ const createProduct = async (req, res) => {
                 Body: file.buffer,
                 ContentType: file.mimetype,
             };
+
 
             await s3.upload(params, async (error, data) => {
                 if (error) {

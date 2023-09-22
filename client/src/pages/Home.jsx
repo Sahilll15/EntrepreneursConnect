@@ -54,42 +54,46 @@ const Home = () => {
 
   return (
     <>
-      <MainLayout>
-        <PostFormCard />
-        {/* Filters */}
-        <div className="flex my-5">
-          <div className="flex justify-around gap-4 mb-2 w-full">
-            <p
-              className={`border border-gray-300 w-full text-center rounded-lg p-2 hover:cursor-pointer ${activeTab === 'ForYou' ? 'text-black bg-blue-300' : ''}`}
-              onClick={() => handleTabClick('ForYou')}
-            >
-              For You
-            </p>
-            <p
-              className={`border border-gray-300  w-full text-center rounded-lg p-2 hover:cursor-pointer ${activeTab === 'Following' ? 'text-black bg-blue-300' : ''}`}
-              onClick={() => handleTabClick('Following')}
-            >
-              Following
-            </p>
+      <MainLayout >
+        <div className='p-2'>
+
+
+          <PostFormCard />
+          {/* Filters */}
+          <div className="flex my-5">
+            <div className="flex justify-around gap-4 mb-2 w-full">
+              <p
+                className={`border border-gray-300 w-full text-center rounded-lg p-2 hover:cursor-pointer ${activeTab === 'ForYou' ? 'text-black bg-blue-300' : ''}`}
+                onClick={() => handleTabClick('ForYou')}
+              >
+                For You
+              </p>
+              <p
+                className={`border border-gray-300  w-full text-center rounded-lg p-2 hover:cursor-pointer ${activeTab === 'Following' ? 'text-black bg-blue-300' : ''}`}
+                onClick={() => handleTabClick('Following')}
+              >
+                Following
+              </p>
+            </div>
           </div>
-        </div>
 
-        <div>
-          {products?.length === 0 ? (
-            <PostCardSkeleton />
-          ) : (
-            <>
-              {filteredPost?.map((product) => (
-                <div key={product?._id}>
-                  <PostCard product={product} comments={comments} />
-                </div>
-              ))}
-            </>
-          )}
-        </div>
+          <div>
+            {products?.length === 0 ? (
+              <PostCardSkeleton />
+            ) : (
+              <>
+                {filteredPost?.map((product) => (
+                  <div key={product?._id}>
+                    <PostCard product={product} comments={comments} />
+                  </div>
+                ))}
+              </>
+            )}
+          </div>
 
-        <div className="hidden lg:inline">
-          <TopsUser />
+          <div className="hidden lg:inline">
+            <TopsUser />
+          </div>
         </div>
       </MainLayout>
       <BackToTopButton />

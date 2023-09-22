@@ -3,10 +3,10 @@ const router = Router()
 
 const { verifyemail, resendVerificatoin, deleteAccount, loggedInUser, registerUser, userRecommendation, getUserStats, searchUser, leaderBoard, loginUser, updateavatar, userInfo, userProfile, userFollowUnfollow, editProfile } = require('../controllers/user.controllers')
 const { verifyJWT } = require('../middleware/auth.middleware')
+const { imageUpload } = require('../middleware/upload.midleware')
 
 router.post('/register', registerUser)
 router.post('/login', loginUser)
-router.post('/updateavatar/:userId', updateavatar)
 router.get('/userinfo', verifyJWT, userInfo)
 router.get('/userprofile/:userID', verifyJWT, userProfile)
 router.put('/userfollowunfollow/:followUserID', verifyJWT, userFollowUnfollow)
@@ -19,6 +19,7 @@ router.get('/loggedinuser', verifyJWT, loggedInUser)
 router.get('/userstats', verifyJWT, getUserStats)
 router.delete('/deleteaccount', verifyJWT, deleteAccount)
 router.post('/resendverification', resendVerificatoin)
+router.put('/updateavatar', imageUpload, verifyJWT, updateavatar)
 
 module.exports = router;
 

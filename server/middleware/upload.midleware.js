@@ -8,4 +8,21 @@ const upload = multer({
     storage: storage,
 }).single('media');
 
-module.exports = upload;
+const imageUpload = multer(
+    {
+        storage: storage,
+        fileFilter: (req, file, cb) => {
+            if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+                cb(null, true)
+            } else {
+                cb(null, false)
+            }
+        }
+    }
+).single('profile')
+
+
+module.exports = {
+    upload,
+    imageUpload
+};

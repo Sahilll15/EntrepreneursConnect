@@ -2,6 +2,7 @@ import React from 'react';
 import { joinGroup, getGroupsJoined, getCommunity, leaveGroup } from '../../redux/community/CommunityAcitions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Await, NavLink } from 'react-router-dom';
+import { IoExitOutline, IoAdd } from "react-icons/io5";
 
 const GroupCard = ({ group }) => {
     const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const GroupCard = ({ group }) => {
                         }`}
                     onClick={() => handleJoinLeaveGroup(group._id, group?.joinedMembers[0]?.includes(user?._id))}
                 >
-                    {group?.joinedMembers[0]?.includes(user?._id) ? 'Leave' : 'Join'}
+                    {group?.joinedMembers[0]?.includes(user?._id) ? <IoExitOutline /> : <IoAdd />}
                 </button>
             </div>
             <p className="text-gray-600 mt-1">{group.groupAdmin}</p>

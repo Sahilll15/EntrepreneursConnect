@@ -94,9 +94,9 @@ const PostCard = ({ product, comments }) => {
           )}
         </div>
         <div className="flex items-center mb-4">
-          <NavLink to={`/profile/${product.author.id}`}>
+          <NavLink to={`/profile/${product.author._id}`}>
             <img
-              src={product.author.avatar}
+              src={product.author.avatar.url}
               alt={`${product.author.name}'s avatar`}
               className={`w-8 h-8 rounded-full mr-3 border border-solid-4 ${isLiked ? "avatar-animation" : ""
                 }`}
@@ -104,8 +104,8 @@ const PostCard = ({ product, comments }) => {
           </NavLink>
 
           <div>
-            <NavLink to={`/profile/${product.author.id}`}>
-              <p className="text-lg font-semibold">{product.author.name}</p>
+            <NavLink to={`/profile/${product.author._id}`}>
+              <p className="text-lg font-semibold">{product.author.username}</p>
             </NavLink>
             <p className="text-gray-600 text-sm">
               {formatDateTime(product.createdAt)}
