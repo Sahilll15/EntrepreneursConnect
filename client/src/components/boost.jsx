@@ -15,7 +15,7 @@ const boost = () => {
               </p>
             </div>
             <div className="overflow-hidden p-0.5 mt-6 border rounded-lg dark:border-gray-700">
-              
+
             </div>
           </div>
           <div className="grid gap-6 mt-16 -mx-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -50,7 +50,7 @@ const boost = () => {
                     Post Suggestions on main page
                   </span>
                 </div>
-                
+
               </div>
               <button className="w-full px-4 py-2 mt-10 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
                 Choose plan
@@ -84,7 +84,7 @@ const boost = () => {
                     />
                   </svg>
                   <span className="mx-4 text-gray-700 dark:text-gray-300">
-                  Post Suggestions on main page
+                    Post Suggestions on main page
                   </span>
                 </div>
                 <div className="flex items-center">
@@ -104,7 +104,7 @@ const boost = () => {
                     One Promotional Mail
                   </span>
                 </div>
-               
+
               </div>
               <button className="w-full px-4 py-2 mt-10 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
                 Choose plan
@@ -184,13 +184,13 @@ const boost = () => {
                   </svg>
                   <span className="mx-4 text-gray-300">Blue tick</span>
                 </div>
-                
+
               </div>
               <button className="w-full px-4 py-2 mt-10 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
                 Choose plan
               </button>
             </div>
-            
+
           </div>
         </div>
       </section>

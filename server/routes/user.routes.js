@@ -1,7 +1,7 @@
 const Router = require('express')
 const router = Router()
 
-const { verifyemail, loggedInUser, registerUser, userRecommendation, getUserStats, searchUser, leaderBoard, loginUser, updateavatar, userInfo, userProfile, userFollowUnfollow, editProfile } = require('../controllers/user.controllers')
+const { verifyemail, resendVerificatoin, deleteAccount, loggedInUser, registerUser, userRecommendation, getUserStats, searchUser, leaderBoard, loginUser, updateavatar, userInfo, userProfile, userFollowUnfollow, editProfile } = require('../controllers/user.controllers')
 const { verifyJWT } = require('../middleware/auth.middleware')
 
 router.post('/register', registerUser)
@@ -17,5 +17,8 @@ router.get('/userrecommendation', verifyJWT, userRecommendation)
 router.get('/verifyemail/:tokenId', verifyemail)
 router.get('/loggedinuser', verifyJWT, loggedInUser)
 router.get('/userstats', verifyJWT, getUserStats)
+router.delete('/deleteaccount', verifyJWT, deleteAccount)
+router.post('/resendverification', resendVerificatoin)
 
 module.exports = router;
+

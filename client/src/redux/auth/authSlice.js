@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { getSearchUser, registerUser, getProfile, loginUser, getLoggedInUser, updateProfile, FollowUnfollow, getLeaderBoard, getUserStats } from './authActions';
+import { resendVerificationEmail, getSearchUser, deleteAccount, registerUser, getProfile, loginUser, getLoggedInUser, updateProfile, FollowUnfollow, getLeaderBoard, getUserStats } from './authActions';
 
 const initialState = {
     user: null,
@@ -14,7 +14,8 @@ const initialState = {
     leaderboard: [],
     userStats: [],
     searchUser: [],
-    initialLoading: false
+    initialLoading: false,
+    emailVerificationLoading: false
 
 }
 
@@ -179,6 +180,42 @@ export const authSlice = createSlice({
         }
         );
 
+        // Get Search User reducer end
+        // Delete Account reducer start
+        builder.addCase(deleteAccount.pending, (state, action) => {
+
+            state.loading = true;
+        }
+        );
+        builder.addCase(deleteAccount.fulfilled, (state, action) => {
+            state.loading = false;
+            state.user = null;
+            state.isAuthenticated = false;
+        }
+        );
+        builder.addCase(deleteAccount.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        }
+        );
+
+        // Delete Account reducer end
+        // Resend Verification Email reducer start
+        builder.addCase(resendVerificationEmail.pending, (state, action) => {
+
+            state.emailVerificationLoading = true;
+        }
+        );
+        builder.addCase(resendVerificationEmail.fulfilled, (state, action) => {
+            state.emailVerificationLoading = false;
+            state.success = true;
+        }
+        );
+        builder.addCase(resendVerificationEmail.rejected, (state, action) => {
+            state.emailVerificationLoading = false;
+            state.error = action.payload;
+        }
+        );
 
 
     },

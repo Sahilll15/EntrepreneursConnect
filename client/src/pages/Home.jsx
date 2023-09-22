@@ -57,7 +57,7 @@ const Home = () => {
       <MainLayout>
         <PostFormCard />
         {/* Filters */}
-        <div className="flex mt-10">
+        <div className="flex my-5">
           <div className="flex justify-around gap-4 mb-2 w-full">
             <p
               className={`border border-gray-300 w-full text-center rounded-lg p-2 hover:cursor-pointer ${activeTab === 'ForYou' ? 'text-black bg-blue-300' : ''}`}

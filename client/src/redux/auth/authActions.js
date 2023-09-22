@@ -4,6 +4,62 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 const host = process.env.REACT_APP_API_HOST
 
+//resend verification email
+export const resendVerificationEmail = createAsyncThunk(
+    'user/resendverificationemail',
+    async (user, { rejectWithValue }) => {
+        console.log('user from resend ver', user.email)
+        try {
+            const response = await axios.post(
+                `${host}/api/v1/auth/resendverification`,
+                {
+                    email: user.email
+                }
+            );
+            if (response.status === 200) {
+                toast.success(response.data.message);
+                return response.data;
+            } else {
+                toast.error(response.data.message);
+                return rejectWithValue(response.data.message);
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message);
+            return rejectWithValue(error.response?.data?.message);
+        }
+    }
+);
+
+
+
+export const deleteAccount = createAsyncThunk(
+    'user/deleteaccount',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axios.delete(
+                `${host}/api/v1/auth/deleteaccount/`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('authtoken')}`,
+                    },
+                }
+            );
+
+            if (response.status === 200) {
+                toast.success(response.data.message);
+                localStorage.removeItem('authtoken');
+                return response.data;
+            } else {
+                toast.error(response.data.message);
+                return rejectWithValue(response.data.message);
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message);
+            return rejectWithValue(error.response?.data?.message);
+        }
+    }
+)
 
 export const FollowUnfollow = createAsyncThunk(
     'user/followunfollow',

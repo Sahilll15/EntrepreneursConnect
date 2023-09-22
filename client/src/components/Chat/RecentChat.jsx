@@ -41,7 +41,7 @@ const RecentChat = () => {
   };
 
   return (
-    <div className="h-screen">
+    <div className="h-grow">
       <div className="pt-2 relative mx-auto mt-2 text-gray-600">
         <input
           className="border-2 border-gray-300 w-full bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
@@ -82,7 +82,7 @@ const RecentChat = () => {
             className={`border border-gray-300 w-full text-center rounded-lg p-2 hover:cursor-pointer ${activeTab === 'ALLGROUPS' ? 'text-black bg-blue-300' : ''}`}
             onClick={() => handleTabClick('ALLGROUPS')}
           >
-            All Groups
+            All Communities
           </p>
           <p
             className={`border border-gray-300  w-full text-center rounded-lg p-2 hover:cursor-pointer ${activeTab === 'JOINED' ? 'text-black bg-blue-300' : ''}`}
@@ -98,7 +98,7 @@ const RecentChat = () => {
           Featuerd/Boosted groups (those who pade money){" "}
         </h3>
 
-        <h1 className="text-xl font-semibold mb-4">your groups </h1>
+        <h1 className="text-xl font-semibold mb-4">your Communities</h1>
 
         {filteredGroups?.map((group) => (
 

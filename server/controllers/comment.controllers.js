@@ -128,10 +128,28 @@ const updateComment = async (req, res) => {
     }
 }
 
+
+const getCommentsByUserID = async (req, res) => {
+    const userID = req.user._id;
+    try {
+        const comments = await Comment.find({ "commentedBy.id": userID }).sort({ createdAt: -1 });
+        if (!comments) {
+            return res.status(400).json({ msg: "No comments found" })
+        }
+        res.status(200).json({ comments: comments })
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+        console.log(error);
+    }
+}
+
+
+
 module.exports = {
     Addcomment,
     getCommentsByPostID,
     deleteComment,
     updateComment,
-    getAllComments
+    getAllComments,
+    getCommentsByUserID
 }
