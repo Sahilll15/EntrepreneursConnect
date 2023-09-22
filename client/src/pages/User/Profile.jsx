@@ -91,11 +91,10 @@ const Profile = () => {
                         <img
                           alt={ProfileUser?.badges}
                           src={ProfileUser?.avatar?.url}
-                          className={`shadow-xl rounded-full h-auto align-middle absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px border-4 ${
-                            ProfileUser?.badges[0] === "Expert"
+                          className={`shadow-xl rounded-full h-auto align-middle absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px border-4 ${ProfileUser?.badges[0] === "Expert"
                               ? "border-red-600"
                               : "border-none"
-                          } hover:border-8 hover:border-red-600`}
+                            } hover:border-8 hover:border-red-600`}
                           onMouseEnter={handleMouseEnter}
                           onMouseLeave={handleMouseLeave}
                         />
@@ -113,18 +112,17 @@ const Profile = () => {
                       <div className="py-6 px-3 mt-32 sm:mt-0">
                         <button
                           onClick={followunfollow}
-                          className={`${
-                            ProfileUser?.followers?.includes(loggedInUser)
+                          className={`${ProfileUser?.followers?.includes(loggedInUser)
                               ? "bg-red-500 active:bg-red-600"
                               : "bg-blue-500 active:bg-blue-600"
-                          } uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150`}
+                            } uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150`}
                           type="button"
                         >
                           {followunfollowLoading
                             ? "Loading..."
                             : ProfileUser?.followers?.includes(loggedInUser)
-                            ? "Unfollow"
-                            : "Follow"}
+                              ? "Unfollow"
+                              : "Follow"}
                         </button>
                       </div>
                     )}
@@ -202,10 +200,10 @@ const Profile = () => {
           </div>
           <div className="mx-auto">
             <h1 className="text-2xl font-semibold text-blueGray-700 mb-4 text-center">
-              Posts 
+              Posts
             </h1>
-                  
-          
+
+
             <div className="flex flex-col items-center h-screen">
               {postByUserID?.length === 0 ? (
                 <div className="flex justify-center w-full">

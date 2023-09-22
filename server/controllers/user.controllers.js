@@ -2,11 +2,54 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User = require('../models/user.models')
 const Post = require('../models/Product.models')
+const Comment = require('../models/comments.models')
 const { io } = require('../index.js')
 const { sendVerificationEmail, generateverificationToken } = require('../utils/email')
 const { createNotification } = require('../controllers/Notification.controllers')
 const { successFullVerification } = require('../utils/EmailTemplates')
 
+
+
+const deleteAccount = async (req, res) => {
+    const user = req.user._id;
+    try {
+        const ExistingUser = await User.findById(user);
+        if (!ExistingUser) {
+            return res.status(404).json({ message: "No user with this ID" })
+        }
+        //delete all the post done by the user
+        const posts = await Post.find({ "author.id": user });
+        if (posts.length > 0) {
+            posts.forEach(async (post) => {
+                await post.remove();
+            })
+        }
+
+        //delete all the comments done by the user
+        const comments = await Comment.find({ "commentedBy.id": user }).sort({ createdAt: -1 });
+        console.log(comments)
+        if (comments.length > 0) {
+            comments.forEach(async (comment) => {
+                await comment.remove();
+            }
+            )
+
+
+            const deletedUser = await User.findByIdAndDelete(user);
+            if (!deletedUser) {
+                return res.status(404).json({ message: "No user with this ID" })
+            }
+            res.status(200).json({ message: "Account deleted successfully" })
+
+        }
+
+    }
+
+    catch (error) {
+        res.status(500).json({ message: error.message })
+        console.log(error);
+    }
+}
 
 
 const userFollowUnfollow = async (req, res) => {
@@ -371,6 +414,39 @@ const getUserStats = async (req, res) => {
 }
 
 
+
+const resendVerificatoin = async (req, res) => {
+    const { email } = req.body;
+    try {
+
+        if (!email) {
+            return res.status(400).json({ message: "Email is required" })
+        }
+
+        const user = await User.findOne({
+            email
+        })
+
+        console.log(user)
+
+        if (!user) {
+            return res.status(404).json({ message: "No user with this email" })
+        }
+        if (user.isVerified) {
+            return res.status(400).json({ message: "This account is already verified" })
+        }
+        const verificationToken = generateverificationToken(email);
+        user.verificationToken = verificationToken;
+        await user.save();
+
+        await sendVerificationEmail(email, verificationToken);
+        res.status(200).json({ message: 'Verification email sent successfully.', verificationToken: verificationToken, user: user });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+        console.log(error);
+    }
+}
+
 module.exports = {
     registerUser,
     loginUser,
@@ -384,6 +460,9 @@ module.exports = {
     userRecommendation,
     verifyemail,
     loggedInUser,
-    getUserStats
+    getUserStats,
+    deleteAccount,
+    resendVerificatoin
+
 
 }
