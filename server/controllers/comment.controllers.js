@@ -16,18 +16,15 @@ const Addcomment = async (req, res) => {
             return res.status(400).json({ msg: "Post not found" })
 
         }
+        const author = req.user._id;
         const newComment = await Comment.create({
             postId: postId,
-            commentedBy: {
-                id: req.user._id,
-                name: req.user.username,
-                avatar: req.user.avatar.url
-            },
+            commentedBy: author,
             comment: comment
         })
 
         //create notification
-        await createNotification(req.user._id, post.author.id, 'comment', `${req.user.username} commented on your post ${comment}`);
+        await createNotification(req.user._id, post.author._id, 'comment', `${req.user.username} commented on your post ${comment}`);
 
         await post.comments.push(req.user._id);
         await post.save();
@@ -44,7 +41,7 @@ const Addcomment = async (req, res) => {
 
 const getAllComments = async (req, res) => {
     try {
-        const comments = await Comment.find().sort({ createdAt: -1 })
+        const comments = await Comment.find().sort({ createdAt: -1 }).populate('commentedBy', '_id username avatar')
         res.status(200).json({ comments: comments })
     } catch (error) {
         res.status(500).json({ error: error.message })
