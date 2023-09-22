@@ -162,7 +162,7 @@ const PostCard = ({ product, comments }) => {
               <FontAwesomeIcon icon={faShareSquare} /> Share
             </button>
 
-            {product?.author?.id === user?._id ? (
+            {product?.author?._id === user?._id ? (
               // <p>this btn is to boost post</p>
               <button
                 className="text-gray-500 hover:text-gray-700"
@@ -172,7 +172,7 @@ const PostCard = ({ product, comments }) => {
               </button>
             ) : null}
 
-            {product?.author?.id === user?._id ? (
+            {product?.author?._id === user?._id ? (
               <button
                 className="text-gray-500 hover:text-gray-700"
                 onClick={toggleOptionsMenu}
@@ -185,9 +185,9 @@ const PostCard = ({ product, comments }) => {
         <hr className="my-4 " />
         {firstComment ? (
           <div className="flex items-center mb-2">
-            <NavLink to={`/profile/${firstComment.commentedBy.id}`}>
+            <NavLink to={`/profile/${firstComment?.commentedBy?._id}`}>
               <img
-                src={firstComment.commentedBy.avatar}
+                src={firstComment?.commentedBy?.avatar?.url}
                 alt={`${firstComment.commentedBy.name}'s avatar`}
                 className="w-8 h-8 rounded-full mr-3 border border-solid-4"
               />
@@ -195,9 +195,9 @@ const PostCard = ({ product, comments }) => {
             <div className="flex-grow">
               <div className="bg-gray-100 rounded-lg p-3 shadow-md">
                 <p className="text-sm font-semibold text-gray-800">
-                  {firstComment.commentedBy.name}
+                  {firstComment?.commentedBy?.username}
                 </p>
-                <p className="text-gray-600 text-sm">{firstComment.comment}</p>
+                <p className="text-gray-600 text-sm">{firstComment?.comment}</p>
               </div>
             </div>
           </div>
