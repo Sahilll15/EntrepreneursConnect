@@ -142,16 +142,19 @@ const PostCard = ({ product, comments }) => {
               {product.comments.length}
             </span>
           </div>
+
           <div className="flex items-center space-x-2">
+
             <button
-              className={`text-${isLiked ? "green" : "blue"}-500 hover:text-${isLiked ? "green" : "blue"
+              className={`text-${isLiked ? "blue" : "green"}-500 hover:text-${isLiked ? "green" : "blue"
                 }-700`}
               onClick={() => {
                 handleLike(product._id);
               }}
             >
-              <FontAwesomeIcon icon={isLiked ? faThumbsUp : faThumbsUp} /> Liked
+              <FontAwesomeIcon icon={isLiked ? faThumbsUp : faThumbsUp} /> Like
             </button>
+
             <button
               className="text-gray-500 hover:text-gray-700"
               onClick={openCommentsModal}
@@ -179,6 +182,7 @@ const PostCard = ({ product, comments }) => {
               >
                 <FontAwesomeIcon icon={faEllipsisV} />
               </button>
+
             ) : null}
           </div>
         </div>
