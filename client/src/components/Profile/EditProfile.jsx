@@ -27,6 +27,7 @@ const EditProfile = () => {
       const file = acceptedFiles[0];
       setProfilePhoto(file);
       dispatch(updateAvatar(file));
+      dispatch(getLoggedInUser());
     }
   };
 
