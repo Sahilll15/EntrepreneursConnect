@@ -5,11 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../redux/auth/authActions';
 import { fetchPosts } from '../../redux/posts/postActions';
 import LOGO from '../../components/LOGO/Logo.png'
-
+import { resendVerificationEmail } from '../../redux/auth/authActions';
 const Login = () => {
   const navigate = useNavigate();
   const [viewPassword, setViewPassword] = useState(false);
   const loading = useSelector((state) => state.user.loading);
+  const emailVerificationLoading = useSelector((state) => state.user.emailVerificationLoading)
   const dispatch = useDispatch();
   const [user, setUser] = useState({
     email: '',
@@ -52,6 +53,28 @@ const Login = () => {
       passwordInput.type = 'password';
     }
   };
+
+  const validation = () => {
+    if (user.email === '' || user.password === '') {
+      toast.error('Please fill all the fields');
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const handleResendVerification = async () => {
+    try {
+      if (validation()) {
+        await dispatch(resendVerificationEmail(user));
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+      toast.error('An error occurred while sending verification email');
+    }
+  };
+
+
 
   useEffect(() => {
     dispatch(fetchPosts());
@@ -128,7 +151,7 @@ const Login = () => {
           <div className="w-full py-6 z-20">
             <h1 className="my-6">
               <center>
-              <img src={LOGO} alt="Logo Here" style={{width: '50%'}} />
+                <img src={LOGO} alt="Logo Here" style={{ width: '50%' }} />
               </center>
             </h1>
             <br />
@@ -239,6 +262,14 @@ const Login = () => {
                   Sign up
                 </NavLink>
               </div>
+
+              <div className=' text-indigo-600 hover:cursor-pointer' onClick={handleResendVerification} >Resend verification email?</div>
+              {
+                emailVerificationLoading && <div className="flex justify-center items-center space-x-2">
+                  <div className="w-4 h-4 border-2 border-white rounded-full animate-spin" />
+                  <span>Sending...</span>
+                </div>
+              }
             </form>
           </div>
         </div>

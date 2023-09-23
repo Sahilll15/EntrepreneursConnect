@@ -20,24 +20,9 @@ const CommentSchema = new Schema(
             index: true
         },
         commentedBy: {
-
-            id: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
-                required: true
-            },
-            name: {
-                type: String,
-                required: true
-            },
-            avatar: {
-                type: String,
-                required: true
-            }
-
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
         },
-
-
     },
     { timestamps: true }
 );

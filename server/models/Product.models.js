@@ -11,19 +11,8 @@ const ProductSchema = mongoose.Schema({
         type: String,
     },
     author: {
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            required: true
-        },
-        name: {
-            type: String,
-            required: true
-        },
-        avatar: {
-            type: String,
-            required: true
-        }
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
     },
     likes: [{
         type: mongoose.Schema.Types.ObjectId,

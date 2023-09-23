@@ -21,7 +21,7 @@ const createProduct = async (req, res) => {
     try {
         const author = req.user._id;
         console.log(author);
-        const user = await User.findById(author);
+        const user = await User.findById(author)
 
         if (!user) {
             return res.status(400).json({ msg: "User not found" });
@@ -33,12 +33,10 @@ const createProduct = async (req, res) => {
 
         const product = new Product({
             content,
-            author: {
-                id: author,
-                name: req.user.username,
-                avatar: req.user.avatar.url,
-            },
+            author: author
         });
+
+
 
         if (req.file) {
             const file = req.file;
@@ -51,6 +49,7 @@ const createProduct = async (req, res) => {
                 ContentType: file.mimetype,
             };
 
+
             await s3.upload(params, async (error, data) => {
                 if (error) {
                     console.log(error);
@@ -61,19 +60,25 @@ const createProduct = async (req, res) => {
                     product.media = data.Location;
                 }
 
+                // Save the product here after potentially setting the media property
                 await product.save();
+
+                // Rest of your code for updating user and other actions
                 console.log('Adding points....');
                 user.points += 10;
                 console.log('Added points....');
                 console.log(user.points);
                 await badges(user);
+                user.productsShowcased.push(product._id);
                 await user.save();
+
                 res.status(201).json({ product, user, msg: "New product created" });
             });
-
         } else {
+            // If there is no file, save the product without the media property
             await product.save();
 
+            // Rest of your code for updating user and other actions
             console.log('Adding points....');
             user.points += 10;
             console.log('Added points....');
@@ -123,7 +128,6 @@ const deleteProduct = async (req, res) => {
 
         const deletedProduct = await Product.findByIdAndDelete(id);
         existingUser.points -= 10;
-        existingUser.productsShowcased.pull(id);
         await existingUser.save();
 
         res.status(200).json({ msg: "Product deleted successfully", product: deletedProduct });
@@ -139,7 +143,7 @@ const deleteProduct = async (req, res) => {
 const getProducts = async (req, res) => {
     try {
         const products = await Product.find().sort({ createdAt: -1 }).populate('author');
-        const validProducts = products.filter(product => product.author && product.author.id);
+        const validProducts = products.filter(product => product.author && product.author);
         const numberOfProducts = validProducts.length;
 
         res.status(200).json({ products: validProducts, mssg: "Products fetched successfully", qty: numberOfProducts });
@@ -177,7 +181,7 @@ const updateProduct = async (req, res) => {
             res.status(400).json({ mssg: 'No product with this id' });
         }
 
-        if (product.author.id.toString() !== user.toString()) {
+        if (product.author.toString() !== user.toString()) {
             return res.status(401).json({ mssg: "You are not authorized to update this product" });
         }
 
@@ -201,7 +205,7 @@ const getProductByUserId = async (req, res) => {
             return res.status(400).json({ msg: "User not found" });
         }
 
-        const products = await Product.find({ "author.id": userId })
+        const products = await Product.find({ author: userId })
             .sort({ createdAt: -1 })
             .populate("author", "-password");
 
@@ -270,7 +274,7 @@ const getProductsByFollowing = async (req, res) => {
         }
 
         const following = currentUser.following;
-        const products = await Product.find({ "author.id": { $in: following } })
+        const products = await Product.find({ author: { $in: following } })
             .sort({ createdAt: -1 })
             .populate("author", "-password");
 

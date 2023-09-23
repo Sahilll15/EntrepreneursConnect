@@ -17,6 +17,11 @@ export const SideBar = () => {
   const [searchUsername, setSearchUsername] = useState({
     username: ''
   })
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!isDropdownOpen);
+  };
 
   let searchedUser = useSelector((state) => state?.user?.searchUser)
 
@@ -44,6 +49,9 @@ export const SideBar = () => {
     dispatch(getNotifications());
     dispatch(getGroupsJoined());
   }, [dispatch, searchUsername.username])
+
+
+
 
 
   return (
@@ -117,7 +125,7 @@ export const SideBar = () => {
             <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
               <i class="bi bi-people"></i>
               <span className="text-[15px] ml-4 text-gray-200 font-bold">
-                My Group
+                Communities
               </span>
             </div>
           </NavLink>
@@ -167,40 +175,34 @@ export const SideBar = () => {
           <div className="my-4 bg-gray-600 h-[1px]" />
           <div
             className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
-            onclick="dropdown()"
+            onClick={toggleDropdown} // Toggle the dropdown on click
           >
-            <i class="bi bi-person-square"></i>
+            <i className="bi bi-person-square"></i>
             <div className="flex justify-between w-full items-center">
               <span className="text-[15px] ml-4 text-gray-200 font-bold">
-                Groups
+                My Communities
               </span>
-              <span className="text-sm rotate-180" id="arrow">
+              <span className={`text-sm ${isDropdownOpen ? 'rotate-180' : ''}`} id="arrow">
                 <i className="bi bi-chevron-down" />
               </span>
             </div>
           </div>
-          <div
-            className="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold"
-            id="submenu"
-          >
-            {
-              groupsJoined?.map((group) => (
-                <NavLink to={`/groupDiscussion/${group._id}`}
-                  onClick={() => {
-                    dispatch(getCommunityById(group._id));
-                    dispatch(getCommunityDiscussion(group._id));
-                  }}
-                >
-                  <div
-                    key={group._id}
-                    className=" rounded-lg shadow-md mb-4"
-                  >
-                    <h2 className="text-xl  text-white">{group.name}</h2>
-                    <p className="text-gray-600 mt-1">{group.groupAdmin}</p>
-                  </div>
-                </NavLink>
-              ))
-            }
+          <div className={`text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold ${isDropdownOpen ? 'block' : 'hidden'}`} id="submenu">
+            {groupsJoined?.map((group) => (
+              <NavLink
+                to={`/groupDiscussion/${group._id}`}
+                onClick={() => {
+                  dispatch(getCommunityById(group._id));
+                  dispatch(getCommunityDiscussion(group._id));
+                }}
+                key={group._id} // Don't forget to add a unique key
+              >
+                <div className="rounded-lg shadow-md mb-4">
+                  <h2 className="text-xl text-white">{group.name}</h2>
+                  <p className="text-gray-600 mt-1">{group.groupAdmin}</p>
+                </div>
+              </NavLink>
+            ))}
           </div>
           <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white" onClick={logout}>
             <i className="bi bi-box-arrow-in-right" />
