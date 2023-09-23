@@ -27,20 +27,12 @@ const Notification = () => {
   }, []);
 
 
-
-
-
   return (
     <MainLayout>
       <div className="p-2">
-
-
-
         <div className="mt-10">
           <div >
-
             <h2>Notifications </h2>
-
             <h2 className="text-right">
               <span class="sm:ml-3">
                 <button
@@ -70,19 +62,24 @@ const Notification = () => {
           </div>
 
           <div className="mt-5 ">
-
-
-            {isLoading || notifications?.length === 0 ? (
-              // Display a loading skeleton while loading
-              <div className=" flex justify-between border border-black p-3 mb-3">
-                <div className="flex">
-                  <div className="mr-3">
-                    <div className="w-10 h-10 bg-gray-300 rounded-full border border-black"></div>
-                  </div>
-                  <div>
-                    <div className="w-32 h-5 bg-gray-300 mt-1"></div>
+            {
+              isLoading ?
+                <div className=" flex justify-between border border-black p-3 mb-3">
+                  <div className="flex">
+                    <div className="mr-3">
+                      <div className="w-10 h-10 bg-gray-300 rounded-full border border-black"></div>
+                    </div>
+                    <div>
+                      <div className="w-32 h-5 bg-gray-300 mt-1"></div>
+                    </div>
                   </div>
                 </div>
+                : null
+            }
+
+            {notifications?.length === 0 ? (
+              <div>
+                <p className="text-center">No notifications</p>
               </div>
             ) : (
               // Display notifications when not loading
@@ -94,10 +91,10 @@ const Notification = () => {
                   <div className="flex">
                     <div className="mr-3">
                       <NavLink
-                        to={`/profile/${notification?.sender?.user?._id}`}
+                        to={`/profile/${notification?.sender?._id}`}
                       >
                         <img
-                          src={notification?.sender?.user?.avatar?.url}
+                          src={notification?.sender?.avatar?.url}
                           alt="avatar"
                           className="w-10 h-10 rounded-full border border-gray-600"
                         />

@@ -12,7 +12,9 @@ const commentRoutes = require('./routes/comments.routes');
 const refrealsRoutes = require('./routes/refreals.routes');
 const groupRoutes = require('./routes/group.routes');
 const notificationRoutes = require('./routes/notification.routes');
+const subscriptionRoutes = require('./routes/subscription.routes')
 const myDb = require('./db');
+const { verifyJWT } = require('./middleware/auth.middleware')
 
 const Server = http.createServer(app);
 
@@ -52,6 +54,7 @@ app.use('/api/v1/comments', commentRoutes);
 app.use('/api/v1/refreals', refrealsRoutes);
 app.use('/api/v1/groups', groupRoutes);
 app.use('/api/v1/notifications', notificationRoutes);
+app.use('/api/v1/subscription', verifyJWT, subscriptionRoutes);
 
 app.set('view engine', 'ejs');
 

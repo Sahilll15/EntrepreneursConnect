@@ -1,6 +1,5 @@
-const mongoose = require('mongoose')
-const User = require('../models/user.models')
-
+const mongoose = require('mongoose');
+const User = require('../models/user.models');
 
 const subscriptionSchema = mongoose.Schema({
     user: {
@@ -9,11 +8,33 @@ const subscriptionSchema = mongoose.Schema({
     },
     plan: {
         type: String,
-        enum: ["regular", "modrate", "'pro"]
-    }
+        enum: ["basic", "pro", "premium"],
+    },
+    status: {
+        type: String,
+        enum: ["active", "expired"],
+        default: "active"
+    },
+    ttl: {
+        type: Number,
+        default: 2
+    },
 
-})
+}, {
+    timestamps: true
+});
 
+
+subscriptionSchema.index({ createdAt: 1 }, { expireAfterSeconds: '$ttl' });
 
 const Subscription = mongoose.model("Subscription", subscriptionSchema);
+
+Subscription.watch().on('expire', async (doc) => {
+    if (doc.status === "active") {
+        doc.status = "expired";
+        await doc.save();
+    }
+});
+
+
 module.exports = Subscription;
