@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Register from './pages/Auth/Register';
 import Login from './pages/Auth/Login';
 import Setting from './pages/User/Setting';
+import Landing from './pages/Land';
 import Profile from './pages/User/Profile';
 import Buy from './pages/Buy';
 import Chat from './pages/Chat';
@@ -42,7 +43,7 @@ function App() {
       <ToastContainer />
       <Router>
         <Routes>
-
+        <Route path="/land" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
