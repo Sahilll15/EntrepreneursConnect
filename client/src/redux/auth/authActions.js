@@ -4,6 +4,41 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 const host = process.env.REACT_APP_API_HOST
 
+
+
+export const updateAvatar = createAsyncThunk(
+    'user/updateAvatar',
+    async (file, { rejectWithValue }) => {
+        try {
+            const response = await axios.put(
+                `${host}/api/v1/auth/updateavatar/`,
+                {
+                    profile: file,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: `Bearer ${localStorage.getItem('authtoken')}`,
+                    },
+                }
+            );
+
+            if (response.status === 200) {
+                toast.success(response.data.message);
+                return response.data;
+            } else {
+                toast.error(response.data.message);
+                return rejectWithValue(response.data.message);
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message);
+            return rejectWithValue(error.response?.data?.message);
+        }
+    }
+
+)
+
+
 //resend verification email
 export const resendVerificationEmail = createAsyncThunk(
     'user/resendverificationemail',
