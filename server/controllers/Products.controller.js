@@ -121,6 +121,7 @@ const deleteProduct = async (req, res) => {
             const s3Params = {
                 Bucket: process.env.AWS_BUCKET_NAME,
                 Key: product.media.split('/').pop(),
+
             };
 
             await s3.deleteObject(s3Params).promise();

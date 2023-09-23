@@ -22,6 +22,8 @@ const Profile = () => {
   const [badge, setBadge] = useState(ProfileUser?.badges);
   const [hoverBadge, setHoverBadge] = useState(false);
   const comments = useSelector((state) => state?.comments?.comments);
+  const userStats = useSelector((state) => state?.user?.userStats);
+
 
   const handleMouseEnter = () => {
     setHoverBadge(true);
@@ -132,9 +134,10 @@ const Profile = () => {
                     <div className="flex justify-center py-4 lg:pt-4 pt-8">
                       <div className="mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          {ProfileUser?.followers
-                            ? ProfileUser?.followers.length
-                            : 0}
+                          {
+                            userStats?.followers?.length
+                          }
+
                         </span>
                         <span className="text-sm text-blueGray-400">
                           Followers
@@ -142,9 +145,9 @@ const Profile = () => {
                       </div>
                       <div className="mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          {ProfileUser?.following
-                            ? ProfileUser?.following.length
-                            : 0}
+                          {
+                            userStats?.following?.length
+                          }
                         </span>
                         <span className="text-sm text-blueGray-400">
                           Following
@@ -152,9 +155,9 @@ const Profile = () => {
                       </div>
                       <div className="lg:mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          {ProfileUser?.productsShowcased
-                            ? ProfileUser?.productsShowcased?.length
-                            : 0}
+                          {
+                            userStats?.totalPosts
+                          }
                         </span>
                         <span className="text-sm text-blueGray-400">
                           Products
