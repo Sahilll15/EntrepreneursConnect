@@ -33,7 +33,13 @@ const Dsetting = () => {
         </div> */}
         <div className="personal w-full border-t border-gray-400 pt-4">
           <h2 className="text-2xl text-gray-900">Group info:</h2>
+          
+<div class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+    <svg class="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+</div> <p>Select a group Dp</p>
+
           <div className="flex items-center justify-between mt-4">
+            
             <div className="w-full md:w-1/2 px-3 mb-6">
               <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Group name</label>
               <input className="appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500" type="text" required />

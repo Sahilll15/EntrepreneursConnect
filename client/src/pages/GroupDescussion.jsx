@@ -103,7 +103,7 @@ const GroupDiscussion = () => {
             />
           )}
           <div>
-            <h1 className="text-xl font-semibold">{group?.groupname}</h1>
+            <h1 className="text-lg font-semibold">{group?.groupname}</h1>
             <p className="text-sm text-gray-500">
               Group Admin: {group?.groupAdmin}
             </p>
@@ -114,7 +114,7 @@ const GroupDiscussion = () => {
             </button>
           </div>
         </div>
-        <p className="text-lg">{group?.description}</p>
+        <p className="text-sm">BIO: &nbsp;{group?.description}</p>
       </div>
 
       {modalOpen && (
@@ -142,13 +142,13 @@ const GroupDiscussion = () => {
                     <img
                       src={conversation.author.avatar.url}
                       alt='User Avatar'
-                      className='w-10 h-10 rounded-full border border-black'
+                      className='w-8 h-8 rounded-full border border-black'
                     />
-                    <div className='text-xl ml-4 text-black-500'>{conversation.author.username}</div>
+                    <div className='text-base ml-4 text-black-500'>{conversation.author.username}</div>
                   </div>
                   {/* <div className='text-xl font-semibold'>{conversation.title}</div> */}
                   <div className='text-lg mt-1'>{conversation.content}</div>
-                  <div className='text-sm text-right text-gray-500'>{formatDateTime(conversation.createdAt)}</div>
+                  <div className='text-xs text-right text-gray-500'>{formatDateTime(conversation.createdAt)}</div>
                 </div>
               ))}
             </div>

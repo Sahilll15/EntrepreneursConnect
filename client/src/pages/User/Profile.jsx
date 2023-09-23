@@ -192,7 +192,7 @@ const Profile = () => {
 
               <center>
                 <div>
-                  <p className="text-lg">Follow me on :<br/> <p className="text-2xl"> <i class="fa-brands fa-instagram cursor-pointer"></i> &nbsp; <i class="fa-brands fa-linkedin cursor-pointer"></i>  &nbsp; <i class="fa-brands fa-github cursor-pointer"></i></p> </p>
+                  <p className="text-lg">Follow me on :<br/> <p className="text-2xl"> <i class="fa-brands fa-instagram cursor-pointer"></i> &nbsp; <i class="fa-brands fa-linkedin cursor-pointer"></i> </p> </p>
                 </div>
               </center>  
 

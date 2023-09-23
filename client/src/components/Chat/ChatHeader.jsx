@@ -65,7 +65,7 @@ const ChatHeader = () => {
   return (
     <div className="relative">
       <div className="mx-auto bg-white shadow-md rounded-md p-4 mt-9">
-        <h1 className="text-xl font-semibold mb-4">Chat Options</h1>
+        <h1 className="text-base font-semibold mb-4">Chat Options</h1>
         <div className="flex space-x-4">
           {/* New Chat Option */}
           <a
