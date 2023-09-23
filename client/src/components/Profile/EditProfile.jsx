@@ -74,6 +74,7 @@ const EditProfile = () => {
                 src={user?.avatar?.url || "https://placeholder.com/200"}
                 alt="User Profile"
               />
+              edit
             </div>
 
             <div className="mt-4 text-gray-600 text-center md:text-left">Your Bio</div>

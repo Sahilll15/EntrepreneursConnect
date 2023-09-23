@@ -386,7 +386,7 @@ const userRecommendation = async (req, res) => {
 //getUser stats
 
 const getUserPosts = async (userId) => {
-    const posts = await Post.find({ "author.id": userId });
+    const posts = await Post.find({ author: userId });
     return posts;
 }
 

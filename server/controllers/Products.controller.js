@@ -112,7 +112,7 @@ const deleteProduct = async (req, res) => {
             res.status(400).json({ msg: 'No product with this id' });
         }
 
-        if (product.author.id.toString() !== user.toString()) {
+        if (product.author.toString() !== user.toString()) {
             return res.status(401).json({ msg: "You are not authorized to delete this product" });
         }
 
