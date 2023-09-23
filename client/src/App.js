@@ -11,6 +11,7 @@ import Chat from './pages/Chat';
 import Newsletter from './components/Profile/NewsLetter';
 import Sidebar from './components/layout/Sidebar';
 import Notification from './components/User/Notifications';
+import Lend from './pages/Lend'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import io from 'socket.io-client';
@@ -71,6 +72,7 @@ function App() {
             <Route path="/notification" element={<Notification />} />
             <Route path="/" element={<Home />} />
             <Route path="/newsletter" element={<Newsletter />} />
+            <Route path="/lend" element={<Lend />} />
             <Route path="/userstatistics" element={<UserStatisticsPage />} />
             <Route path="/groupDiscussion/:id" element={<GroupDescussion />} />
             <Route path="/boost" element={<BoostPost />} />

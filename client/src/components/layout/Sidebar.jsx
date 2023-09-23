@@ -132,11 +132,12 @@ export const SideBar = () => {
 
           <NavLink to={'/notification'}>
             <div className={`p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-${hasNotifications ? 'white' : 'blue-600'} text-${hasNotifications ? 'blue-500' : 'white'}`}>
-              <i class="bi bi-bell"></i>
-              {notifications?.length}
+              <i class="bi bi-bell"></i> 
               <span className={`text-[15px] ml-4 font-bold ${hasNotifications ? 'text-blue-600' : 'text-gray-200'}`}>
                 Notification
-              </span>
+              </span>&nbsp;&nbsp;
+              {notifications?.length}
+
             </div>
           </NavLink>
 
@@ -162,6 +163,14 @@ export const SideBar = () => {
               <span className="text-[15px] ml-4 text-gray-200 font-bold">
                 Statistics
               </span>
+            </div>
+          </NavLink>
+          <NavLink to={'/lend'} >
+            <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
+            <i class="bi bi-piggy-bank-fill"></i>
+            <span className="text-[15px] ml-4 text-gray-200 font-bold">
+                Lend Money
+            </span>
             </div>
           </NavLink>
           <NavLink to={'/setting'} >

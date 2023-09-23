@@ -186,6 +186,13 @@ const Profile = () => {
                   &nbsp; <i className="fa-solid fa-medal" style={{color: "#B08D57",}} />5</p>
                   </div> */}
                 </div>
+
+              <center>
+                <div>
+                  <p className="text-lg">Follow me on :<br/> <p className="text-2xl"> <i class="fa-brands fa-instagram cursor-pointer"></i> &nbsp; <i class="fa-brands fa-linkedin cursor-pointer"></i>  &nbsp; <i class="fa-brands fa-github cursor-pointer"></i></p> </p>
+                </div>
+              </center>  
+
                 <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                   <div className="flex flex-wrap justify-center">
                     <div className="w-full lg:w-9/12 px-4">
@@ -195,9 +202,11 @@ const Profile = () => {
                     </div>
                   </div>
                 </div>
+                
               </div>
             </div>
           </div>
+
           <div className="mx-auto">
             <h1 className="text-2xl font-semibold text-blueGray-700 mb-4 text-center">
               Posts
