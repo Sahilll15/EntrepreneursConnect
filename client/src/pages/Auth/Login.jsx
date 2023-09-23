@@ -6,6 +6,8 @@ import { loginUser } from '../../redux/auth/authActions';
 import { fetchPosts } from '../../redux/posts/postActions';
 import LOGO from '../../components/LOGO/Logo.png'
 import { resendVerificationEmail } from '../../redux/auth/authActions';
+
+
 const Login = () => {
   const navigate = useNavigate();
   const [viewPassword, setViewPassword] = useState(false);
@@ -93,10 +95,10 @@ const Login = () => {
           <div className="absolute bg-black opacity-60 inset-0 z-0" />
           <div className="w-full px-24 z-10">
             <h1 className="text-5xl font-bold text-left tracking-wide">
-              Keep it special
+            Empowering entrepreneurs to
             </h1>
             <p className="text-3xl my-4">
-              Capture your personal memory in unique way, anywhere.
+             connect, collaborate, and thrive in a dynamic online community.
             </p>
           </div>
           <div className="bottom-0 absolute p-4 text-center right-0 left-0 flex justify-center space-x-4">
@@ -146,6 +148,11 @@ const Login = () => {
                 "url(https://images.unsplash.com/photo-1577495508048-b635879837f1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80)",
             }}
           >
+
+
+{/* Illustration by <a href="https://icons8.com/illustrations/author/zD2oqC8lLBBA">Icons 8</a> from <a href="https://icons8.com/illustrations">Ouch!</a> */}
+
+
             <div className="absolute bg-black opacity-60 inset-0 z-0" />
           </div>
           <div className="w-full py-6 z-20">
