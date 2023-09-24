@@ -202,7 +202,7 @@ const Land = () => {
             <div class="container px-5 py-24 mx-auto">
               <div class="p-5 bg-white flex items-center mx-auto   mb-10 border-gray-200 rounded-lg sm:flex-row flex-col">
                 <div class="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center flex-shrink-0">
-                  <img src="https://raw.githubusercontent.com/AdityaShah7867/Hack/main/static/images/3d-casual-life-young-man-pointing-on-contract-removebg-preview.png?token=GHSAT0AAAAAACF5YXKNZFBAEEQIRITNB7AQZIPBS7Q" />
+                  <img src="https://i.ibb.co/Kb04b8S/3d-casual-life-young-man-pointing-on-contract-removebg-preview-1.png" />
                 </div>
                 <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
                   <h1 class="text-black text-2xl title-font font-bold mb-2">

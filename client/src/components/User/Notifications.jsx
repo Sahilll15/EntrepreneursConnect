@@ -62,24 +62,12 @@ const Notification = () => {
           </div>
 
           <div className="mt-5 ">
-            {
-              isLoading ?
-                <div className=" flex justify-between border border-black p-3 mb-3">
-                  <div className="flex">
-                    <div className="mr-3">
-                      <div className="w-10 h-10 bg-gray-300 rounded-full border border-black"></div>
-                    </div>
-                    <div>
-                      <div className="w-32 h-5 bg-gray-300 mt-1"></div>
-                    </div>
-                  </div>
-                </div>
-                : null
-            }
 
-            {notifications?.length === 0 ? (
+
+            {isLoading || notifications?.length === 0 ? (
+              // Display a loading skeleton while loading
               <div>
-                <p className="text-center">No notifications</p>
+                <p className="text-center mt-5 text-xl">No New Notifications</p>
               </div>
             ) : (
               // Display notifications when not loading
