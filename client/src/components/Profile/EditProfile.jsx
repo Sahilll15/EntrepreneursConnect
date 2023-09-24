@@ -224,7 +224,9 @@ const EditProfile = () => {
                 </div>
                 <div className="pb-2">
                   <label htmlFor="Place" className="font-semibold text-gray-700 block">
+
                     LinkedIn LINK
+
                   </label>
                   <input
                     id="Place"
@@ -235,9 +237,6 @@ const EditProfile = () => {
                     onChange={handleInputChange}
                   />
                 </div>
-                
-
-                
 
                 <div className="pt-4">
                   <button

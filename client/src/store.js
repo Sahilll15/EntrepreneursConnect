@@ -6,6 +6,7 @@ import notificationReducer from './redux/notification/notificationSlice'
 import CommunityReducer from './redux/community/CommunitySlice'
 import commentReducer from './redux/comments/commentSlice'
 import subReducer from './redux/subscription/subSlice'
+import boostReducer from './redux/boost/boostSlice'
 import thunk from 'redux-thunk'
 import logger from 'redux-logger';
 
@@ -18,7 +19,8 @@ const store = configureStore({
         community: CommunityReducer,
         notifications: notificationReducer,
         comments: commentReducer,
-        subscription: subReducer
+        subscription: subReducer,
+        boost: boostReducer
     },
     // middleware
 
