@@ -15,6 +15,7 @@ import MainLayout from '../components/layout/MainLayout';
 const Home = () => {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState('ForYou');
+  const [showBoostedProducts, setShowBoostedProducts] = useState(true);
 
   // Select data from Redux store
   const products = useSelector((state) => state?.posts?.posts?.products);
@@ -73,19 +74,38 @@ const Home = () => {
             </div>
           </div>
 
-
           {
-            activeTab === 'Following' ? null
-              :
-              boostedProducts?.length > 0 && (
-                <div className="mb-5">
-                  {boostedProducts.map((product) => (
-                    <BoostedProductsCard key={product?._id} product={product} comments={comments} />
-                  ))}
+            activeTab === 'ForYou' ?
+              (
+                <div className="mb-2">
+                  <label>
+                    <input
+
+                      id="checked-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      checked={showBoostedProducts}
+                      onChange={() => setShowBoostedProducts(!showBoostedProducts)}
+                    />
+                    <label for="checked-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-900">show boosted products</label>
+                  </label>
                 </div>
+              )
+              :
+              (
+                null
               )
 
           }
+
+
+          {showBoostedProducts &&
+            activeTab === 'ForYou' &&
+            boostedProducts?.length > 0 && (
+              <div className="mb-5">
+                {boostedProducts.map((product) => (
+                  <BoostedProductsCard key={product?._id} product={product} comments={comments} />
+                ))}
+              </div>
+            )}
 
           {initialLoading ? (
             filteredPosts?.length > 0 ? (

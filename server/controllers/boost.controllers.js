@@ -34,6 +34,24 @@ const createBoost = async (req, res) => {
 };
 
 
+const getBoostedUser = async (req, res) => {
+    try {
+        const subscriptions = await Subscription.find({ plan: 'premium' });
+        const users = subscriptions.map((sub) => sub.user)
+
+        const AllBoostedUser = users.map(async (user) => {
+            const boostedUser = await User.findById(user).select(' _id avatar username points')
+            return boostedUser
+        })
+        const boostedUser = await Promise.all(AllBoostedUser)
+
+        res.status(200).json({ boostedUser: boostedUser, message: "boosted user" })
+
+    } catch (error) {
+
+        res.status(401).json(error)
+    }
+}
 
 
 const getBoost = async (req, res) => {
@@ -50,5 +68,6 @@ const getBoost = async (req, res) => {
 
 module.exports = {
     createBoost,
-    getBoost
+    getBoost,
+    getBoostedUser
 }
