@@ -10,7 +10,8 @@ import { getGroupsJoined } from "../../redux/community/CommunityAcitions";
 import { getCommunityDiscussion } from "../../redux/community/CommunityAcitions";
 import { getCommunityById } from "../../redux/community/CommunityAcitions";
 export const SideBar = () => {
-  const user = useSelector((state) => state.user.user);
+
+  const user = useSelector((state) => state?.user?.user)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [searchUsername, setSearchUsername] = useState({
@@ -48,7 +49,9 @@ export const SideBar = () => {
     dispatch(getLoggedInUser());
     dispatch(getNotifications());
     dispatch(getGroupsJoined());
-  }, [dispatch, searchUsername.username]);
+  }, [dispatch, searchUsername.username])
+
+
 
   return (
     <div>
@@ -129,18 +132,10 @@ export const SideBar = () => {
             </div>
           </NavLink>
 
-          <NavLink to={"/notification"}>
-            <div
-              className={`p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-${
-                hasNotifications ? "white" : "blue-600"
-              } text-${hasNotifications ? "blue-500" : "white"}`}
-            >
+          <NavLink to={'/notification'}>
+            <div className={`p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-${hasNotifications ? 'white' : 'blue-600'} text-${hasNotifications ? 'blue-500' : 'white'}`}>
               <i class="bi bi-bell"></i>
-              <span
-                className={`text-[15px] ml-4 font-bold ${
-                  hasNotifications ? "text-blue-600" : "text-gray-200"
-                }`}
-              >
+              <span className={`text-[15px] ml-4 font-bold ${hasNotifications ? 'text-blue-600' : 'text-gray-200'}`}>
                 Notification
               </span>
               &nbsp;&nbsp;
@@ -255,8 +250,11 @@ export const SideBar = () => {
             className="block fixed inset-x-0 bottom-0 z-10 bg-white shadow"
           >
             <div id="tabs" className="flex justify-between mx-5">
-              <NavLink to={"/"}>
-                <div className="w-full focus:text-teal-500 hover:text-teal-500  justify-center inline-block text-center pt-2 pb-1">
+              <NavLink to={'/'}>
+                <div
+
+                  className="w-full focus:text-teal-500 hover:text-teal-500  justify-center inline-block text-center pt-2 pb-1"
+                >
                   <svg
                     width={25}
                     height={25}
@@ -309,7 +307,7 @@ export const SideBar = () => {
                 </div>
               </NavLink>
 
-              <NavLink to={"/chat"}>
+              <NavLink to={'/chat'}>
                 <a
                   href="#"
                   className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
@@ -362,13 +360,11 @@ export const SideBar = () => {
                       </g>
                     </g>
                   </svg>
-                  <span className="tab tab-kategori block text-xs">
-                    My Group
-                  </span>
+                  <span className="tab tab-kategori block text-xs">My Group</span>
                 </a>
               </NavLink>
 
-              <NavLink to={"/userstatistics"}>
+              <NavLink to={'/userstatistics'}>
                 <a
                   href="#"
                   className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
@@ -404,13 +400,13 @@ export const SideBar = () => {
                       />
                     </g>
                   </svg>
-                  <span className="tab tab-explore block text-xs">
-                    Statistics
-                  </span>
+                  <span className="tab tab-explore block text-xs">Statistics</span>
                 </a>
               </NavLink>
 
-              <NavLink to={"/notification"}>
+
+
+              <NavLink to={'/notification'}>
                 <a
                   href="#"
                   className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
@@ -469,7 +465,7 @@ export const SideBar = () => {
                 </a>
               </NavLink>
 
-              <NavLink to={`/profile/${user?._id}`}>
+              <NavLink to={`/profile/${user?._id}`} >
                 <a
                   href="#"
                   className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
@@ -525,6 +521,7 @@ export const SideBar = () => {
                   <span className="tab tab-account block text-xs">Profile</span>
                 </a>
               </NavLink>
+
             </div>
           </section>
         </div>

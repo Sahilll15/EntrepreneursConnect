@@ -39,12 +39,11 @@ const createNotification = async (senderId, receiverId, type, content) => {
         if (existingNotification) {
             return;
         }
-
+        if (senderId === receiverId) {
+            return;
+        }
         const newNotification = new Notification({
-            sender: {
-                id: senderId,
-                user: senderUser.toObject()
-            },
+            sender: senderId,
             receiver: receiverId,
             type: type,
             content: content

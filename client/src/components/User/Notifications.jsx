@@ -27,20 +27,12 @@ const Notification = () => {
   }, []);
 
 
-
-
-
   return (
     <MainLayout>
       <div className="p-2">
-
-
-
         <div className="mt-10">
           <div >
-
             <h2>Notifications </h2>
-
             <h2 className="text-right">
               <span class="sm:ml-3">
                 <button
@@ -87,10 +79,10 @@ const Notification = () => {
                   <div className="flex">
                     <div className="mr-3">
                       <NavLink
-                        to={`/profile/${notification?.sender?.user?._id}`}
+                        to={`/profile/${notification?.sender?._id}`}
                       >
                         <img
-                          src={notification?.sender?.user?.avatar?.url}
+                          src={notification?.sender?.avatar?.url}
                           alt="avatar"
                           className="w-10 h-10 rounded-full border border-gray-600"
                         />

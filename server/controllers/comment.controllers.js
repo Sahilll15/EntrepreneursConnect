@@ -3,7 +3,6 @@ const Post = require('../models/Product.models')
 const User = require('../models/user.models')
 const Like = require('../models/like.models')
 const { createNotification } = require('../controllers/Notification.controllers')
-
 const Addcomment = async (req, res) => {
     const { postId } = req.params;
     const { comment } = req.body;
@@ -14,7 +13,6 @@ const Addcomment = async (req, res) => {
         const post = await Post.findById(postId);
         if (!post) {
             return res.status(400).json({ msg: "Post not found" })
-
         }
         const author = req.user._id;
         const newComment = await Comment.create({
@@ -23,18 +21,17 @@ const Addcomment = async (req, res) => {
             comment: comment
         })
 
-        //create notification
-        await createNotification(req.user._id, post.author._id, 'comment', `${req.user.username} commented on your post ${comment}`);
 
-        await post.comments.push(req.user._id);
+        await createNotification(req.user._id, post.author, 'comment', `${req.user.username} commented on your post ${comment}`);
+
+
+        await post.comments.push(newComment);
         await post.save();
         await newComment.save();
         res.status(201).json({ msg: "Comment added", comment: newComment })
-
     } catch (error) {
         res.status(500).json({ error: error.message })
         console.log(error);
-
     }
 }
 
