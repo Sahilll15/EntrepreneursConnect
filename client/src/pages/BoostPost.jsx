@@ -15,6 +15,15 @@ const BoostPage = () => {
     };
     return new Date(isoDateString).toLocaleDateString(undefined, options);
   };
+
+  function convertTTLToNormalDate(ttlValue) {
+    const currentDateTime = new Date();
+    const expirationDateTime = new Date(currentDateTime.getTime() + (ttlValue * 1000));
+
+    return expirationDateTime.toISOString();
+  }
+
+
   const dispatch = useDispatch();
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -149,17 +158,23 @@ const BoostPage = () => {
       }
       {existingSubscription && (
         <div key={existingSubscription?._id}>
+          <div className="mt-2 rounded-lg">
+            <div className="border border-gray-700 w-1/2 p-4 rounded-lg shadow-lg bg-white">
+              <p className="text-lg font-semibold">Plan: {existingSubscription?.plan}</p>
+              <p className="text-sm">Created At: {formatDateTime(existingSubscription?.createdAt)}</p>
+              <p className="text-sm">Status: {existingSubscription?.status}</p>
+              <p className="text-sm">Expires At: {formatDateTime(convertTTLToNormalDate(existingSubscription?.ttl))}</p>
 
-          <div className="mt-2 border border-gray-700 w-1/2 p-4 rounded-lg shadow-xl">
-
-            <p>Plan: {existingSubscription?.plan}</p>
-            <p>createdAt:{formatDateTime(existingSubscription?.createdAt)}</p>
-            <button onClick={handleDelete} className="px-4 py-2 mt-2 bg-red-500 hover:bg-red-600 text-white rounded-md">
-              Cancel Subscription
-
-            </button>
+              <button
+                onClick={handleDelete}
+                className="px-4 py-2 mt-4 bg-red-500 hover:bg-red-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+              >
+                Cancel Subscription
+              </button>
+            </div>
           </div>
         </div>
+
       )
       }
 

@@ -8,6 +8,7 @@ import { fetchpostByUserID } from "../../redux/posts/postActions";
 import { FollowUnfollow } from "../../redux/auth/authActions";
 import { getcomment } from "../../redux/comments/commentActions";
 import BackToTopButton from "../../utils/BackToTop";
+import { getUserStats } from "../../redux/auth/authActions";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -43,6 +44,7 @@ const Profile = () => {
     dispatch(getProfile(id));
     dispatch(fetchpostByUserID(id));
     dispatch(getcomment());
+    dispatch(getUserStats(id));
   }, [dispatch]);
 
   return (
@@ -190,11 +192,11 @@ const Profile = () => {
                   </div> */}
                 </div>
 
-              <center>
-                <div>
-                  <p className="text-lg">Follow me on :<br/> <p className="text-2xl"> <i class="fa-brands fa-instagram cursor-pointer"></i> &nbsp; <i class="fa-brands fa-linkedin cursor-pointer"></i>  &nbsp; <i class="fa-brands fa-github cursor-pointer"></i></p> </p>
-                </div>
-              </center>  
+                <center>
+                  <div>
+                    <p className="text-lg">Follow me on :<br /> <p className="text-2xl"> <i class="fa-brands fa-instagram cursor-pointer"></i> &nbsp; <i class="fa-brands fa-linkedin cursor-pointer"></i>  &nbsp; <i class="fa-brands fa-github cursor-pointer"></i></p> </p>
+                  </div>
+                </center>
 
                 <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                   <div className="flex flex-wrap justify-center">
@@ -205,7 +207,7 @@ const Profile = () => {
                     </div>
                   </div>
                 </div>
-                
+
               </div>
             </div>
           </div>

@@ -235,61 +235,7 @@ const EditProfile = () => {
                     onChange={handleInputChange}
                   />
                 </div>
-                <div className="pb-2">
-                  <label htmlFor="Place" className="font-semibold text-gray-700 block">
-                    GITHUB LINK
-                  </label>
-                  <input
-                    id="Place"
-                    name="place"
-                    className="border rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
-                    type="text"
-                    value={formData.place}
-                    onChange={handleInputChange}
-                  />
-                </div>
 
-                <div className="pb-2">
-                  <label htmlFor="instagram" className="font-semibold text-gray-700 block">
-                    INSTAGRAM LINK
-                  </label>
-                  <input
-                    id="instagram"
-                    name="instagram"
-                    className="border rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
-                    type="text"
-                    value={formData.instagram}
-                    onChange={handleInputChange}
-                  />
-                </div>
-
-                <div className="pb-2">
-                  <label htmlFor="linkedin" className="font-semibold text-gray-700 block">
-                    LINKEDIN LINK
-                  </label>
-                  <input
-                    id="linkedin"
-                    name="linkedin"
-                    className="border rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
-                    type="text"
-                    value={formData.linkedin}
-                    onChange={handleInputChange}
-                  />
-                </div>
-
-                <div className="pb-2">
-                  <label htmlFor="github" className="font-semibold text-gray-700 block">
-                    GITHUB LINK
-                  </label>
-                  <input
-                    id="github"
-                    name="github"
-                    className="border rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
-                    type="text"
-                    value={formData.github}
-                    onChange={handleInputChange}
-                  />
-                </div>
 
                 <div className="pt-4">
                   <button

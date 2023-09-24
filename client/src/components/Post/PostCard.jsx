@@ -96,30 +96,30 @@ const PostCard = ({ product, comments }) => {
         <div className="flex items-center mb-4">
           <NavLink to={`/profile/${product.author._id}`}>
             <img
-              src={product.author.avatar.url}
-              alt={`${product.author.name}'s avatar`}
+              src={product?.author?.avatar?.url}
+              alt={`${product?.author?.name}'s avatar`}
               className={`w-8 h-8 rounded-full mr-3 border border-solid-4 ${isLiked ? "avatar-animation" : ""
                 }`}
             />
           </NavLink>
 
           <div>
-            <NavLink to={`/profile/${product.author._id}`}>
-              <p className="text-lg font-semibold">{product.author.username}</p>
+            <NavLink to={`/profile/${product?.author?._id}`}>
+              <p className="text-lg font-semibold">{product?.author?.username}</p>
             </NavLink>
             <p className="text-gray-600 text-sm">
-              {formatDateTime(product.createdAt)}
+              {formatDateTime(product?.createdAt)}
             </p>
           </div>
         </div>
-        <p className="text-xl font-semibold mb-4">{product.content}</p>
+        <p className="text-xl font-semibold mb-4">{product?.content}</p>
         <center>
           {product?.media && (
-            /\.(jpg|jpeg|png|gif)$/i.test(product.media) ? (
-              <img src={product.media} alt="Post media" className="w-96 rounded-lg mb-4" />
+            /\.(jpg|jpeg|png|gif)$/i.test(product?.media) ? (
+              <img src={product?.media} alt="Post media" className="w-96 rounded-lg mb-4" />
             ) : (
               <video controls className="w-96 rounded-lg mb-4">
-                <source src={product.media} type="video/mp4" />
+                <source src={product?.media} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             ))}
@@ -139,7 +139,7 @@ const PostCard = ({ product, comments }) => {
                 icon={faComment}
                 className="text-gray-500 font-bold text-xl"
               />{" "}
-              {product.comments.length}
+              {product?.comments?.length}
             </span>
           </div>
 
