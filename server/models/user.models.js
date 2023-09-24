@@ -69,6 +69,14 @@ const userSchema = new Schema(
             type: String,
             default: ""
         },
+        referral: {
+            type: String,
+            default: ""
+        },
+        TotalReferral: {
+            type: Number,
+            default: 0
+        },
         Place: {
             type: String,
             default: ""
@@ -114,3 +122,16 @@ userSchema.pre('remove', async function (next) {
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;
+
+
+// const newValues = {
+//     TotalReferral: ""
+// }
+
+
+// User.updateMany({}, { $set: newValues }).then(() => {
+//     console.log("done")
+// }).catch((err) => {
+//     console.log(err)
+// })
+

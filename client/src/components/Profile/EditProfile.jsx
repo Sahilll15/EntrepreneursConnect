@@ -211,7 +211,7 @@ const EditProfile = () => {
                     INSTAGRAM LINK
                   </label>
                   <input
-                    id="Place"
+                    id="instagramlink"
                     name="instagramlink"
                     className="border rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
                     type="text"
@@ -224,8 +224,8 @@ const EditProfile = () => {
                     LINKED IN LINK
                   </label>
                   <input
-                    id="Place"
-                    name="place"
+                    id="linkedinlink"
+                    name="linkedinlink"
                     className="border rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
                     type="text"
                     value={formData.linkedinlink}

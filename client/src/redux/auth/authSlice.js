@@ -17,6 +17,8 @@ const initialState = {
     initialLoading: false,
     emailVerificationLoading: false,
     resetPasswordLoading: false,
+    referalCode: "",
+    refrealTokenLoading: false,
 
 }
 
@@ -270,6 +272,7 @@ export const authSlice = createSlice({
             state.error = action.payload;
         }
         );
+
 
 
     },

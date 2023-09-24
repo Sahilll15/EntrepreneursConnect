@@ -9,6 +9,7 @@ import { FollowUnfollow } from "../../redux/auth/authActions";
 import { getcomment } from "../../redux/comments/commentActions";
 import BackToTopButton from "../../utils/BackToTop";
 import { getUserStats } from "../../redux/auth/authActions";
+import { NavLink } from "react-router-dom";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -185,16 +186,24 @@ const Profile = () => {
                     </div>
                   </div>
 
-                  {/* <div>
-                  <p><i className="fa-solid fa-medal" style={{color: "#D4Af37",}} />8 
-                  &nbsp; <i className="fa-solid fa-medal" style={{color: "#BBC2CC",}} />6  
-                  &nbsp; <i className="fa-solid fa-medal" style={{color: "#B08D57",}} />5</p>
-                  </div> */}
+
                 </div>
 
                 <center>
                   <div>
-                    <p className="text-lg">Follow me on :<br /> <p className="text-2xl"> <i class="fa-brands fa-instagram cursor-pointer"></i> &nbsp; <i class="fa-brands fa-linkedin cursor-pointer"></i>  &nbsp; <i class="fa-brands fa-github cursor-pointer"></i></p> </p>
+                    <p className="text-lg">Follow me on :<br />
+                      <p className="text-2xl flex justify-center gap-2">
+                        <NavLink to={`${ProfileUser?.InstagramLink}`} target="_blank">
+                          <i className="fa-brands fa-instagram cursor-pointer"></i>
+                        </NavLink>
+                        &nbsp;
+                        <NavLink to={`${ProfileUser?.LinkedInLink}`} target="_blank">
+                          <i className="fa-brands fa-linkedin cursor-pointer"></i>
+                        </NavLink>
+                        &nbsp;
+
+                      </p>
+                    </p>
                   </div>
                 </center>
 

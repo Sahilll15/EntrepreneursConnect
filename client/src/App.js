@@ -44,9 +44,11 @@ function App() {
       <ToastContainer />
       <Router>
         <Routes>
-        <Route path="/land" element={<Landing />} />
+          <Route path="/land" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/:referalCode" element={<Register />} />
+
 
           <Route
             path="/"

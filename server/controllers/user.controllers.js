@@ -9,6 +9,8 @@ const { sendVerificationEmail, generateverificationToken, resetPasswordEmail, ge
 const { createNotification } = require('../controllers/Notification.controllers')
 const { successFullVerification } = require('../utils/EmailTemplates')
 const { imageUpload } = require('../middleware/upload.midleware')
+const { uuid } = require('uuidv4');
+
 
 const AWS = require('aws-sdk')
 require('dotenv').config();
@@ -157,7 +159,7 @@ const loggedInUser = async (req, res) => {
 
         const currentUser = await User.findById(user).select('-password -productsShowcased');
 
-        console.log(user)
+
         if (!currentUser) {
             return res.status(404).json({ message: "No LoggedInUser" });
         }
@@ -192,7 +194,7 @@ const verifyemail = async (req, res) => {
 };
 
 const registerUser = async (req, res) => {
-    const { username, email, password } = req.body;
+    const { username, email, password, referalCode } = req.body;
     try {
         if (!username || !password || !email) {
             return res.status(400).json({ message: "Not all fields have been entered" })
@@ -202,34 +204,76 @@ const registerUser = async (req, res) => {
             return res.status(400).json({ message: "The password needs to be at least 6 characters long" })
         }
 
-
         const existedUser = await User.findOne({
             $or: [{ username }, { email }],
         });
-
         if (existedUser) {
             return res.status(400).json({ message: "An account with this username or email  already exists" })
         }
-        const verificationToken = generateverificationToken(email);
 
-        const hashedPassword = await bcrypt.hash(password, 10)
-
-        const newUser = await User.create({
-            username,
-            email,
-            password: hashedPassword,
-            verificationToken
-        })
-        await sendVerificationEmail(email, verificationToken);
-        const token = jwt.sign({
-            user: newUser
-        },
-            process.env.JWT_SECRET,
-            {
-                expiresIn: "1d"
+        //if refrealcode exists reguster the user with that referal code and increse his coins
+        if (referalCode) {
+            //check if the referal code exists 
+            const userExistsWithTheReferalCode = await User.findOne({ referral: referalCode }).select('-password -productsShowcased')
+            if (!userExistsWithTheReferalCode) {
+                return res.status(400).json({ message: "Invalid referal code" })
             }
-        )
-        res.json({ message: 'Registration successful. Please check your email for verification.', verificationToken: verificationToken, user: newUser });
+
+            const verificationToken = generateverificationToken(email);
+            const hashedPassword = await bcrypt.hash(password, 10)
+            const newUser = await User.create({
+                username,
+                email,
+                password: hashedPassword,
+                verificationToken,
+            })
+
+
+            console.log(userExistsWithTheReferalCode)
+
+            await sendVerificationEmail(email, verificationToken);
+            userExistsWithTheReferalCode.referredUsers.push(newUser._id);
+            userExistsWithTheReferalCode.points += 50;
+            userExistsWithTheReferalCode.TotalReferral += 1
+            await userExistsWithTheReferalCode.save();
+
+            //send a notification
+            const notificationMessage = `${newUser.username} joined through your ReferalCode and you got 50 points.`;
+            await createNotification(newUser._id, userExistsWithTheReferalCode._id, 'referal', notificationMessage);
+            console.log('user registed with referalCode')
+            const token = jwt.sign({
+                user: newUser
+            },
+
+                process.env.JWT_SECRET,
+                {
+                    expiresIn: "1d"
+                }
+            )
+            res.json({ message: 'Registration successful. Please check your email for verification.', user: newUser, token: token });
+        }
+
+        else {
+            const hashedPassword = await bcrypt.hash(password, 10)
+            const verificationToken = generateverificationToken(email);
+            const newUser = await User.create({
+                username,
+                email,
+                password: hashedPassword,
+                verificationToken
+            })
+            await sendVerificationEmail(email, verificationToken);
+            const token = jwt.sign({
+                user: newUser
+            },
+
+                process.env.JWT_SECRET,
+                {
+                    expiresIn: "1d"
+                }
+            )
+            res.json({ message: 'Registration successful. Please check your email for verification.', verificationToken: verificationToken, user: newUser, token: token });
+        }
 
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -299,7 +343,7 @@ const userInfo = async (req, res) => {
 const userProfile = async (req, res) => {
     const { userID } = req.params;
     try {
-        const user = await User.findById(userID).select('-password');
+        const user = await User.findById(userID).select('-password -productsShowcased');
 
         if (!user) {
             return res.status(404).json({ message: "No user with this ID" });
@@ -577,6 +621,7 @@ const resetPassword = async (req, res) => {
 
 
 
+
 module.exports = {
     registerUser,
     loginUser,
@@ -594,7 +639,8 @@ module.exports = {
     deleteAccount,
     resendVerificatoin,
     resetPassword,
-    sendResetPasswordEmail
+    sendResetPasswordEmail,
+
 
 
 }

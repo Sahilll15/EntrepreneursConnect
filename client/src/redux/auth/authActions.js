@@ -222,6 +222,7 @@ export const registerUser = createAsyncThunk(
                     username: formData.username,
                     email: formData.email,
                     password: formData.password,
+                    referalCode: formData.referalCode
                 }
             );
 
