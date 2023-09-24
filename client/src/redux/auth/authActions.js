@@ -157,7 +157,11 @@ export const updateProfile = createAsyncThunk(
                     username: formData.username,
                     email: formData.email,
                     bio: formData.bio,
-                    // image: formData.image,
+                    CompanyName: formData.companyName,
+                    Place: formData.place,
+                    InstagramLink: formData.instagramlink,
+                    LinkedInLink: formData.linkedinlink
+
                 },
                 {
                     headers: {

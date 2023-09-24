@@ -153,8 +153,16 @@ const userFollowUnfollow = async (req, res) => {
 
 const loggedInUser = async (req, res) => {
     try {
-        const user = req.user;
-        res.status(200).json({ user: user, message: 'success' });
+        const user = req.user._id;
+
+        const currentUser = await User.findById(user).select('-password -productsShowcased');
+
+        console.log(user)
+        if (!currentUser) {
+            return res.status(404).json({ message: "No LoggedInUser" });
+        }
+
+        res.status(200).json({ user: currentUser, message: 'success' });
     } catch (error) {
         res.status(500).json({ message: error.message });
         console.log(error);
@@ -307,7 +315,9 @@ const userProfile = async (req, res) => {
 
 
 const editProfile = async (req, res) => {
-    const { bio, username } = req.body;
+    const { bio, email, username, CompanyName, Place,
+        InstagramLink, LinkedInLink
+    } = req.body;
     try {
         const userId = req.user._id;
 
@@ -315,10 +325,19 @@ const editProfile = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: "No user with this ID" });
         }
-        user.bio = bio;
-        user.username = username;
-        await user.save();
-        res.status(200).json({ message: "user updated succesfully", user: user });
+
+        const newUser = await User.findByIdAndUpdate(userId, {
+            bio: bio,
+            email: email,
+            username: username,
+            CompanyName: CompanyName,
+            Place: Place,
+            InstagramLink: InstagramLink,
+            LinkedInLink: LinkedInLink
+        })
+
+        await newUser.save();
+        res.status(200).json({ message: "user updated succesfully", user: newUser });
     } catch (error) {
         res.status(500).json({ message: error.message });
         console.log(error);
