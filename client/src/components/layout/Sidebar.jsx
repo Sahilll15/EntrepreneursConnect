@@ -192,8 +192,8 @@ export const SideBar = () => {
           >
             <i className="bi bi-person-square"></i>
             <div className="flex justify-between items-center w-full ml-4">
-              <span className="text-lg text-white font-bold">
-                My Communities
+              <span className="text-base text-white font-bold">
+                Joined Communities
               </span>
               <span
                 className={`text-base ${

@@ -1,25 +1,34 @@
-
 import React, { useEffect, useState } from "react";
 import BoostPageLayout from "../components/layout/BoostPageLayout";
-import { createSub, getSubscriptionById, cancleSubscription } from "../redux/subscription/subActions";
+import {
+  createSub,
+  getSubscriptionById,
+  cancleSubscription,
+} from "../redux/subscription/subActions";
 import { useDispatch, useSelector } from "react-redux";
+
+import Boostp from "../components/Boost/BoostP"
 
 const BoostPage = () => {
   const formatDateTime = (isoDateString) => {
     const options = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
     };
     return new Date(isoDateString).toLocaleDateString(undefined, options);
   };
+  const postByUserID = useSelector((state) => state.posts.postsByUser.products);
+
   const dispatch = useDispatch();
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const [showDeletion, setShowDeletion] = useState(false)
-  const existingSubscription = useSelector((state) => state?.subscription.subByUser)
+  const [showDeletion, setShowDeletion] = useState(false);
+  const existingSubscription = useSelector(
+    (state) => state?.subscription.subByUser
+  );
 
   const handleChoosePlan = (plan) => {
     setSelectedPlan(plan);
@@ -29,27 +38,24 @@ const BoostPage = () => {
   const handleConfirm = async () => {
     if (selectedPlan) {
       await dispatch(createSub(selectedPlan));
-      await dispatch(getSubscriptionById())
+      await dispatch(getSubscriptionById());
       setShowConfirmationModal(false);
     }
   };
 
   const handleDeleteConfirm = async (id) => {
-
-    await dispatch(cancleSubscription(id))
-    await dispatch(getSubscriptionById())
-    setShowDeletion(false)
-
-  }
-
+    await dispatch(cancleSubscription(id));
+    await dispatch(getSubscriptionById());
+    setShowDeletion(false);
+  };
 
   const handleDelete = async () => {
-    setShowDeletion(true)
-  }
+    setShowDeletion(true);
+  };
 
   useEffect(() => {
-    dispatch(getSubscriptionById())
-  }, [dispatch])
+    dispatch(getSubscriptionById());
+  }, [dispatch]);
 
   return (
     <BoostPageLayout>
@@ -70,12 +76,10 @@ const BoostPage = () => {
               {/* Plan 1 */}
               <div
                 className="px-6 py-4 transition-colors duration-200 transform rounded-lg hover:bg-gray-200 border-2 ml-1"
-              // Pass the points associated with this plan
+                // Pass the points associated with this plan
               >
                 <p className="text-lg font-medium">Basic Boost</p>
-                <h4 className="mt-2 text-4xl font-semibold">
-                  200 Points
-                </h4>
+                <h4 className="mt-2 text-4xl font-semibold">200 Points</h4>
                 <p className="mt-4">
                   Perfect for boosting individual posts and gaining more
                   exposure.
@@ -83,7 +87,10 @@ const BoostPage = () => {
                 <div className="mt-8 space-y-4">
                   <FeatureItem text="Post Suggestions on the main page" />
                 </div>
-                <button onClick={() => handleChoosePlan('basic')} className="w-full px-4 py-2 mt-8 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                <button
+                  onClick={() => handleChoosePlan("basic")}
+                  className="w-full px-4 py-2 mt-8 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                >
                   Choose Plan
                 </button>
               </div>
@@ -91,12 +98,10 @@ const BoostPage = () => {
               {/* Plan 2 */}
               <div
                 className="px-6 py-4 transition-colors duration-200 transform rounded-lg hover:bg-gray-200 border-2 ml-1"
-              // Pass the points associated with this plan
+                // Pass the points associated with this plan
               >
                 <p className="text-lg font-medium">Pro Boost</p>
-                <h4 className="mt-2 text-4xl font-semibold">
-                  400 Points
-                </h4>
+                <h4 className="mt-2 text-4xl font-semibold">400 Points</h4>
                 <p className="mt-4">
                   Get even more visibility with enhanced promotion features.
                 </p>
@@ -104,7 +109,10 @@ const BoostPage = () => {
                   <FeatureItem text="Post Suggestions on the main page" />
                   <FeatureItem text="One Promotional Mail" />
                 </div>
-                <button onClick={() => handleChoosePlan('pro')} className="w-full px-4 py-2 mt-8 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                <button
+                  onClick={() => handleChoosePlan("pro")}
+                  className="w-full px-4 py-2 mt-8 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                >
                   Choose Plan
                 </button>
               </div>
@@ -112,12 +120,10 @@ const BoostPage = () => {
               {/* Plan 3 */}
               <div
                 className="px-6 py-4 transition-colors duration-200 transform rounded-lg hover:bg-gray-200 border-2 ml-1"
-              // Pass the points associated with this plan
+                // Pass the points associated with this plan
               >
                 <p className="text-lg font-medium">Premium Boost</p>
-                <h4 className="mt-2 text-4xl font-semibold">
-                  600 Points
-                </h4>
+                <h4 className="mt-2 text-4xl font-semibold">600 Points</h4>
                 <p className="mt-4">
                   Maximize your reach with top-tier promotion options.
                 </p>
@@ -128,7 +134,10 @@ const BoostPage = () => {
                   <FeatureItem text="Featured Profile" />
                   <FeatureItem text="Blue Tick Verification" />
                 </div>
-                <button onClick={() => handleChoosePlan('premium')} className="w-full px-4 py-2 mt-8 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                <button
+                  onClick={() => handleChoosePlan("premium")}
+                  className="w-full px-4 py-2 mt-8 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                >
                   Choose Plan
                 </button>
               </div>
@@ -136,87 +145,84 @@ const BoostPage = () => {
           </div>
         </section>
       </div>
-      <div>
-
-      </div>
+      <div></div>
       <h2 className="text-3xl font-semibold">Your Existing Subscription</h2>
-      {
-        !existingSubscription && (
-          <div className="mt-2 border border-gray-700 w-1/2 p-4 rounded-lg shadow-xl">
-            <p>You have no existing subscription, Choose a plan above</p>
-          </div>
-        )
-      }
+      {!existingSubscription && (
+        <div className="mt-2 border border-gray-700 w-1/2 p-4 rounded-lg shadow-xl">
+          <p>You have no existing subscription, Choose a plan above</p>
+        </div>
+      )}
       {existingSubscription && (
         <div key={existingSubscription?._id}>
-
           <div className="mt-2 border border-gray-700 w-1/2 p-4 rounded-lg shadow-xl">
-
             <p>Plan: {existingSubscription?.plan}</p>
             <p>createdAt:{formatDateTime(existingSubscription?.createdAt)}</p>
-            <button onClick={handleDelete} className="px-4 py-2 mt-2 bg-red-500 hover:bg-red-600 text-white rounded-md">
+            <button
+              onClick={handleDelete}
+              className="px-4 py-2 mt-2 bg-red-500 hover:bg-red-600 text-white rounded-md"
+            >
               Cancel Subscription
-
             </button>
           </div>
         </div>
-      )
-      }
+      )}
 
-      {
-        showDeletion && (
-          <div className="fixed inset-0 flex items-center justify-center z-50 ">
-            <div className="bg-white p-8 border border-black rounded-lg shadow-md">
-              <p className="text-lg font-semibold">
-                Cancle your plan: {existingSubscription?.plan}
-              </p>
-              <div className="flex justify-end mt-4">
-                <button
-                  className="px-4 py-2 mr-2 text-gray-600"
-                  onClick={() => setShowDeletion(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md"
-                  onClick={() => {
-                    handleDeleteConfirm(existingSubscription._id)
-                  }}
-                >
-                  Confirm
-                </button>
-              </div>
+      {showDeletion && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 ">
+          <div className="bg-white p-8 border border-black rounded-lg shadow-md">
+            <p className="text-lg font-semibold">
+              Cancle your plan: {existingSubscription?.plan}
+            </p>
+            <div className="flex justify-end mt-4">
+              <button
+                className="px-4 py-2 mr-2 text-gray-600"
+                onClick={() => setShowDeletion(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md"
+                onClick={() => {
+                  handleDeleteConfirm(existingSubscription._id);
+                }}
+              >
+                Confirm
+              </button>
             </div>
           </div>
-        )
-      }
+        </div>
+      )}
 
-      {
-        showConfirmationModal && (
-          <div className="fixed inset-0 flex items-center justify-center z-50 ">
-            <div className="bg-white p-8 border border-black rounded-lg shadow-md">
-              <p className="text-lg font-semibold">
-                Confirm your plan selection: {selectedPlan}
-              </p>
-              <div className="flex justify-end mt-4">
-                <button
-                  className="px-4 py-2 mr-2 text-gray-600"
-                  onClick={() => setShowConfirmationModal(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="px-4 py-2 bg-blue-500 text-white rounded-md"
-                  onClick={handleConfirm}
-                >
-                  Confirm
-                </button>
-              </div>
+      {showConfirmationModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 ">
+          <div className="bg-white p-8 border border-black rounded-lg shadow-md">
+            <p className="text-lg font-semibold">
+              Confirm your plan : {selectedPlan}
+            </p>
+
+
+            {/* <Boostp/> */}
+            
+
+
+            <div className="flex justify-end mt-4">
+              <button
+                className="px-4 py-2 mr-2 text-gray-600"
+                onClick={() => setShowConfirmationModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                onClick={handleConfirm}
+              >
+                Confirm
+              </button>
             </div>
           </div>
-        )
-      }
-    </BoostPageLayout >
+        </div>
+      )}
+    </BoostPageLayout>
   );
 };
 
