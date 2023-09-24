@@ -48,6 +48,15 @@ const Home = () => {
   // Determine which set of posts/products to display based on the active tab
   const filteredPosts = activeTab === 'ForYou' ? products : productsByFollowing;
 
+  if (!initialLoading) {
+    return (
+      <div className="flex flex-col justify-center items-center h-screen">
+        <div className="animate-spin rounded-full border-t-4 border-blue-500 border-opacity-25 h-20 w-20"></div>
+        <div>Loading....</div>
+      </div>
+    )
+  }
+
   return (
     <>
       <MainLayout>
@@ -107,7 +116,7 @@ const Home = () => {
               </div>
             )}
 
-          {initialLoading ? (
+          {
             filteredPosts?.length > 0 ? (
               filteredPosts.map((product) => (
                 <PostCard key={product?._id} product={product} comments={comments} />
@@ -115,12 +124,8 @@ const Home = () => {
             ) : (
               <PostCardSkeleton />
             )
-          ) : (
-            <div className="flex flex-col justify-center items-center h-screen">
-              <div className="animate-spin rounded-full border-t-4 border-blue-500 border-opacity-25 h-20 w-20"></div>
-              <div>Loading....</div>
-            </div>
-          )}
+
+          }
 
           {/* Display TopsUser component */}
           <div className="hidden lg:inline">
