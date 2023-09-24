@@ -9,6 +9,7 @@ import {
 import GroupDiscussionLayout from '../components/layout/GroupDiscussionLayout';
 import { NavLink } from 'react-router-dom';
 import MainLayout from '../components/layout/MainLayout';
+import Setting from '../components/Chat/Dsetting';
 
 const GroupDiscussion = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,16 @@ const GroupDiscussion = () => {
 
   // State to control the initial loader visibility
   const [showLoader, setShowLoader] = useState(true);
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  }
+
+  const closeModal = () => {
+    setModalOpen(false);
+  }
 
   const handleSubmit = async () => {
     await dispatch(createDiscussionCommunity({ newContent, id }));
@@ -81,22 +92,41 @@ const GroupDiscussion = () => {
       <div className='bg-gray-200 w-full'>
         <div className='h-screen w-full p-4 flex flex-col'>
 
-          <div className='bg-gray-200 border-2 border-black p-4 mb-4 rounded-lg shadow-md'>
-            <div className='flex items-center mb-4'>
-              {user.avatar && (
-                <img
-                  src={user.avatar}
-                  alt='User Avatar'
-                  className='w-10 h-10 rounded-full mr-4'
-                />
-              )}
-              <div>
-                <h1 className='text-xl font-semibold'>{group?.groupname}</h1>
-                <p className='text-sm text-gray-500'>Group Admin: {group?.groupAdmin}</p>
-              </div>
-            </div>
-            <p className='text-lg'>{group?.description}</p>
+        <div>
+      <div className="bg-gray-200 border-2 border-black p-4 mb-4 rounded-lg shadow-md relative">
+        <div className="flex items-center mb-4">
+          {user.avatar && (
+            <img
+              src={user.avatar}
+              alt="User Avatar"
+              className="w-10 h-10 rounded-full mr-4"
+            />
+          )}
+          <div>
+            <h1 className="text-xl font-semibold">{group?.groupname}</h1>
+            <p className="text-sm text-gray-500">
+              Group Admin: {group?.groupAdmin}
+            </p>
           </div>
+          <div className="absolute top-3 right-2">
+            <button onClick={openModal}>
+              <p className="text-xl hover:text-black text-gray-500"><i className="fa-solid fa-gear"></i></p>
+            </button>
+          </div>
+        </div>
+        <p className="text-lg">{group?.description}</p>
+      </div>
+
+      {modalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <button onClick={closeModal}>Close</button>
+            {/* Add your modal content here */}
+            <Setting />
+          </div>
+        </div>
+      )}
+    </div>
 
           <div className='flex-1 overflow-y-auto'>
             <div className='mb-4 '>

@@ -94,32 +94,32 @@ const PostCard = ({ product, comments }) => {
           )}
         </div>
         <div className="flex items-center mb-4">
-          <NavLink to={`/profile/${product.author.id}`}>
+          <NavLink to={`/profile/${product.author._id}`}>
             <img
-              src={product.author.avatar}
-              alt={`${product.author.name}'s avatar`}
+              src={product?.author?.avatar?.url}
+              alt={`${product?.author?.name}'s avatar`}
               className={`w-8 h-8 rounded-full mr-3 border border-solid-4 ${isLiked ? "avatar-animation" : ""
                 }`}
             />
           </NavLink>
 
           <div>
-            <NavLink to={`/profile/${product.author.id}`}>
-              <p className="text-lg font-semibold">{product.author.name}</p>
+            <NavLink to={`/profile/${product?.author?._id}`}>
+              <p className="text-lg font-semibold">{product?.author?.username}</p>
             </NavLink>
             <p className="text-gray-600 text-sm">
-              {formatDateTime(product.createdAt)}
+              {formatDateTime(product?.createdAt)}
             </p>
           </div>
         </div>
-        <p className="text-xl font-semibold mb-4">{product.content}</p>
+        <p className="text-xl font-semibold mb-4">{product?.content}</p>
         <center>
           {product?.media && (
-            /\.(jpg|jpeg|png|gif)$/i.test(product.media) ? (
-              <img src={product.media} alt="Post media" className="w-96 rounded-lg mb-4" />
+            /\.(jpg|jpeg|png|gif)$/i.test(product?.media) ? (
+              <img src={product?.media} alt="Post media" className="w-96 rounded-lg mb-4" />
             ) : (
               <video controls className="w-96 rounded-lg mb-4">
-                <source src={product.media} type="video/mp4" />
+                <source src={product?.media} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             ))}
@@ -139,19 +139,22 @@ const PostCard = ({ product, comments }) => {
                 icon={faComment}
                 className="text-gray-500 font-bold text-xl"
               />{" "}
-              {product.comments.length}
+              {product?.comments?.length}
             </span>
           </div>
+
           <div className="flex items-center space-x-2">
+
             <button
-              className={`text-${isLiked ? "green" : "blue"}-500 hover:text-${isLiked ? "green" : "blue"
+              className={`text-${isLiked ? "blue" : "green"}-500 hover:text-${isLiked ? "green" : "blue"
                 }-700`}
               onClick={() => {
                 handleLike(product._id);
               }}
             >
-              <FontAwesomeIcon icon={isLiked ? faThumbsUp : faThumbsUp} /> Liked
+              <FontAwesomeIcon icon={isLiked ? faThumbsUp : faThumbsUp} /> Like
             </button>
+
             <button
               className="text-gray-500 hover:text-gray-700"
               onClick={openCommentsModal}
@@ -162,7 +165,7 @@ const PostCard = ({ product, comments }) => {
               <FontAwesomeIcon icon={faShareSquare} /> Share
             </button>
 
-            {product?.author?.id === user?._id ? (
+            {product?.author?._id === user?._id ? (
               // <p>this btn is to boost post</p>
               <button
                 className="text-gray-500 hover:text-gray-700"
@@ -172,22 +175,23 @@ const PostCard = ({ product, comments }) => {
               </button>
             ) : null}
 
-            {product?.author?.id === user?._id ? (
+            {product?.author?._id === user?._id ? (
               <button
                 className="text-gray-500 hover:text-gray-700"
                 onClick={toggleOptionsMenu}
               >
                 <FontAwesomeIcon icon={faEllipsisV} />
               </button>
+
             ) : null}
           </div>
         </div>
         <hr className="my-4 " />
         {firstComment ? (
           <div className="flex items-center mb-2">
-            <NavLink to={`/profile/${firstComment.commentedBy.id}`}>
+            <NavLink to={`/profile/${firstComment?.commentedBy?._id}`}>
               <img
-                src={firstComment.commentedBy.avatar}
+                src={firstComment?.commentedBy?.avatar?.url}
                 alt={`${firstComment.commentedBy.name}'s avatar`}
                 className="w-8 h-8 rounded-full mr-3 border border-solid-4"
               />
@@ -195,9 +199,9 @@ const PostCard = ({ product, comments }) => {
             <div className="flex-grow">
               <div className="bg-gray-100 rounded-lg p-3 shadow-md">
                 <p className="text-sm font-semibold text-gray-800">
-                  {firstComment.commentedBy.name}
+                  {firstComment?.commentedBy?.username}
                 </p>
-                <p className="text-gray-600 text-sm">{firstComment.comment}</p>
+                <p className="text-gray-600 text-sm">{firstComment?.comment}</p>
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { resendVerificationEmail, getSearchUser, deleteAccount, registerUser, getProfile, loginUser, getLoggedInUser, updateProfile, FollowUnfollow, getLeaderBoard, getUserStats } from './authActions';
+import { updateAvatar, resendVerificationEmail, getSearchUser, deleteAccount, registerUser, getProfile, loginUser, getLoggedInUser, updateProfile, FollowUnfollow, getLeaderBoard, getUserStats } from './authActions';
 
 const initialState = {
     user: null,
@@ -217,6 +217,23 @@ export const authSlice = createSlice({
         }
         );
 
+        // Resend Verification Email reducer end
+        // Update Avatar reducer start
+        builder.addCase(updateAvatar.pending, (state, action) => {
+
+            state.loading = true;
+        }
+        );
+        builder.addCase(updateAvatar.fulfilled, (state, action) => {
+            state.loading = false;
+            state.user = action.payload.user;
+        }
+        );
+        builder.addCase(updateAvatar.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        }
+        );
 
     },
 });

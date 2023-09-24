@@ -8,6 +8,7 @@ import { fetchpostByUserID } from "../../redux/posts/postActions";
 import { FollowUnfollow } from "../../redux/auth/authActions";
 import { getcomment } from "../../redux/comments/commentActions";
 import BackToTopButton from "../../utils/BackToTop";
+import { getUserStats } from "../../redux/auth/authActions";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,8 @@ const Profile = () => {
   const [badge, setBadge] = useState(ProfileUser?.badges);
   const [hoverBadge, setHoverBadge] = useState(false);
   const comments = useSelector((state) => state?.comments?.comments);
+  const userStats = useSelector((state) => state?.user?.userStats);
+
 
   const handleMouseEnter = () => {
     setHoverBadge(true);
@@ -41,6 +44,7 @@ const Profile = () => {
     dispatch(getProfile(id));
     dispatch(fetchpostByUserID(id));
     dispatch(getcomment());
+    dispatch(getUserStats(id));
   }, [dispatch]);
 
   return (
@@ -92,8 +96,8 @@ const Profile = () => {
                           alt={ProfileUser?.badges}
                           src={ProfileUser?.avatar?.url}
                           className={`shadow-xl rounded-full h-auto align-middle absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px border-4 ${ProfileUser?.badges[0] === "Expert"
-                              ? "border-red-600"
-                              : "border-none"
+                            ? "border-red-600"
+                            : "border-none"
                             } hover:border-8 hover:border-red-600`}
                           onMouseEnter={handleMouseEnter}
                           onMouseLeave={handleMouseLeave}
@@ -113,8 +117,8 @@ const Profile = () => {
                         <button
                           onClick={followunfollow}
                           className={`${ProfileUser?.followers?.includes(loggedInUser)
-                              ? "bg-red-500 active:bg-red-600"
-                              : "bg-blue-500 active:bg-blue-600"
+                            ? "bg-red-500 active:bg-red-600"
+                            : "bg-blue-500 active:bg-blue-600"
                             } uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150`}
                           type="button"
                         >
@@ -132,9 +136,10 @@ const Profile = () => {
                     <div className="flex justify-center py-4 lg:pt-4 pt-8">
                       <div className="mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          {ProfileUser?.followers
-                            ? ProfileUser?.followers.length
-                            : 0}
+                          {
+                            userStats?.followers?.length
+                          }
+
                         </span>
                         <span className="text-sm text-blueGray-400">
                           Followers
@@ -142,9 +147,9 @@ const Profile = () => {
                       </div>
                       <div className="mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          {ProfileUser?.following
-                            ? ProfileUser?.following.length
-                            : 0}
+                          {
+                            userStats?.following?.length
+                          }
                         </span>
                         <span className="text-sm text-blueGray-400">
                           Following
@@ -152,9 +157,9 @@ const Profile = () => {
                       </div>
                       <div className="lg:mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          {ProfileUser?.productsShowcased
-                            ? ProfileUser?.productsShowcased?.length
-                            : 0}
+                          {
+                            userStats?.totalPosts
+                          }
                         </span>
                         <span className="text-sm text-blueGray-400">
                           Products
@@ -186,6 +191,13 @@ const Profile = () => {
                   &nbsp; <i className="fa-solid fa-medal" style={{color: "#B08D57",}} />5</p>
                   </div> */}
                 </div>
+
+                <center>
+                  <div>
+                    <p className="text-lg">Follow me on :<br /> <p className="text-2xl"> <i class="fa-brands fa-instagram cursor-pointer"></i> &nbsp; <i class="fa-brands fa-linkedin cursor-pointer"></i>  &nbsp; <i class="fa-brands fa-github cursor-pointer"></i></p> </p>
+                  </div>
+                </center>
+
                 <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                   <div className="flex flex-wrap justify-center">
                     <div className="w-full lg:w-9/12 px-4">
@@ -195,9 +207,11 @@ const Profile = () => {
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
+
           <div className="mx-auto">
             <h1 className="text-2xl font-semibold text-blueGray-700 mb-4 text-center">
               Posts

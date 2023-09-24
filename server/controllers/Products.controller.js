@@ -21,7 +21,7 @@ const createProduct = async (req, res) => {
     try {
         const author = req.user._id;
         console.log(author);
-        const user = await User.findById(author);
+        const user = await User.findById(author)
 
         if (!user) {
             return res.status(400).json({ msg: "User not found" });
@@ -33,12 +33,10 @@ const createProduct = async (req, res) => {
 
         const product = new Product({
             content,
-            author: {
-                id: author,
-                name: req.user.username,
-                avatar: req.user.avatar.url,
-            },
+            author: author
         });
+
+
 
         if (req.file) {
             const file = req.file;
@@ -50,6 +48,7 @@ const createProduct = async (req, res) => {
                 Body: file.buffer,
                 ContentType: file.mimetype,
             };
+
 
             await s3.upload(params, async (error, data) => {
                 if (error) {
@@ -113,7 +112,7 @@ const deleteProduct = async (req, res) => {
             res.status(400).json({ msg: 'No product with this id' });
         }
 
-        if (product.author.id.toString() !== user.toString()) {
+        if (product.author.toString() !== user.toString()) {
             return res.status(401).json({ msg: "You are not authorized to delete this product" });
         }
 
@@ -122,6 +121,7 @@ const deleteProduct = async (req, res) => {
             const s3Params = {
                 Bucket: process.env.AWS_BUCKET_NAME,
                 Key: product.media.split('/').pop(),
+
             };
 
             await s3.deleteObject(s3Params).promise();
@@ -144,7 +144,7 @@ const deleteProduct = async (req, res) => {
 const getProducts = async (req, res) => {
     try {
         const products = await Product.find().sort({ createdAt: -1 }).populate('author');
-        const validProducts = products.filter(product => product.author && product.author.id);
+        const validProducts = products.filter(product => product.author && product.author);
         const numberOfProducts = validProducts.length;
 
         res.status(200).json({ products: validProducts, mssg: "Products fetched successfully", qty: numberOfProducts });
@@ -182,7 +182,7 @@ const updateProduct = async (req, res) => {
             res.status(400).json({ mssg: 'No product with this id' });
         }
 
-        if (product.author.id.toString() !== user.toString()) {
+        if (product.author.toString() !== user.toString()) {
             return res.status(401).json({ mssg: "You are not authorized to update this product" });
         }
 
@@ -206,7 +206,7 @@ const getProductByUserId = async (req, res) => {
             return res.status(400).json({ msg: "User not found" });
         }
 
-        const products = await Product.find({ "author.id": userId })
+        const products = await Product.find({ author: userId })
             .sort({ createdAt: -1 })
             .populate("author", "-password");
 
@@ -275,7 +275,7 @@ const getProductsByFollowing = async (req, res) => {
         }
 
         const following = currentUser.following;
-        const products = await Product.find({ "author.id": { $in: following } })
+        const products = await Product.find({ author: { $in: following } })
             .sort({ createdAt: -1 })
             .populate("author", "-password");
 

@@ -11,8 +11,9 @@ const Setting = () => {
       <BoostPageLayout>
         <div className="p-2">
           <EditProfile />
-          <NewsLetter />
+          
           <ResetPwd />
+          <NewsLetter />
         </div>
       </BoostPageLayout>
     </div>

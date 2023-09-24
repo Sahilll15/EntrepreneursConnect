@@ -3,7 +3,7 @@ const router = Router();
 
 const { createProduct, getProductsByFollowing, getProducts, getProductById, deleteProduct, getProductByUserId, updateProduct, saveProduct, getSavedProducts } = require('../controllers/Products.controller'); // Change to 'product.controllers'
 const { verifyJWT } = require('../middleware/auth.middleware');
-const upload = require('../middleware/upload.midleware')
+const { upload } = require('../middleware/upload.midleware')
 
 router.post('/createproduct', upload, verifyJWT, createProduct); // Change to 'createproduct'
 router.get('/getproducts', getProducts); // Change to 'getproducts'

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { getLoggedInUser, updateProfile } from "../../redux/auth/authActions";
+import { getLoggedInUser, updateProfile, deleteAccount } from "../../redux/auth/authActions";
 import { useDispatch, useSelector } from "react-redux";
 import EditProfileSkeleton from "../Skeleton/EditProfileSkeleton";
-import { deleteAccount } from "../../redux/auth/authActions";
+import { useDropzone } from "react-dropzone";
+import { updateAvatar } from "../../redux/auth/authActions";
 
 const EditProfile = () => {
   const dispatch = useDispatch();
@@ -19,8 +20,18 @@ const EditProfile = () => {
 
   const [formData, setFormData] = useState(initialFormData);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState(user?.avatar?.url);
 
+  const onDrop = (acceptedFiles) => {
+    if (acceptedFiles && acceptedFiles.length > 0) {
+      const file = acceptedFiles[0];
+      setProfilePhoto(file);
+      dispatch(updateAvatar(file));
+      dispatch(getLoggedInUser());
+    }
+  };
 
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -32,7 +43,11 @@ const EditProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(updateProfile(formData)).then(async () => {
+    const updatedFormData = {
+      ...formData,
+      profilePhoto, // Include the selected profile photo in the form data
+    };
+    await dispatch(updateProfile(updatedFormData)).then(async () => {
       await dispatch(getLoggedInUser());
     });
   };
@@ -59,7 +74,6 @@ const EditProfile = () => {
     return <EditProfileSkeleton />;
   }
 
-
   return (
     <div className="flex flex-col md:flex-row justify-center border border-gray-300 my-10 rounded-lg">
       <div className="w-full md:max-w-screen-xl bg-white rounded-lg overflow-hidden shadow-lg">
@@ -68,12 +82,28 @@ const EditProfile = () => {
             <div className="text-xl font-semibold text-center md:text-left">{`${user?.username}'s Profile`}</div>
 
             <div className="mt-4">
-              <img
-                id="showImage"
+              <div
+                {...getRootProps()}
                 className="w-48 h-48 border rounded-lg mx-auto border-gray-900 transition-transform transform hover:scale-105"
-                src={user?.avatar?.url || "https://placeholder.com/200"}
-                alt="User Profile"
-              />
+              >
+                <input {...getInputProps()} />
+                {profilePhoto ? (
+                  <img
+                    src={profilePhoto}
+                    alt="Selected Profile Photo"
+                    className="w-48 h-48 rounded-lg"
+                  />
+                ) : (
+                  <p>Drag & drop a new profile photo here or click to select one</p>
+                )}
+              </div>
+              {/* Add a button or link to allow users to remove the current profile photo */}
+              <button
+                onClick={() => setProfilePhoto(null)}
+                className="mt-2 bg-red-500 text-white px-2 py-1 rounded-md text-sm"
+              >
+                Remove Photo
+              </button>
             </div>
 
             <div className="mt-4 text-gray-600 text-center md:text-left">Your Bio</div>
@@ -120,7 +150,6 @@ const EditProfile = () => {
               )}
             </div>
           </div>
-
 
           <div className="w-full md:w-2/3 p-4 md:p-8">
             <div className="rounded shadow p-6 border border-gray-900">
@@ -180,6 +209,33 @@ const EditProfile = () => {
                     onChange={handleInputChange}
                   />
                 </div>
+                <div className="pb-2">
+                  <label htmlFor="Place" className="font-semibold text-gray-700 block">
+                    INSTAGRAM LINK
+                  </label>
+                  <input
+                    id="Place"
+                    name="place"
+                    className="border rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+                    type="text"
+                    value={formData.place}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="pb-2">
+                  <label htmlFor="Place" className="font-semibold text-gray-700 block">
+                    LINKED IN LINK
+                  </label>
+                  <input
+                    id="Place"
+                    name="place"
+                    className="border rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+                    type="text"
+                    value={formData.place}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
 
                 <div className="pt-4">
                   <button
@@ -195,9 +251,6 @@ const EditProfile = () => {
         </div>
       </div>
     </div>
-
-
-
   );
 };
 
