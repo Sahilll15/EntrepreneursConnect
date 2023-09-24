@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { NavLink } from 'react-router-dom'
+import { NavLink } from "react-router-dom";
 import "../css/Sidebar.css";
 import { useNavigate } from "react-router-dom";
 import { getLoggedInUser, getSearchUser } from "../../redux/auth/authActions";
@@ -15,31 +15,32 @@ export const SideBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [searchUsername, setSearchUsername] = useState({
-    username: ''
-  })
+    username: "",
+  });
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
-  let searchedUser = useSelector((state) => state?.user?.searchUser)
+  let searchedUser = useSelector((state) => state?.user?.searchUser);
 
-  const notifications = useSelector((state) => state?.notifications.notifications.notifications);
-  const groupsJoined = useSelector((state) => state?.community?.groupsJoined)
+  const notifications = useSelector(
+    (state) => state?.notifications.notifications.notifications
+  );
+  const groupsJoined = useSelector((state) => state?.community?.groupsJoined);
   const hasNotifications = notifications?.length > 0;
 
   const logout = () => {
-    localStorage.removeItem('authtoken');
-    navigate('/login');
-  }
-
+    localStorage.removeItem("authtoken");
+    navigate("/login");
+  };
 
   const handleSearchBlur = () => {
     if (searchUsername.username === "") {
-      setSearchUsername({ username: '' });
+      setSearchUsername({ username: "" });
     }
-  }
+  };
 
   useEffect(() => {
     if (searchUsername.username) {
@@ -53,7 +54,7 @@ export const SideBar = () => {
 
 
   return (
-    <div >
+    <div>
       <div className="sideParent">
         <span
           className="absolute text-white text-4xl top-5 left-4 cursor-pointer"
@@ -71,7 +72,6 @@ export const SideBar = () => {
                   ? "border-red-600"
                   : "border-none"
                   } `}
-
               />
               <h1 className="font-bold text-gray-200 text-[15px] ml-3">
                 <div className="flex-col">
@@ -88,16 +88,20 @@ export const SideBar = () => {
               placeholder="Find people"
               name="username"
               className="text-[15px] ml-4 w-full bg-transparent focus:outline-none"
-              onChange={(e) => setSearchUsername({ ...searchUsername, [e.target.name]: e.target.value })}
+              onChange={(e) =>
+                setSearchUsername({
+                  ...searchUsername,
+                  [e.target.name]: e.target.value,
+                })
+              }
               onBlur={handleSearchBlur}
             />
           </div>
           <div className="my-2 bg-gray-600 h-[1px]" />
           {searchedUser?.map((user) => (
-            <NavLink to={`/profile/${user?._id}`} >
+            <NavLink to={`/profile/${user?._id}`}>
               <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
                 <img
-
                   src={user?.avatar?.url}
                   alt=""
                   className="w-[40px] h-[40px] rounded-full border border-blue-400"
@@ -109,17 +113,16 @@ export const SideBar = () => {
             </NavLink>
           ))}
 
-          <NavLink to={'/'}>
+          <NavLink to={"/"}>
             <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
               <i className="bi bi-house-door-fill" />
               <span className="text-[15px] ml-4 text-gray-200 font-bold">
                 Home
               </span>
             </div>
-
           </NavLink>
 
-          <NavLink to={'/chat'} >
+          <NavLink to={"/chat"}>
             <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
               <i class="bi bi-people"></i>
               <span className="text-[15px] ml-4 text-gray-200 font-bold">
@@ -133,13 +136,13 @@ export const SideBar = () => {
               <i class="bi bi-bell"></i>
               <span className={`text-[15px] ml-4 font-bold ${hasNotifications ? 'text-blue-600' : 'text-gray-200'}`}>
                 Notification
-              </span>&nbsp;&nbsp;
+              </span>
+              &nbsp;&nbsp;
               {notifications?.length}
-
             </div>
           </NavLink>
 
-          <NavLink to={`/profile/${user?._id}`} >
+          <NavLink to={`/profile/${user?._id}`}>
             <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
               <i class="bi bi-person-circle"></i>
               <span className="text-[15px] ml-4 text-gray-200 font-bold">
@@ -147,7 +150,7 @@ export const SideBar = () => {
               </span>
             </div>
           </NavLink>
-          <NavLink to={'/boost'} >
+          <NavLink to={"/boost"}>
             <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
               <i class="bi bi-plus-circle"></i>
               <span className="text-[15px] ml-4 text-gray-200 font-bold">
@@ -155,7 +158,7 @@ export const SideBar = () => {
               </span>
             </div>
           </NavLink>
-          <NavLink to={'/userstatistics'} >
+          <NavLink to={"/userstatistics"}>
             <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
               <i class="bi bi-bar-chart"></i>
               <span className="text-[15px] ml-4 text-gray-200 font-bold">
@@ -163,7 +166,7 @@ export const SideBar = () => {
               </span>
             </div>
           </NavLink>
-          <NavLink to={'/lend'} >
+          <NavLink to={"/lend"}>
             <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
               <i class="bi bi-piggy-bank-fill"></i>
               <span className="text-[15px] ml-4 text-gray-200 font-bold">
@@ -171,7 +174,7 @@ export const SideBar = () => {
               </span>
             </div>
           </NavLink>
-          <NavLink to={'/setting'} >
+          <NavLink to={"/setting"}>
             <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
               <i class="bi bi-gear"></i>
               <span className="text-[15px] ml-4 text-gray-200 font-bold">
@@ -179,22 +182,33 @@ export const SideBar = () => {
               </span>
             </div>
           </NavLink>
+
           <div className="my-4 bg-gray-600 h-[1px]" />
+
           <div
-            className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
-            onClick={toggleDropdown} // Toggle the dropdown on click
+            className="flex items-center p-2.5 mt-3 rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
+            onClick={toggleDropdown}
           >
             <i className="bi bi-person-square"></i>
-            <div className="flex justify-between w-full items-center">
-              <span className="text-[15px] ml-4 text-gray-200 font-bold">
-                My Communities
+            <div className="flex justify-between items-center w-full ml-4">
+              <span className="text-base text-white font-bold">
+                Joined Communities
               </span>
-              <span className={`text-sm ${isDropdownOpen ? 'rotate-180' : ''}`} id="arrow">
-                <i className="bi bi-chevron-down" />
+              <span
+                className={`text-base ${isDropdownOpen ? "transform rotate-180" : ""
+                  }`}
+                id="arrow"
+              >
+                <i className="fas fa-chevron-down"></i>
               </span>
             </div>
           </div>
-          <div className={`text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold ${isDropdownOpen ? 'block' : 'hidden'}`} id="submenu">
+
+          <div
+            className={`text-left mt-2 w-4/5 mx-auto  ${isDropdownOpen ? "block" : "hidden"
+              }`}
+            id="submenu"
+          >
             {groupsJoined?.map((group) => (
               <NavLink
                 to={`/groupDiscussion/${group._id}`}
@@ -202,16 +216,20 @@ export const SideBar = () => {
                   dispatch(getCommunityById(group._id));
                   dispatch(getCommunityDiscussion(group._id));
                 }}
-                key={group._id} // Don't forget to add a unique key
+                key={group._id}
               >
-                <div className="rounded-lg shadow-md mb-4">
-                  <h2 className="text-xl text-white">{group.name}</h2>
-                  <p className="text-gray-600 mt-1">{group.groupAdmin}</p>
+                <div className="rounded-lg shadow-md mb-2 bg-white p-3 hover:bg-gray-200">
+                  <h2 className="text-sm text-gray-800">{group.name}</h2>
+                  <p className="text-gray-600 text-xs mt-1">By &nbsp;{group.groupAdmin}</p>
                 </div>
               </NavLink>
             ))}
           </div>
-          <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white" onClick={logout}>
+
+          <div
+            className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
+            onClick={logout}
+          >
             <i className="bi bi-box-arrow-in-right" />
             <span className="text-[15px] ml-4 text-gray-200 font-bold">
               Logout
@@ -508,6 +526,5 @@ export const SideBar = () => {
     </div>
   );
 };
-
 
 export default SideBar;

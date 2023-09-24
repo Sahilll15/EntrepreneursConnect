@@ -3,8 +3,9 @@ const bcrypt = require('bcrypt')
 const User = require('../models/user.models')
 const Post = require('../models/Product.models')
 const Comment = require('../models/comments.models')
+const OTP = require('../models/otp.models')
 const { io } = require('../index.js')
-const { sendVerificationEmail, generateverificationToken } = require('../utils/email')
+const { sendVerificationEmail, generateverificationToken, resetPasswordEmail, generateOTP } = require('../utils/email')
 const { createNotification } = require('../controllers/Notification.controllers')
 const { successFullVerification } = require('../utils/EmailTemplates')
 const { imageUpload } = require('../middleware/upload.midleware')
@@ -203,10 +204,12 @@ const registerUser = async (req, res) => {
         }
         const verificationToken = generateverificationToken(email);
 
+        const hashedPassword = await bcrypt.hash(password, 10)
+
         const newUser = await User.create({
             username,
             email,
-            password,
+            password: hashedPassword,
             verificationToken
         })
         await sendVerificationEmail(email, verificationToken);
@@ -228,47 +231,56 @@ const registerUser = async (req, res) => {
 
 
 const loginUser = async (req, res) => {
-
     const { email, password } = req.body;
 
     try {
         if (!email || !password) {
-            return res.status(400).json({ message: "Not all fields have been entered" })
+            return res.status(400).json({ message: "Not all fields have been entered" });
         }
-        const user = await User.findOne({
-            email
-        })
+
+        const user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(400).json({ message: " account with this username does not exist!!" })
+            return res.status(400).json({ message: "Account with this email does not exist!!" });
         }
 
         if (!user.isVerified) {
-            return res.status(400).json({ message: "Please verify your email to login" })
+            return res.status(400).json({ message: "Please verify your email to login" });
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
-            return res.status(400).json({ message: "Invalid credentials" })
+            return res.status(400).json({ message: "Invalid credentials" });
         }
 
-        const token = jwt.sign({
-            user: user
-        },
+        // Create a user object with selected fields
+        const userWithoutSensitiveData = user.toObject();
+        delete userWithoutSensitiveData.password; // Exclude the password field
+        delete userWithoutSensitiveData.productsShowcased; // Exclude the productsShowcased field
+
+        // Sign the JWT token
+        const token = jwt.sign(
+            {
+                user: userWithoutSensitiveData,
+            },
             process.env.JWT_SECRET,
             {
-                expiresIn: "1d"
+                expiresIn: "1d",
             }
-        )
+        );
 
-        res.status(200).json({ user: user, token: token, message: "user logged in" })
+        res.status(200).json({
+            user: userWithoutSensitiveData,
+            token: token,
+            message: "User logged in",
+        });
 
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        res.status(500).json({ message: error.message });
         console.log(error);
     }
-}
+};
 
 
 const userInfo = async (req, res) => {
@@ -470,6 +482,81 @@ const resendVerificatoin = async (req, res) => {
         console.log(error);
     }
 }
+const sendResetPasswordEmail = async (req, res) => {
+
+    try {
+        let user = await User.findOne({ email: req.body.email });
+
+        if (!user) {
+            return res.status(404).json({ message: 'Email does not exist' });
+        } else {
+            //logic to delete exisitng otp
+            const otpexist = OTP.findOne({ email: req.body.email })
+            if (otpexist) {
+                await OTP.deleteMany({ email: req.body.email });
+            }
+
+            const expirationDate = new Date(Date.now() + 10 * 60 * 1000);
+            const otpcode = generateOTP();
+            const otpData = new OTP({
+                code: otpcode,
+                email: req.body.email,
+                expiration: expirationDate,
+            });
+
+            await otpData.save();
+            await resetPasswordEmail(req.body.email, otpcode);
+
+            res.status(200).json({ message: 'OTP sent successfully', otp: otpData });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error' });
+        console.log(error);
+    }
+};
+
+
+
+const resetPassword = async (req, res) => {
+    const { email, otpCode, password } = req.body;
+    try {
+
+        if (!email || !otpCode || !password) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        console.log(email, otpCode, password);
+        let data = await OTP.findOne({ email, code: otpCode });
+        console.log(data);
+
+
+        if (!data) {
+            return res.status(404).json({ message: 'Invalid OTP' });
+        } else {
+            let currentTime = new Date();
+            if (currentTime > data.expiration) {
+                res.status(401).json({ message: "Token Expired" });
+            } else {
+                let user = await User.findOne({ email });
+
+
+                if (!user) {
+                    res.status(404).json({ message: "User does not exist" });
+                } else {
+                    const hashedPassword = await bcrypt.hash(password, 10);
+                    user.password = hashedPassword;
+                    await user.save();
+                    res.status(200).json({ message: "Password changed successfully" });
+                }
+            }
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error' });
+        console.log(error);
+    }
+}
+
+
 
 module.exports = {
     registerUser,
@@ -486,7 +573,9 @@ module.exports = {
     loggedInUser,
     getUserStats,
     deleteAccount,
-    resendVerificatoin
+    resendVerificatoin,
+    resetPassword,
+    sendResetPasswordEmail
 
 
 }

@@ -344,3 +344,60 @@ export const getSearchUser = createAsyncThunk(
         }
     }
 )
+
+
+export const sendResetPassword = createAsyncThunk(
+    'user/sendresetpassword',
+    async (email, { rejectWithValue }) => {
+        try {
+            const response = await axios.post(
+                `${host}/api/v1/auth/sendresetpasswordemail`,
+                {
+                    email: email,
+                }
+            );
+
+            if (response.status === 200) {
+                toast.success(response.data.message);
+                return response.data;
+            } else {
+                toast.error(response.data.message);
+                return rejectWithValue(response.data.message);
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message);
+            return rejectWithValue(error.response?.data?.message);
+        }
+    }
+)
+
+
+export const resetPassword = createAsyncThunk(
+    'user/resetpassword',
+    async (formData, { rejectWithValue }) => {
+        try {
+            const response = await axios.put(
+                `${host}/api/v1/auth/resetpassword`,
+                {
+                    email: formData.email,
+                    password: formData.newPassword,
+                    otpCode: formData.otp,
+
+                }
+            );
+
+            if (response.status === 200) {
+                toast.success(response.data.message);
+                return response.data;
+            } else {
+                toast.error(response.data.message);
+                return rejectWithValue(response.data.message);
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message);
+            return rejectWithValue(error.response?.data?.message);
+        }
+    }
+)
+
+

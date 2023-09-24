@@ -26,22 +26,27 @@ const getNotifications = async (req, res) => {
 
 const createNotification = async (senderId, receiverId, type, content) => {
     try {
+
+        if (senderId.toString() === receiverId.toString()) {
+            console.log('notificaiotn not send')
+            return null;
+        }
+
         const senderUser = await User.findById(senderId);
         if (!senderUser) {
             return;
         }
+
         const existingNotification = await Notification.findOne({
-            'sender.id': senderId,
+            sender: senderId,
             receiver: receiverId,
             content: content
         });
 
         if (existingNotification) {
-            return;
+            return null;
         }
-        if (senderId === receiverId) {
-            return;
-        }
+
         const newNotification = new Notification({
             sender: senderId,
             receiver: receiverId,

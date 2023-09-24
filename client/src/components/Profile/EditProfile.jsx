@@ -7,16 +7,19 @@ import { updateAvatar } from "../../redux/auth/authActions";
 
 const EditProfile = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.user);
-  const isLoading = useSelector((state) => state.user.loading);
+  const user = useSelector((state) => state?.user?.user);
+  const isLoading = useSelector((state) => state?.user?.loading);
 
   const initialFormData = {
-    username: user?.username || "",
-    email: user?.email || "",
-    companyName: "",
-    place: "",
-    bio: user?.bio || "",
+    username: user?.username,
+    email: user?.email,
+    companyName: user?.CompanyName,
+    place: user?.Place,
+    bio: user?.bio,
+    instagramlink: user?.InstagramLink,
+    linkedinlink: user?.LinkedInLink,
   };
+
 
   const [formData, setFormData] = useState(initialFormData);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -61,14 +64,8 @@ const EditProfile = () => {
   };
 
   useEffect(() => {
-    const fetchUser = async () => {
-      if (!user) {
-        await dispatch(getLoggedInUser());
-      }
-    };
-
-    fetchUser();
-  }, [dispatch, user]);
+    dispatch(getLoggedInUser());
+  }, [dispatch]);
 
   if (isLoading) {
     return <EditProfileSkeleton />;
@@ -97,7 +94,7 @@ const EditProfile = () => {
                   <p>Drag & drop a new profile photo here or click to select one</p>
                 )}
               </div>
-              {/* Add a button or link to allow users to remove the current profile photo */}
+
               <button
                 onClick={() => setProfilePhoto(null)}
                 className="mt-2 bg-red-500 text-white px-2 py-1 rounded-md text-sm"
@@ -215,10 +212,10 @@ const EditProfile = () => {
                   </label>
                   <input
                     id="Place"
-                    name="place"
+                    name="instagramlink"
                     className="border rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
                     type="text"
-                    value={formData.place}
+                    value={formData.instagramlink}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -231,7 +228,7 @@ const EditProfile = () => {
                     name="place"
                     className="border rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
                     type="text"
-                    value={formData.place}
+                    value={formData.linkedinlink}
                     onChange={handleInputChange}
                   />
                 </div>

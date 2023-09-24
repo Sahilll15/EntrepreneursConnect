@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer');
 require('dotenv').config();
-const { gmailContent } = require('./EmailTemplates')
+const { gmailContent, OtpContent } = require('./EmailTemplates')
 const secret_key = process.env.JWT_SECRET;
 
 
@@ -39,6 +39,27 @@ const sendVerificationEmail = async (recipientEmail, verificationToken) => {
     }
 }
 
+
+
+const resetPasswordEmail = async (receipentEmail, otpcode) => {
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD,
+        }
+    });
+
+    const emailcontent = OtpContent(otpcode);
+    await transporter.sendMail({
+        from: process.env.EMAIL,
+        to: receipentEmail,
+        subject: 'Reset Password',
+        html: emailcontent
+    });
+}
+
 const generateOTP = () => {
     const otpLength = 6;
     const characters = '0123456789';
@@ -53,5 +74,6 @@ const generateOTP = () => {
 module.exports = {
     generateverificationToken,
     sendVerificationEmail,
-    generateOTP
+    generateOTP,
+    resetPasswordEmail
 }
