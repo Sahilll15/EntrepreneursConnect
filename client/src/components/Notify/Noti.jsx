@@ -18,8 +18,8 @@ const Noti = () => {
     {showModal && (
       <div className="modal fixed inset-0 z-50 flex p-2  items-center justify-center">
         <div className="bg-black bg-opacity-50 absolute inset-0"></div>
-        <div className="bg-white p-2 rounded-lg shadow-lg z-10 w-11/12 h-2/6" style={{ top: '80%' }}>
-          <h2 className="text-xl  text-center mb-2">Notification</h2>
+        <div className="bg-white p-2 rounded-lg shadow-lg z-10 w-11/12 " style={{ maxHeight: '800px', overflowY: 'auto', top: '80%' }}>
+         <h2 className="text-xl  text-center mb-2">Notification</h2>
           <Notif/>
           <button
             className="bg-blue-500 hover:bg-blue-700 text-base text-white font-bold py-2 px-4 rounded mt-4"
