@@ -10,6 +10,7 @@ const Noti = () => {
   <div>
     <img src="https://entrepreneursconnect.vercel.app/static/media/logo-black.f4e3c1070aa8d5bfed53.png" className="w-1/2 sm:w-1/3 lg:w-1/3 xl:w-1/3  " alt="" />
   </div>
+  
   <div className="text-right text-2xl p-2 relative">
     <i
       className="fa-regular fa-bell cursor-pointer"
