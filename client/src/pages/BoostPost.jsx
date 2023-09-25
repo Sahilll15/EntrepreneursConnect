@@ -6,10 +6,12 @@ import {
   cancleSubscription,
 } from "../redux/subscription/subActions";
 import { useDispatch, useSelector } from "react-redux";
+import { getLoggedInUser } from "../redux/auth/authActions";
 
-import Boostp from "../components/Boost/BoostP"
 
 const BoostPage = () => {
+
+  const user = useSelector((state) => state.user.user);
   const formatDateTime = (isoDateString) => {
     const options = {
       year: "numeric",
@@ -28,8 +30,6 @@ const BoostPage = () => {
 
     return expirationDateTime.toISOString();
   }
-
-
 
   const dispatch = useDispatch();
   const [selectedPlan, setSelectedPlan] = useState(null);
@@ -55,6 +55,7 @@ const BoostPage = () => {
   const handleDeleteConfirm = async (id) => {
     await dispatch(cancleSubscription(id));
     await dispatch(getSubscriptionById());
+    await dispatch(getLoggedInUser())
     setShowDeletion(false);
   };
 
@@ -82,10 +83,10 @@ const BoostPage = () => {
               </div>
             </div>
             <div className="grid gap-6 mt-16 -mx-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {/* Plan 1 */}
+
               <div
                 className="px-6 py-4 transition-colors duration-200 transform rounded-lg hover:bg-gray-200 border-2 ml-1"
-                // Pass the points associated with this plan
+
               >
                 <p className="text-lg font-medium">Basic Boost</p>
                 <h4 className="mt-2 text-4xl font-semibold">200 Points</h4>
@@ -98,16 +99,19 @@ const BoostPage = () => {
                 </div>
                 <button
                   onClick={() => handleChoosePlan("basic")}
-                  className="w-full px-4 py-2 mt-8 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                  className={`w-full px-4 py-2 mt-8 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform ${user?.subscription === "basic" ? "bg-red-500" : "bg-blue-500"
+                    } rounded-md  focus:outline-none focus:bg-blue-600`}
+                  disabled={user?.subscription === "basic"}
                 >
-                  Choose Plan
+                  {user?.subscription === "basic" ? "Current Plan" : "Choose Plan"}
                 </button>
+
               </div>
 
-              {/* Plan 2 */}
+
               <div
                 className="px-6 py-4 transition-colors duration-200 transform rounded-lg hover:bg-gray-200 border-2 ml-1"
-                // Pass the points associated with this plan
+
               >
                 <p className="text-lg font-medium">Pro Boost</p>
                 <h4 className="mt-2 text-4xl font-semibold">400 Points</h4>
@@ -120,16 +124,18 @@ const BoostPage = () => {
                 </div>
                 <button
                   onClick={() => handleChoosePlan("pro")}
-                  className="w-full px-4 py-2 mt-8 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                  className={`w-full px-4 py-2 mt-8 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform ${user?.subscription === "pro" ? "bg-red-500" : "bg-blue-500"
+                    } rounded-md  focus:outline-none focus:bg-blue-600`}
+                  disabled={user?.subscription === "pro"}
                 >
-                  Choose Plan
+                  {user?.subscription === "pro" ? "Current Plan" : "Choose Plan"}
                 </button>
+
               </div>
 
-              {/* Plan 3 */}
               <div
                 className="px-6 py-4 transition-colors duration-200 transform rounded-lg hover:bg-gray-200 border-2 ml-1"
-                // Pass the points associated with this plan
+
               >
                 <p className="text-lg font-medium">Premium Boost</p>
                 <h4 className="mt-2 text-4xl font-semibold">600 Points</h4>
@@ -145,10 +151,13 @@ const BoostPage = () => {
                 </div>
                 <button
                   onClick={() => handleChoosePlan("premium")}
-                  className="w-full px-4 py-2 mt-8 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                  className={`w-full px-4 py-2 mt-8 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform ${user?.subscription === "premium" ? "bg-red-500" : "bg-blue-500"
+                    } rounded-md  focus:outline-none focus:bg-blue-600`}
+                  disabled={user?.subscription === "premium"}
                 >
-                  Choose Plan
+                  {user?.subscription === "premium" ? "Current Plan" : "Choose Plan"}
                 </button>
+
               </div>
             </div>
           </div>
@@ -210,7 +219,7 @@ const BoostPage = () => {
 
             </div>
           </div>
-      )}
+        )}
 
       {showConfirmationModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50 ">
@@ -218,11 +227,6 @@ const BoostPage = () => {
             <p className="text-lg font-semibold">
               Confirm your plan : {selectedPlan}
             </p>
-
-
-            {/* <Boostp/> */}
-            
-
 
             <div className="flex justify-end mt-4">
               <button

@@ -68,12 +68,12 @@ const UserStatisticsPage = () => {
 
         <div>
           <center>
-          <h1 className="text-2xl text-black font-semibold mb-8 mt-9">
-            Want to get better Stats ? Try to{" "}
-            <NavLink to={"/boost"} className="underline text-blue-700">
-              Boost Post
-            </NavLink>
-          </h1>
+            <h1 className="text-2xl text-black font-semibold mb-8 mt-9">
+              Want to get better Stats ? Try to{" "}
+              <NavLink to={"/boost"} className="underline text-blue-700">
+                Boost Post
+              </NavLink>
+            </h1>
           </center>
         </div>
       </div>
