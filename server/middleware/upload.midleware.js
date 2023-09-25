@@ -6,7 +6,7 @@ const storage = multer.memoryStorage(); // Use memory storage to avoid saving to
 
 const upload = multer({
     storage: storage,
-}).single('media');
+})
 
 const imageUpload = multer(
     {
