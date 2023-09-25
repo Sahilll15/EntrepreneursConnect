@@ -5,16 +5,26 @@ import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { addPost, fetchPosts } from '../../redux/posts/postActions';
 import { useSelector, useDispatch } from 'react-redux';
 import { getLeaderBoard, getLoggedInUser } from '../../redux/auth/authActions';
+import { toast } from 'react-toastify';
+
 
 export default function PostFormCard() {
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null); // Store the image in state
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
   const dispatch = useDispatch();
   const [imageAddmodel, setImageAddmodel] = useState(false);
   const postLoading = useSelector((state) => state.posts.postLoading);
   const user = useSelector((state) => state.user.user);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsButtonDisabled(false);
+    }, 60000); // 1 minute in milliseconds
 
+    return () => clearTimeout(timer);
+  }, [isButtonDisabled]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,6 +33,13 @@ export default function PostFormCard() {
       return;
     }
 
+    if (isButtonDisabled) {
+      toast.error('Please wait for 1 minute before posting again.');
+      return;
+    }
+
+    setIsButtonDisabled(true);
+
     try {
       await dispatch(addPost({ content, media: image }))
       await dispatch(fetchPosts());
@@ -30,7 +47,6 @@ export default function PostFormCard() {
       setContent('');
       setImage(null);
     } catch (error) {
-
       console.error('Error adding post:', error);
     }
   };

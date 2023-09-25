@@ -19,6 +19,8 @@ import {
 const baseUrl = process.env.REACT_APP_API_HOST;
 
 const PostCard = ({ product, comments }) => {
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
   const formatDateTime = (isoDateString) => {
     const options = {
       year: "numeric",
@@ -75,7 +77,6 @@ const PostCard = ({ product, comments }) => {
         onDoubleClick={
           () => {
             handleLike(product._id)
-            alert('like')
           }
         }
       >

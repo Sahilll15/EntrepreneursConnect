@@ -173,7 +173,7 @@ export const SideBar = () => {
             <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
               <i class="bi bi-piggy-bank-fill"></i>
               <span className="text-[15px] ml-4 text-gray-200 font-bold">
-                Lend Money
+                Fundraisers
               </span>
             </div>
           </NavLink>

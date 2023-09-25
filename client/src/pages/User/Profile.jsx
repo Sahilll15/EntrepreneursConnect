@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/layout/ProfileNavbar";
 import { getLoggedInUser, getProfile } from "../../redux/auth/authActions";
 import { useDispatch, useSelector } from "react-redux";
+import Notifi from "../../components/Notify/Noti";
 
 import { useParams } from "react-router-dom";
 import PostCard from "../../components/Post/PostCard";
@@ -52,6 +53,7 @@ const Profile = () => {
   return (
     <div>
       <Navbar />
+      <Notifi />
       <main className="profile-page">
         <section className="relative block h-500-px">
           <div

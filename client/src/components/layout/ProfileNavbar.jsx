@@ -1,8 +1,9 @@
 import React from "react";
+import "./Nav.css"
 import { NavLink } from "react-router-dom";
 const Navbar = () => {
   return (
-    <div>
+    <div className="d">
       {/* Main navigation container */}
       <nav className="flex-no-wrap relative flex w-full items-center justify-between bg-black py-2 shadow-md shadow-black/5 dark:bg-black dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4">
         <div className="flex w-full flex-wrap items-center justify-between px-3">
