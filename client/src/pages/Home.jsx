@@ -6,6 +6,7 @@ import { getLoggedInUser } from '../redux/auth/authActions';
 import { getBoostedProducts } from '../redux/boost/boostActions';
 import PostFormCard from '../components/Post/PostFormCard';
 import { toast, ToastContainer } from "react-toastify";
+import Notificationss from "../components/Notify/Noti.jsx";
 
 import PostCard from '../components/Post/PostCard';
 import BoostedProductsCard from '../components/Post/BoostedProductsCard';
@@ -33,16 +34,8 @@ const Home = () => {
   }, [dispatch]);
 
   // Fetch posts/products based on the active tab
-  // useEffect(() => {
-  //   if (activeTab === 'ForYou') {
-  //     dispatch(fetchPosts());
-  //     dispatch(getBoostedProducts());
-  //   } else if (activeTab === 'Following') {
-  //     dispatch(fetchProductsByFollowing());
-  //   }
-  // }, [dispatch, activeTab]);
-
   useEffect(() => {
+
     const fetchData = async () => {
       if (activeTab === 'ForYou') {
         await dispatch(fetchPosts()); // Fetch posts from For You tab
@@ -87,6 +80,8 @@ const Home = () => {
     <>
       <MainLayout>
         <div className='p-2'>
+          <Notificationss />  
+          
           <PostFormCard />
 
           {/* Tab buttons for "For You" and "Following" */}

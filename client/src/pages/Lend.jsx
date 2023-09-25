@@ -40,7 +40,9 @@ const Lend = () => {
           <br/>
         </div>
         <section>
-          <div>
+        <div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          
             <div className="shadow-lg rounded-xl w-72 md:w-96 p-4 bg-white relative overflow-hidden">
               <div className="flex items-center border-b-2 mb-2 py-2">
                 <img
@@ -78,6 +80,9 @@ const Lend = () => {
               </center>
             </div>
           </div>
+
+        
+        </div>
         </section>
       </div>
     </div>
