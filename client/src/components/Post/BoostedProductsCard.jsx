@@ -139,14 +139,18 @@ const BoostedProductsCard = ({ product, comments }) => {
                         <span className="mr-2 text-xl">
                             <FontAwesomeIcon
                                 icon={faThumbsUp}
-                                className={`text-${isLiked ? "green" : "blue"}-500`}
+                                className={`cursor-pointer text-${isLiked ? "blue" : "gray"}-500`}
+                                onClick={() => {
+                                    handleLike(product._id)}}
                             />{" "}
                             {product.likes.length}
                         </span>
+
                         <span className="text-xl">
                             <FontAwesomeIcon
                                 icon={faComment}
-                                className="text-gray-500 font-bold text-xl"
+                                className="cursor-pointer text-gray-500 font-bold text-xl"
+                                onClick={openCommentsModal}
                             />{" "}
                             {product?.comments?.length}
                         </span>
@@ -154,39 +158,14 @@ const BoostedProductsCard = ({ product, comments }) => {
 
                     <div className="flex items-center space-x-2">
 
-                        <button
-                            className={`text-${isLiked ? "blue" : "green"}-500 hover:text-${isLiked ? "green" : "blue"
-                                }-700`}
-                            onClick={() => {
-                                handleLike(product._id);
-                            }}
-                        >
-                            <FontAwesomeIcon icon={isLiked ? faThumbsUp : faThumbsUp} /> Like
-                        </button>
+                        
 
-                        <button
-                            className="text-gray-500 hover:text-gray-700"
-                            onClick={openCommentsModal}
-                        >
-                            <FontAwesomeIcon icon={faComment} /> Comment
-                        </button>
-                        <button className="text-gray-500 hover:text-gray-700">
-                            <FontAwesomeIcon icon={faShareSquare} /> Share
-                        </button>
-
-                        {product?.author?._id === user?._id ? (
-                            // <p>this btn is to boost post</p>
-                            <button
-                                className="text-gray-500 hover:text-gray-700"
-                                onClick={toggleOptionsMenu}
-                            >
-                                <i class="fa-solid fa-rocket"></i>
-                            </button>
-                        ) : null}
-
+                        
+                        
+                        
                         {product?.author?._id === user?._id ? (
                             <button
-                                className="text-gray-500 hover:text-gray-700"
+                                className="text-gray-500 hover:text-gray-700 text-lg"
                                 onClick={toggleOptionsMenu}
                             >
                                 <FontAwesomeIcon icon={faEllipsisV} />
@@ -197,7 +176,7 @@ const BoostedProductsCard = ({ product, comments }) => {
                 </div>
                 <hr className="my-4 " />
                 {firstComment ? (
-                    <div className="flex items-center mb-2">
+                    <div className="flex items-center mb-2 cursor-pointer" onClick={openCommentsModal}>
                         <NavLink to={`/profile/${firstComment?.commentedBy?._id}`}>
                             <img
                                 src={firstComment?.commentedBy?.avatar?.url}
@@ -215,7 +194,7 @@ const BoostedProductsCard = ({ product, comments }) => {
                         </div>
                     </div>
                 ) : (
-                    <div className="text-gray-600 text-sm mb-2">No comments yet</div>
+                    <div className="text-gray-600 text-sm mb-2 cursor-pointer" onClick={openCommentsModal} >No comments yet</div>
                 )}
 
                 <CommentsModal

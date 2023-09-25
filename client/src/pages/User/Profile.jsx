@@ -14,6 +14,7 @@ import { getUserStats } from "../../redux/auth/authActions";
 import { NavLink } from "react-router-dom";
 
 const Profile = () => {
+  const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const ProfileUser = useSelector((state) => state?.user?.profileUser);
   const user = useSelector((state) => state.user?.user);
@@ -138,17 +139,38 @@ const Profile = () => {
 
                   <div className="w-full lg:w-4/12 px-4 lg:order-1">
                     <div className="flex justify-center py-4 lg:pt-4 pt-8">
-                      <div className="mr-4 p-3 text-center">
+                      <button className="mr-4 p-3 text-center"
+                      onClick={() => setShowModal(true)}>
+
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
                           {
                             userStats?.followers?.length
                           }
-
                         </span>
+                        
+
+
+
                         <span className="text-sm text-blueGray-400">
                           Followers
                         </span>
-                      </div>
+                      </button>
+                      {showModal && (
+                          <div className="modal fixed inset-0 z-50 flex p-2  items-center justify-center">
+                            <div className="bg-black bg-opacity-50 absolute inset-0"></div>
+                            <div className="bg-white p-2 rounded-lg shadow-lg z-10 w-11/12 " style={{ maxHeight: '800px', overflowY: 'auto', top: '80%' }}>
+                            <h2 className="text-xl  text-center mb-2">Notification</h2>
+                              <h1 >dsfds</h1>
+                              <button
+                                className="bg-blue-500 hover:bg-blue-700 text-base text-white font-bold py-2 px-4 rounded mt-4"
+                                onClick={() => setShowModal(false)}
+                              >
+                                Close
+                              </button>
+                            </div>
+                          </div>
+                        )}
+
                       <div className="mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
                           {

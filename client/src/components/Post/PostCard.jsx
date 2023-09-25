@@ -18,6 +18,7 @@ import {
 
 
 const PostCard = ({ product, comments }) => {
+  const [showModal, setShowModal] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const formatDateTime = (isoDateString) => {
@@ -116,6 +117,8 @@ const PostCard = ({ product, comments }) => {
         </div>
         <p className="text-xl font-semibold mb-4">{product?.content}</p>
         <center>
+          <div>
+          <div onClick={() => setShowModal(true)}>
           {product?.media && (
             /\.(jpg|jpeg|png|gif)$/i.test(product?.media) ? (
               <img src={product?.media} alt="Post media" className="w-96 rounded-lg mb-4" />
@@ -125,6 +128,28 @@ const PostCard = ({ product, comments }) => {
                 Your browser does not support the video tag.
               </video>
             ))}
+            </div>
+            {showModal && (
+              <div className="modal fixed inset-0 z-50 flex p-2 items-center justify-center">
+              <div className="bg-black bg-opacity-50 absolute inset-0"></div>
+              <div className="bg-white bg-opacity-50 p-2 rounded-lg shadow-lg z-10 w-11/12 h-11/12 relative">
+                <div className="h-2/4 w-2/4">
+                  {product?.media && /\.(jpg|jpeg|png|gif)$/i.test(product?.media) ? (
+                    <img src={product?.media} alt="Post media" className="w-3/4 rounded-lg mb-4" />
+                  ) : (
+                    <video controls className="w-96 rounded-lg mb-4">
+                      <source src={product?.media} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  )}
+                </div>
+                <div className="absolute top-0 right-0 p-4">
+                  <i className="fa fa-times text-gray-800 text-2xl cursor-pointer" onClick={() => setShowModal(false)}></i>
+                </div>
+              </div>
+            </div>
+              )}
+            </div>
         </center>
 
         <div className="flex justify-between text-gray-600 text-sm">
@@ -136,56 +161,27 @@ const PostCard = ({ product, comments }) => {
                 onClick={() => {
                   handleLike(product._id);
                 }}
-                className={`text-${isLiked ? "green" : "blue"}-500`}
+                className={`text-${isLiked ? "blue" : "gray"}-500`}
               />{" "}
               {product.likes.length}
             </span>
 
-
+              
             <span className="text-xl">
               <FontAwesomeIcon
                 icon={faComment}
-                className="text-gray-500 font-bold text-xl"
+                className="text-gray-500 font-bold text-xl cursor-pointer"
+                onClick={openCommentsModal}
               />{" "}
               {product?.comments?.length}
             </span>
           </div>
 
-          <div className="flex items-center space-x-2">
-
-            <button
-              className={`text-${isLiked ? "blue" : "green"}-500 hover:text-${isLiked ? "green" : "blue"
-                }-700`}
-              onClick={() => {
-                handleLike(product._id);
-              }}
-            >
-              <FontAwesomeIcon icon={isLiked ? faThumbsUp : faThumbsUp} /> Like
-            </button>
-
-            <button
-              className="text-gray-500 hover:text-gray-700"
-              onClick={openCommentsModal}
-            >
-              <FontAwesomeIcon icon={faComment} /> Comment
-            </button>
-            <button className="text-gray-500 hover:text-gray-700">
-              <FontAwesomeIcon icon={faShareSquare} /> Share
-            </button>
-
-            {product?.author?._id === user?._id ? (
-              // <p>this btn is to boost post</p>
-              <button
-                className="text-gray-500 hover:text-gray-700"
-                onClick={toggleOptionsMenu}
-              >
-                <i class="fa-solid fa-rocket"></i>
-              </button>
-            ) : null}
+          <div className="flex items-center space-x-2"> 
 
             {product?.author?._id === user?._id ? (
               <button
-                className="text-gray-500 hover:text-gray-700"
+                className="text-gray-500 text-lg hover:text-gray-700"
                 onClick={toggleOptionsMenu}
               >
                 <FontAwesomeIcon icon={faEllipsisV} />
@@ -214,7 +210,7 @@ const PostCard = ({ product, comments }) => {
             </div>
           </div>
         ) : (
-          <div className="text-gray-600 text-sm mb-2">No comments yet</div>
+          <div className="text-gray-600 text-sm mb-2 cursor-pointer" onClick={openCommentsModal}>No comments yet. </div>
         )}
 
         <CommentsModal
