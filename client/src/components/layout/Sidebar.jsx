@@ -305,7 +305,7 @@ export const SideBar = () => {
               </NavLink>
 
               <NavLink to={'/chat'}>
-                <a
+                <a1
                   href="#"
                   className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
                 >
@@ -358,7 +358,7 @@ export const SideBar = () => {
                     </g>
                   </svg>
                   <span className="tab tab-kategori block text-xs">My Group</span>
-                </a>
+                </a1>
               </NavLink>
 
               <NavLink to={'/userstatistics'}>

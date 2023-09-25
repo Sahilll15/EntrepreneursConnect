@@ -14,7 +14,7 @@ import MainLayout from '../components/layout/MainLayout';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState('ForYou');
+  const [activeTab, setActiveTab] = useState('Following');
   const [showBoostedProducts, setShowBoostedProducts] = useState(true);
 
   // Select data from Redux store
@@ -67,19 +67,20 @@ const Home = () => {
           <div className="flex my-5">
             <div className="flex justify-around gap-4 mb-2 w-full">
               <p
-                className={`border border-gray-300 w-full text-center rounded-lg p-2 hover:cursor-pointer ${activeTab === 'ForYou' ? 'text-black bg-blue-300' : ''
-                  }`}
-                onClick={() => handleTabClick('ForYou')}
-              >
-                For You
-              </p>
-              <p
                 className={`border border-gray-300 w-full text-center rounded-lg p-2 hover:cursor-pointer ${activeTab === 'Following' ? 'text-black bg-blue-300' : ''
                   }`}
                 onClick={() => handleTabClick('Following')}
               >
                 Following
               </p>
+              <p
+                className={`border border-gray-300 w-full text-center rounded-lg p-2 hover:cursor-pointer ${activeTab === 'ForYou' ? 'text-black bg-blue-300' : ''
+                  }`}
+                onClick={() => handleTabClick('ForYou')}
+              >
+                For You
+              </p>
+
             </div>
           </div>
 

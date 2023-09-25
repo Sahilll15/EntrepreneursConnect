@@ -216,7 +216,6 @@ const Profile = () => {
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -237,7 +236,7 @@ const Profile = () => {
                 </div>
               ) : (
                 postByUserID?.map((product) => (
-                  <div className="w-2/3" key={product._id}>
+                  <div className="w-full lg:w-2/3 md:2/3 p-2" key={product._id}>
                     <PostCard
                       product={product}
                       comments={comments}
