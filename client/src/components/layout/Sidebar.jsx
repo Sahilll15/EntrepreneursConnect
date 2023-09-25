@@ -229,9 +229,19 @@ export const SideBar = () => {
                 }}
                 key={group._id}
               >
-                <div className="rounded-lg shadow-md mb-2 bg-white p-3 hover:bg-gray-200">
-                  <h2 className="text-sm text-gray-800">{group.name}</h2>
-                  <p className="text-gray-600 text-xs mt-1">By &nbsp;{group.groupAdmin}</p>
+                <div className="rounded-lg shadow-md mb-2 bg-white p-3 hover:bg-gray-200 flex gap-2">
+                  <div>
+                    <img
+                      src={group.avatar}
+                      alt="Group Icon"
+                      className="w-10 h-10 rounded-full border"
+                    />
+                  </div>
+                  <div>
+                    <h2 className="text-sm text-gray-800">{group.name}</h2>
+                    <p className="text-gray-600 text-xs mt-1">By &nbsp;{group.groupAdmin}</p>
+                  </div>
+
                 </div>
               </NavLink>
             ))}
@@ -419,10 +429,10 @@ export const SideBar = () => {
                   href="#"
                   className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
                 >
-                      <i class="fa-solid fa-rocket fa-xl"></i>
+                  <i class="fa-solid fa-rocket fa-xl"></i>
 
                   <span className="tab tab-whishlist block text-xs mt-1">
-                  Boost
+                    Boost
                   </span>
                 </a>
               </NavLink>
