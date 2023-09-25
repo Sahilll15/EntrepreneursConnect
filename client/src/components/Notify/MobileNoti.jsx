@@ -60,7 +60,7 @@ const MobileNoti = () => {
 
           </div>
 
-          <div className="mt-5 ">
+          <div className="mt-5" style={{ maxHeight: '300px', overflowY: 'auto' }}>
 
 
             {isLoading || notifications?.length === 0 ? (
