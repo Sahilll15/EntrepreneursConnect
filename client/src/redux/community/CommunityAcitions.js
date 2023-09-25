@@ -269,3 +269,34 @@ export const leaveGroup = createAsyncThunk(
     }
 
 )
+
+export const updateCommunity = createAsyncThunk(
+    'community/updateCommunity',
+    async ({ groupId, formData }, { rejectWithValue }) => {
+        try {
+            console.log('formData' + formData.groupName)
+            const response = await axios.put(`${host}/api/v1/groups/updategroup/${groupId}`, {
+                groupName: formData.groupName,
+                description: formData.description,
+                avatar: formData.groupIcon
+            },
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: `Bearer ${localStorage.getItem('authtoken')}`,
+                    }
+                })
+            if (response.status === 201) {
+                return response.data;
+            }
+            else {
+                return rejectWithValue(response.data.message);
+            }
+
+        } catch (error) {
+            toast.error(error.response?.data?.message);
+            return rejectWithValue(error.response?.data?.message);
+        }
+    }
+
+)

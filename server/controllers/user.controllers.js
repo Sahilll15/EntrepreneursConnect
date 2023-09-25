@@ -402,10 +402,12 @@ const leaderBoard = async (req, res) => {
 const searchUser = async (req, res) => {
     try {
         const { username } = req.query;
-
+        if (!username) {
+            return res.status(200).json({ users: [] })
+        }
         const users = await User.find({ username: { $regex: username, $options: 'i' } }).select('_id username avatar')
         if (users.length === 0) {
-            return res.status(404).json({ message: "No user with this username" });
+            return res.status(200).json({ users: [] });
         }
 
         //remove the current user account

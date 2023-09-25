@@ -15,17 +15,20 @@ const GroupCard = ({ group }) => {
             await dispatch(joinGroup(groupId));
         }
 
-        await dispatch(getGroupsJoined());
-        await dispatch(getCommunity());
+        await Promise.all([dispatch(getGroupsJoined()), dispatch(getCommunity())]);
     };
 
     return (
         <div className="bg-white rounded-lg shadow-md mb-4 p-4 hover:shadow-lg hover:border-4 hover:bg-gray-100 transition duration-300">
-            {/* Move the button to the top right corner */}
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center  ">
                 <NavLink to={`/groupDiscussion/${group._id}`}>
-                    <h2 className="text-xl font-semibold text-gray-800 hover:text-blue-500">
-                        <i className="fa-solid fa-user-group"></i> {group.name}
+                    <h2 className="text-xl font-semibold text-gray-800 hover:text-blue-500 flex gap-4  ">
+                        <div>
+                            <img src={group.avatar} alt="" className="w-12 h-12 rounded-full border" />
+                        </div>
+                        <div className='mt-2'>
+                            {group.name}
+                        </div>
                     </h2>
                 </NavLink>
                 <button
@@ -36,7 +39,8 @@ const GroupCard = ({ group }) => {
                     {group?.joinedMembers[0]?.includes(user?._id) ? <IoExitOutline /> : <IoAdd />}
                 </button>
             </div>
-            <p className="text-gray-600 mt-1">{group.groupAdmin}</p>
+            <p className="text-gray-600 mt-1">Admin: {group.groupAdmin}</p>
+            <p className="text-gray-600 mt-1">Description: {group.description}</p>
         </div>
     );
 };

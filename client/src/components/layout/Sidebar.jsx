@@ -36,9 +36,11 @@ export const SideBar = () => {
     navigate("/login");
   };
 
-  const handleSearchBlur = () => {
+  const handleSearchBlur = async () => {
     if (searchUsername.username === "") {
       setSearchUsername({ username: "" });
+      console.log('dispatcthing getSearchUser')
+      await dispatch(getSearchUser(''));
     }
   };
 
@@ -97,7 +99,9 @@ export const SideBar = () => {
                   [e.target.name]: e.target.value,
                 })
               }
-              onBlur={handleSearchBlur}
+              onBlur={
+                handleSearchBlur
+              }
             />
           </div>
           <div className="my-2 bg-gray-600 h-[1px]" />

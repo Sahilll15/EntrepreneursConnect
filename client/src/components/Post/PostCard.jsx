@@ -16,7 +16,6 @@ import {
   FaThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 
-const baseUrl = process.env.REACT_APP_API_HOST;
 
 const PostCard = ({ product, comments }) => {
   const formatDateTime = (isoDateString) => {
