@@ -68,11 +68,13 @@ export const SideBar = () => {
               <img
                 alt={user?.badges}
                 src={user?.avatar?.url}
-                className={`w-[40px] h-[40px] rounded-full border  ${
-                  user?.badges[0] === "Expert"
-                    ? "border-red-600"
-                    : "border-none"
-                } `}
+
+                className={`w-[40px] h-[40px] rounded-full border  ${user?.badges[0] === "Expert"
+                  ? "border-red-600"
+                  : "border-none"
+                  } `}
+
+
               />
               <h1 className="font-bold text-gray-200 text-[15px] ml-3">
                 <div className="flex-col">
@@ -196,9 +198,10 @@ export const SideBar = () => {
                 Joined Communities
               </span>
               <span
-                className={`text-base ${
-                  isDropdownOpen ? "transform rotate-180" : ""
-                }`}
+
+                className={`text-base ${isDropdownOpen ? "transform rotate-180" : ""
+                  }`}
+
                 id="arrow"
               >
                 <i className="fas fa-chevron-down"></i>
@@ -207,9 +210,10 @@ export const SideBar = () => {
           </div>
 
           <div
-            className={`text-left mt-2 w-4/5 mx-auto  ${
-              isDropdownOpen ? "block" : "hidden"
-            }`}
+
+            className={`text-left mt-2 w-4/5 mx-auto  ${isDropdownOpen ? "block" : "hidden"
+              }`}
+
             id="submenu"
           >
             {groupsJoined?.map((group) => (
@@ -308,7 +312,7 @@ export const SideBar = () => {
               </NavLink>
 
               <NavLink to={'/chat'}>
-                <a
+                <a1
                   href="#"
                   className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
                 >
@@ -361,7 +365,7 @@ export const SideBar = () => {
                     </g>
                   </svg>
                   <span className="tab tab-kategori block text-xs">My Group</span>
-                </a>
+                </a1>
               </NavLink>
 
               <NavLink to={'/userstatistics'}>
@@ -530,4 +534,6 @@ export const SideBar = () => {
   );
 };
 
+
 export default SideBar;
+

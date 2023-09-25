@@ -47,6 +47,7 @@ const createSubscription = async (req, res) => {
             newSubscription.ttl = 10 * 24 * 60 * 60;
         }
 
+        userExists.subscription = plan
         userExists.points -= pointsRequired;
         await userExists.save();
         await newSubscription.save();

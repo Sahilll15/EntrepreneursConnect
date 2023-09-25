@@ -1,53 +1,52 @@
 import React, { useEffect, useState } from 'react';
-import PostFormCard from '../components/Post/PostFormCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts, fetchProductsByFollowing } from '../redux/posts/postActions';
+import { getcomment } from '../redux/comments/commentActions';
+import { getLoggedInUser } from '../redux/auth/authActions';
+import { getBoostedProducts } from '../redux/boost/boostActions';
+import PostFormCard from '../components/Post/PostFormCard';
 import PostCard from '../components/Post/PostCard';
 import BoostedProductsCard from '../components/Post/BoostedProductsCard';
 import PostCardSkeleton from '../components/Skeleton/PostCardSkeleton';
 import BackToTopButton from '../utils/BackToTop';
 import TopsUser from '../components/Home/TopsUser';
 import MainLayout from '../components/layout/MainLayout';
-import { getcomment } from '../redux/comments/commentActions';
-import { getLoggedInUser } from '../redux/auth/authActions';
-import { getBoostedProducts } from '../redux/boost/boostActions';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState('ForYou');
+  const [activeTab, setActiveTab] = useState('Following');
+  const [showBoostedProducts, setShowBoostedProducts] = useState(true);
 
+  // Select data from Redux store
   const products = useSelector((state) => state?.posts?.posts?.products);
-  const productsByFollowing = useSelector((state) => state?.posts?.postByFollowing?.products)
+  const productsByFollowing = useSelector((state) => state?.posts?.postByFollowing?.products);
   const comments = useSelector((state) => state?.comments?.comments);
   const initialLoading = useSelector((state) => state?.user?.initialLoading);
-  const boostedProducts = useSelector((state) => state?.boost?.boostedProducts)
+  const boostedProducts = useSelector((state) => state?.boost?.boostedProducts);
 
+  // Fetch comments and user information on component mount
   useEffect(() => {
     dispatch(getcomment());
     dispatch(getLoggedInUser());
   }, [dispatch]);
 
+  // Fetch posts/products based on the active tab
   useEffect(() => {
-    // Fetch posts based on the active tab
     if (activeTab === 'ForYou') {
       dispatch(fetchPosts());
-      dispatch(getBoostedProducts())
+      dispatch(getBoostedProducts());
     } else if (activeTab === 'Following') {
       dispatch(fetchProductsByFollowing());
     }
-
   }, [dispatch, activeTab]);
 
+  // Handle tab click to switch between "For You" and "Following"
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
   };
 
-
-
-  const filteredPost = activeTab === 'ForYou' ? products : productsByFollowing
-
-
-
+  // Determine which set of posts/products to display based on the active tab
+  const filteredPosts = activeTab === 'ForYou' ? products : productsByFollowing;
 
   if (!initialLoading) {
     return (
@@ -55,63 +54,81 @@ const Home = () => {
         <div className="animate-spin rounded-full border-t-4 border-blue-500 border-opacity-25 h-20 w-20"></div>
         <div>Loading....</div>
       </div>
-    );
+    )
   }
 
   return (
     <>
-      <MainLayout >
+      <MainLayout>
         <div className='p-2'>
-
-
           <PostFormCard />
-          {/* Filters */}
+
+          {/* Tab buttons for "For You" and "Following" */}
           <div className="flex my-5">
             <div className="flex justify-around gap-4 mb-2 w-full">
               <p
-                className={`border border-gray-300 w-full text-center rounded-lg p-2 hover:cursor-pointer ${activeTab === 'ForYou' ? 'text-black bg-blue-300' : ''}`}
-                onClick={() => handleTabClick('ForYou')}
-              >
-                For You
-              </p>
-              <p
-                className={`border border-gray-300  w-full text-center rounded-lg p-2 hover:cursor-pointer ${activeTab === 'Following' ? 'text-black bg-blue-300' : ''}`}
+                className={`border border-gray-300 w-full text-center rounded-lg p-2 hover:cursor-pointer ${activeTab === 'Following' ? 'text-black bg-blue-300' : ''
+                  }`}
                 onClick={() => handleTabClick('Following')}
               >
                 Following
               </p>
+              <p
+                className={`border border-gray-300 w-full text-center rounded-lg p-2 hover:cursor-pointer ${activeTab === 'ForYou' ? 'text-black bg-blue-300' : ''
+                  }`}
+                onClick={() => handleTabClick('ForYou')}
+              >
+                For You
+              </p>
+
             </div>
           </div>
 
-          <div>
-            {
-              boostedProducts?.length === 0 ? null : (
-                <div className="mb-5">
-                  {boostedProducts?.map((product) => (
-                    <div key={product?._id}>
-                      <BoostedProductsCard product={product} comments={comments} />
-                    </div>
-                  ))}
+          {
+            activeTab === 'ForYou' ?
+              (
+                <div className="mb-2">
+                  <label>
+                    <input
 
+                      id="checked-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      checked={showBoostedProducts}
+                      onChange={() => setShowBoostedProducts(!showBoostedProducts)}
+                    />
+                    <label for="checked-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-900">show boosted products</label>
+                  </label>
                 </div>
               )
-            }
-          </div>
+              :
+              (
+                null
+              )
 
-          <div>
-            {products?.length === 0 ? (
-              <PostCardSkeleton />
-            ) : (
-              <>
-                {filteredPost?.map((product) => (
-                  <div key={product?._id}>
-                    <PostCard product={product} comments={comments} />
-                  </div>
+          }
+
+
+          {showBoostedProducts &&
+            activeTab === 'ForYou' &&
+            boostedProducts?.length > 0 && (
+              <div className="mb-5">
+                {boostedProducts.map((product) => (
+                  <BoostedProductsCard key={product?._id} product={product} comments={comments} />
                 ))}
-              </>
+              </div>
             )}
-          </div>
 
+          {
+            filteredPosts?.length > 0 ? (
+              filteredPosts.map((product) => (
+                <PostCard key={product?._id} product={product} comments={comments} />
+              ))
+            ) : (
+              <PostCardSkeleton />
+            )
+
+          }
+
+          {/* Display TopsUser component */}
           <div className="hidden lg:inline">
             <TopsUser />
           </div>

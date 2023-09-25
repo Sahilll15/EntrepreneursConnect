@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { updateAvatar, resendVerificationEmail, getSearchUser, deleteAccount, registerUser, getProfile, loginUser, getLoggedInUser, updateProfile, FollowUnfollow, getLeaderBoard, getUserStats } from './authActions';
+import { resetPassword, sendResetPassword, updateAvatar, resendVerificationEmail, getSearchUser, deleteAccount, registerUser, getProfile, loginUser, getLoggedInUser, updateProfile, FollowUnfollow, getLeaderBoard, getUserStats } from './authActions';
 
 const initialState = {
     user: null,
@@ -15,7 +15,10 @@ const initialState = {
     userStats: [],
     searchUser: [],
     initialLoading: false,
-    emailVerificationLoading: false
+    emailVerificationLoading: false,
+    resetPasswordLoading: false,
+    referalCode: "",
+    refrealTokenLoading: false,
 
 }
 
@@ -234,6 +237,43 @@ export const authSlice = createSlice({
             state.error = action.payload;
         }
         );
+
+        // Update Avatar reducer end
+        // Send Reset Password reducer start
+        builder.addCase(sendResetPassword.pending, (state, action) => {
+            state.resetPasswordLoading = false
+        }
+        );
+        builder.addCase(sendResetPassword.fulfilled, (state, action) => {
+            state.resetPasswordLoading = false
+            state.success = true;
+        }
+        );
+        builder.addCase(sendResetPassword.rejected, (state, action) => {
+            state.resetPasswordLoading = false
+            state.error = action.payload;
+        }
+        );
+
+        // Send Reset Password reducer end
+        // Reset Password reducer start
+        builder.addCase(resetPassword.pending, (state, action) => {
+
+            state.resetPasswordLoading = true;
+        }
+        );
+        builder.addCase(resetPassword.fulfilled, (state, action) => {
+            state.resetPasswordLoading = false;
+            state.success = true;
+        }
+        );
+        builder.addCase(resetPassword.rejected, (state, action) => {
+            state.resetPasswordLoading = false;
+            state.error = action.payload;
+        }
+        );
+
+
 
     },
 });

@@ -1,6 +1,49 @@
 const { Referral } = require('../models/refreals.model')
 const User = require("../models/user.models")
 const { badges } = require('../utils/CheckBadges')
+const { v4: uuid } = require('uuid');
+
+
+
+const generateRefrealToken = async (req, res) => {
+    const { referalCode } = req.body;
+    try {
+
+        if (!referalCode) {
+            return res.status(400).json({ message: "referal code is required" });
+        }
+        const user = req.user._id;
+        const currentUser = await User.findById(user).select('referral')
+        if (!currentUser) {
+            return res.status(404).json({ message: "No user with this ID" });
+        }
+
+        currentUser.referral = referalCode;
+        await currentUser.save();
+        res.status(200).json({ mssg: "referal generated", referalCode: referalCode, user: currentUser })
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+        console.log(error);
+    }
+}
+
+
+getMyReferalToken = async (req, res) => {
+
+    try {
+        const user = req.user._id;
+        const currentUser = await User.findById(user).select('referral')
+        if (!currentUser) {
+            return res.status(404).json({ message: "No user with this ID" });
+        }
+        res.status(200).json({ mssg: "refreal token fetched", TotalReferral: currentUser.TotalReferral, referalCode: currentUser.referral, user: currentUser })
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+        console.log(error);
+    }
+}
+
+
 
 const createReferral = async (req, res) => {
     const { referringUserId } = req.params;
@@ -101,6 +144,9 @@ const getMyrefreals = async (req, res) => {
 module.exports = {
     createReferral,
     getReferedUserByUserID,
-    getMyrefreals
+    getMyrefreals,
+    generateRefrealToken,
+    getMyReferalToken
+
 }
 

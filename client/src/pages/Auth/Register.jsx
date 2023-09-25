@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-// import { useAuth } from "../Context/authContext";
+import { useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux"
 import { registerUser } from '../../redux/auth/authActions';
@@ -11,39 +11,42 @@ const Register = () => {
 
 
   const dispatch = useDispatch();
-
+  const { referalCode } = useParams();
   const [seepassword, setseepassword] = useState(false);
-const registerLoading= useSelector((state)=>state?.user?.loading)
+  const registerLoading = useSelector((state) => state?.user?.loading)
   const [user, setUser] = useState({
-      username:"",
-      email: "",
-      password: ""
+    username: "",
+    email: "",
+    password: "",
+    referalCode: referalCode ? referalCode : ""
+
   });
 
   const handleChange = (e) => {
-      const { name, value } = e.target;
-      setUser({
-          ...user,
-          [name]: value
-      })
+    const { name, value } = e.target;
+    setUser({
+      ...user,
+      [name]: value
+    })
   }
 
   const handleSubmit = (e) => {
-      e.preventDefault();
-      dispatch(registerUser(user));
-  
+    e.preventDefault();
+    dispatch(registerUser(user))
+
   }
 
 
-  const handleViewPassword=()=>{
+  const handleViewPassword = () => {
     setseepassword(!seepassword);
-    if(seepassword){
-        document.getElementById('password').type='password';
+    if (seepassword) {
+      document.getElementById('password').type = 'password';
+      console.log(referalCode)
     }
-    else{
-        document.getElementById('password').type='text';
+    else {
+      document.getElementById('password').type = 'text';
     }
-}
+  }
 
 
   return (
@@ -117,16 +120,16 @@ const registerLoading= useSelector((state)=>state?.user?.loading)
           <div className="w-full py-6 z-20">
             <h1 className="my-6">
               <center>
-                <img src={LOGO} alt="Logo Here" style={{width:'50%'}} />
+                <img src={LOGO} alt="Logo Here" style={{ width: '50%' }} />
               </center>
 
             </h1>
             <div className="py-6 space-x-2">
               <span className="w-10 h-10 items-center justify-center inline-flex rounded-full font-bold text-lg border-2 border-white">
-              < i className="fa-brands fa-google" size="lg" style={{color: "#ffffff",}} />
+                < i className="fa-brands fa-google" size="lg" style={{ color: "#ffffff", }} />
               </span>
               <span className="w-10 h-10 items-center justify-center inline-flex rounded-full font-bold text-lg border-2 border-white">
-              <i className="fa-brands fa-github" size="lg" style={{color: "#ffffff",}} />
+                <i className="fa-brands fa-github" size="lg" style={{ color: "#ffffff", }} />
               </span>
               <span className="w-10 h-10 items-center justify-center inline-flex rounded-full font-bold text-lg border-2 border-white">
                 in
@@ -134,7 +137,7 @@ const registerLoading= useSelector((state)=>state?.user?.loading)
             </div>
             <p className="text-gray-100">or use email your account</p>
             <form action className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto" onSubmit={handleSubmit}>
-            <div className="pb-2 pt-4">
+              <div className="pb-2 pt-4">
                 <input
                   className="block w-full p-4 text-lg rounded-sm bg-black"
                   type="text"
@@ -154,7 +157,7 @@ const registerLoading= useSelector((state)=>state?.user?.loading)
                   className="block w-full p-4 text-lg rounded-sm bg-black"
                 />
               </div>
-            
+
               <div className="pb-2 pt-4">
                 <input
                   className="block w-full p-4 text-lg rounded-sm bg-black"
@@ -165,14 +168,14 @@ const registerLoading= useSelector((state)=>state?.user?.loading)
                   placeholder="Password"
                 />
               </div>  <div className="flex items-start">
-                          <div className="flex items-center h-5">
-                            <input id="viewpassword" name='viewpassword' aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"  onClick={handleViewPassword} /> 
-                          </div>
-                          <div className="ml-3 text-sm">
-                            <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">View password</label>
-                          </div>
-                      </div>
-              
+                <div className="flex items-center h-5">
+                  <input id="viewpassword" name='viewpassword' aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" onClick={handleViewPassword} />
+                </div>
+                <div className="ml-3 text-sm">
+                  <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">View password</label>
+                </div>
+              </div>
+
               <div className="px-4 pb-2 pt-4">
                 <button className="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none">
                   {
@@ -216,7 +219,7 @@ const registerLoading= useSelector((state)=>state?.user?.loading)
                 </a>
               </div>
               <div className="mt-12 text-sm font-display font-semibold text-white text-center">
-               Already have an account ? &nbsp;
+                Already have an account ? &nbsp;
                 <NavLink to={'/login'} className="cursor-pointer text-indigo-600 hover:text-indigo-800">
                   Sign in
                 </NavLink>

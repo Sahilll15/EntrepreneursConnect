@@ -1,7 +1,7 @@
 const Router = require('express')
 const router = Router()
 
-const { verifyemail, resendVerificatoin, deleteAccount, loggedInUser, registerUser, userRecommendation, getUserStats, searchUser, leaderBoard, loginUser, updateavatar, userInfo, userProfile, userFollowUnfollow, editProfile } = require('../controllers/user.controllers')
+const { resetPassword, sendResetPasswordEmail, verifyemail, resendVerificatoin, deleteAccount, loggedInUser, registerUser, userRecommendation, getUserStats, searchUser, leaderBoard, loginUser, updateavatar, userInfo, userProfile, userFollowUnfollow, editProfile } = require('../controllers/user.controllers')
 const { verifyJWT } = require('../middleware/auth.middleware')
 const { imageUpload } = require('../middleware/upload.midleware')
 
@@ -20,6 +20,10 @@ router.get('/userstats', verifyJWT, getUserStats)
 router.delete('/deleteaccount', verifyJWT, deleteAccount)
 router.post('/resendverification', resendVerificatoin)
 router.put('/updateavatar', imageUpload, verifyJWT, updateavatar)
+router.post('/sendresetpasswordemail', sendResetPasswordEmail)
+router.put('/resetpassword', resetPassword)
+
+
 
 module.exports = router;
 

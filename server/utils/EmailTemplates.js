@@ -17,7 +17,7 @@ const gmailContent = (verificationToken) => {
 }
 const OtpContent = (otpcode) => {
   return `
-    <h1 style="color: #008080; font-family: 'Arial', sans-serif; text-align: center;">NotesBeta</h1>
+    <h1 style="color: #008080; font-family: 'Arial', sans-serif; text-align: center;">Entrepreneurs Connect</h1>
     <h1 style="color: #008080; font-family: 'Arial', sans-serif; text-align: center;">Reset Password</h1>
     <div style="background-color: #f0f0f0; padding: 20px; border-radius: 8px;">
         <p style="font-size: 16px; font-family: 'Arial', sans-serif; color: #444; text-align: center;">Your OTP for resetting password is:</p>

@@ -3,11 +3,14 @@ const bcrypt = require('bcrypt')
 const User = require('../models/user.models')
 const Post = require('../models/Product.models')
 const Comment = require('../models/comments.models')
+const OTP = require('../models/otp.models')
 const { io } = require('../index.js')
-const { sendVerificationEmail, generateverificationToken } = require('../utils/email')
+const { sendVerificationEmail, generateverificationToken, resetPasswordEmail, generateOTP } = require('../utils/email')
 const { createNotification } = require('../controllers/Notification.controllers')
 const { successFullVerification } = require('../utils/EmailTemplates')
 const { imageUpload } = require('../middleware/upload.midleware')
+const { uuid } = require('uuidv4');
+
 
 const AWS = require('aws-sdk')
 require('dotenv').config();
@@ -152,8 +155,16 @@ const userFollowUnfollow = async (req, res) => {
 
 const loggedInUser = async (req, res) => {
     try {
-        const user = req.user;
-        res.status(200).json({ user: user, message: 'success' });
+        const user = req.user._id;
+
+        const currentUser = await User.findById(user).select('-password -productsShowcased');
+
+
+        if (!currentUser) {
+            return res.status(404).json({ message: "No LoggedInUser" });
+        }
+
+        res.status(200).json({ user: currentUser, message: 'success' });
     } catch (error) {
         res.status(500).json({ message: error.message });
         console.log(error);
@@ -183,7 +194,7 @@ const verifyemail = async (req, res) => {
 };
 
 const registerUser = async (req, res) => {
-    const { username, email, password } = req.body;
+    const { username, email, password, referalCode } = req.body;
     try {
         if (!username || !password || !email) {
             return res.status(400).json({ message: "Not all fields have been entered" })
@@ -193,32 +204,76 @@ const registerUser = async (req, res) => {
             return res.status(400).json({ message: "The password needs to be at least 6 characters long" })
         }
 
-
         const existedUser = await User.findOne({
             $or: [{ username }, { email }],
         });
-
         if (existedUser) {
             return res.status(400).json({ message: "An account with this username or email  already exists" })
         }
-        const verificationToken = generateverificationToken(email);
 
-        const newUser = await User.create({
-            username,
-            email,
-            password,
-            verificationToken
-        })
-        await sendVerificationEmail(email, verificationToken);
-        const token = jwt.sign({
-            user: newUser
-        },
-            process.env.JWT_SECRET,
-            {
-                expiresIn: "1d"
+        //if refrealcode exists reguster the user with that referal code and increse his coins
+        if (referalCode) {
+            //check if the referal code exists 
+            const userExistsWithTheReferalCode = await User.findOne({ referral: referalCode }).select('-password -productsShowcased')
+            if (!userExistsWithTheReferalCode) {
+                return res.status(400).json({ message: "Invalid referal code" })
             }
-        )
-        res.json({ message: 'Registration successful. Please check your email for verification.', verificationToken: verificationToken, user: newUser });
+
+            const verificationToken = generateverificationToken(email);
+            const hashedPassword = await bcrypt.hash(password, 10)
+            const newUser = await User.create({
+                username,
+                email,
+                password: hashedPassword,
+                verificationToken,
+            })
+
+
+            console.log(userExistsWithTheReferalCode)
+
+            await sendVerificationEmail(email, verificationToken);
+            userExistsWithTheReferalCode.referredUsers.push(newUser._id);
+            userExistsWithTheReferalCode.points += 50;
+            userExistsWithTheReferalCode.TotalReferral += 1
+            await userExistsWithTheReferalCode.save();
+
+            //send a notification
+            const notificationMessage = `${newUser.username} joined through your ReferalCode and you got 50 points.`;
+            await createNotification(newUser._id, userExistsWithTheReferalCode._id, 'referal', notificationMessage);
+            console.log('user registed with referalCode')
+            const token = jwt.sign({
+                user: newUser
+            },
+
+                process.env.JWT_SECRET,
+                {
+                    expiresIn: "1d"
+                }
+            )
+            res.json({ message: 'Registration successful. Please check your email for verification.', user: newUser, token: token });
+        }
+
+        else {
+            const hashedPassword = await bcrypt.hash(password, 10)
+            const verificationToken = generateverificationToken(email);
+            const newUser = await User.create({
+                username,
+                email,
+                password: hashedPassword,
+                verificationToken
+            })
+            await sendVerificationEmail(email, verificationToken);
+            const token = jwt.sign({
+                user: newUser
+            },
+
+                process.env.JWT_SECRET,
+                {
+                    expiresIn: "1d"
+                }
+            )
+            res.json({ message: 'Registration successful. Please check your email for verification.', verificationToken: verificationToken, user: newUser, token: token });
+        }
 
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -228,47 +283,56 @@ const registerUser = async (req, res) => {
 
 
 const loginUser = async (req, res) => {
-
     const { email, password } = req.body;
 
     try {
         if (!email || !password) {
-            return res.status(400).json({ message: "Not all fields have been entered" })
+            return res.status(400).json({ message: "Not all fields have been entered" });
         }
-        const user = await User.findOne({
-            email
-        })
+
+        const user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(400).json({ message: " account with this username does not exist!!" })
+            return res.status(400).json({ message: "Account with this email does not exist!!" });
         }
 
         if (!user.isVerified) {
-            return res.status(400).json({ message: "Please verify your email to login" })
+            return res.status(400).json({ message: "Please verify your email to login" });
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
-            return res.status(400).json({ message: "Invalid credentials" })
+            return res.status(400).json({ message: "Invalid credentials" });
         }
 
-        const token = jwt.sign({
-            user: user
-        },
+        // Create a user object with selected fields
+        const userWithoutSensitiveData = user.toObject();
+        delete userWithoutSensitiveData.password; // Exclude the password field
+        delete userWithoutSensitiveData.productsShowcased; // Exclude the productsShowcased field
+
+        // Sign the JWT token
+        const token = jwt.sign(
+            {
+                user: userWithoutSensitiveData,
+            },
             process.env.JWT_SECRET,
             {
-                expiresIn: "1d"
+                expiresIn: "1d",
             }
-        )
+        );
 
-        res.status(200).json({ user: user, token: token, message: "user logged in" })
+        res.status(200).json({
+            user: userWithoutSensitiveData,
+            token: token,
+            message: "User logged in",
+        });
 
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        res.status(500).json({ message: error.message });
         console.log(error);
     }
-}
+};
 
 
 const userInfo = async (req, res) => {
@@ -279,7 +343,7 @@ const userInfo = async (req, res) => {
 const userProfile = async (req, res) => {
     const { userID } = req.params;
     try {
-        const user = await User.findById(userID).select('-password');
+        const user = await User.findById(userID).select('-password -productsShowcased');
 
         if (!user) {
             return res.status(404).json({ message: "No user with this ID" });
@@ -295,7 +359,9 @@ const userProfile = async (req, res) => {
 
 
 const editProfile = async (req, res) => {
-    const { bio, username } = req.body;
+    const { bio, email, username, CompanyName, Place,
+        InstagramLink, LinkedInLink
+    } = req.body;
     try {
         const userId = req.user._id;
 
@@ -303,10 +369,19 @@ const editProfile = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: "No user with this ID" });
         }
-        user.bio = bio;
-        user.username = username;
-        await user.save();
-        res.status(200).json({ message: "user updated succesfully", user: user });
+
+        const newUser = await User.findByIdAndUpdate(userId, {
+            bio: bio,
+            email: email,
+            username: username,
+            CompanyName: CompanyName,
+            Place: Place,
+            InstagramLink: InstagramLink,
+            LinkedInLink: LinkedInLink
+        })
+
+        await newUser.save();
+        res.status(200).json({ message: "user updated succesfully", user: newUser });
     } catch (error) {
         res.status(500).json({ message: error.message });
         console.log(error);
@@ -470,6 +545,82 @@ const resendVerificatoin = async (req, res) => {
         console.log(error);
     }
 }
+const sendResetPasswordEmail = async (req, res) => {
+
+    try {
+        let user = await User.findOne({ email: req.body.email });
+
+        if (!user) {
+            return res.status(404).json({ message: 'Email does not exist' });
+        } else {
+            //logic to delete exisitng otp
+            const otpexist = OTP.findOne({ email: req.body.email })
+            if (otpexist) {
+                await OTP.deleteMany({ email: req.body.email });
+            }
+
+            const expirationDate = new Date(Date.now() + 10 * 60 * 1000);
+            const otpcode = generateOTP();
+            const otpData = new OTP({
+                code: otpcode,
+                email: req.body.email,
+                expiration: expirationDate,
+            });
+
+            await otpData.save();
+            await resetPasswordEmail(req.body.email, otpcode);
+
+            res.status(200).json({ message: 'OTP sent successfully', otp: otpData });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error' });
+        console.log(error);
+    }
+};
+
+
+
+const resetPassword = async (req, res) => {
+    const { email, otpCode, password } = req.body;
+    try {
+
+        if (!email || !otpCode || !password) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        console.log(email, otpCode, password);
+        let data = await OTP.findOne({ email, code: otpCode });
+        console.log(data);
+
+
+        if (!data) {
+            return res.status(404).json({ message: 'Invalid OTP' });
+        } else {
+            let currentTime = new Date();
+            if (currentTime > data.expiration) {
+                res.status(401).json({ message: "Token Expired" });
+            } else {
+                let user = await User.findOne({ email });
+
+
+                if (!user) {
+                    res.status(404).json({ message: "User does not exist" });
+                } else {
+                    const hashedPassword = await bcrypt.hash(password, 10);
+                    user.password = hashedPassword;
+                    await user.save();
+                    res.status(200).json({ message: "Password changed successfully" });
+                }
+            }
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error' });
+        console.log(error);
+    }
+}
+
+
+
 
 module.exports = {
     registerUser,
@@ -486,7 +637,10 @@ module.exports = {
     loggedInUser,
     getUserStats,
     deleteAccount,
-    resendVerificatoin
+    resendVerificatoin,
+    resetPassword,
+    sendResetPasswordEmail,
+
 
 
 }

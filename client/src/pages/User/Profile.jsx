@@ -11,6 +11,7 @@ import { FollowUnfollow } from "../../redux/auth/authActions";
 import { getcomment } from "../../redux/comments/commentActions";
 import BackToTopButton from "../../utils/BackToTop";
 import { getUserStats } from "../../redux/auth/authActions";
+import { NavLink } from "react-router-dom";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -174,7 +175,7 @@ const Profile = () => {
                   <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 ">
                     {ProfileUser?.username} &nbsp;{" "}
                     <i class="bi bi-patch-check"></i>{" "}
-                    <p className="text-xs">only show this tick if he pays</p>
+
                   </h3>
                   <div className="flex items-center justify-center gap-4">
                     <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
@@ -187,19 +188,26 @@ const Profile = () => {
                     </div>
                   </div>
 
-                  {/* <div>
-                  <p><i className="fa-solid fa-medal" style={{color: "#D4Af37",}} />8 
-                  &nbsp; <i className="fa-solid fa-medal" style={{color: "#BBC2CC",}} />6  
-                  &nbsp; <i className="fa-solid fa-medal" style={{color: "#B08D57",}} />5</p>
-                  </div> */}
+
                 </div>
 
+                <center>
+                  <div>
+                    <p className="text-lg">Follow me on :<br />
+                      <p className="text-2xl flex justify-center gap-2">
+                        <NavLink to={`${ProfileUser?.InstagramLink}`} target="_blank">
+                          <i className="fa-brands fa-instagram cursor-pointer"></i>
+                        </NavLink>
+                        &nbsp;
+                        <NavLink to={`${ProfileUser?.LinkedInLink}`} target="_blank">
+                          <i className="fa-brands fa-linkedin cursor-pointer"></i>
+                        </NavLink>
+                        &nbsp;
 
-              <center>
-                <div>
-                  <p className="text-lg">Follow me on :<br/> <p className="text-2xl"> <i class="fa-brands fa-instagram cursor-pointer"></i> &nbsp; <i class="fa-brands fa-linkedin cursor-pointer"></i> </p> </p>
-                </div>
-              </center>  
+                      </p>
+                    </p>
+                  </div>
+                </center>
 
 
                 <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
@@ -211,7 +219,6 @@ const Profile = () => {
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -232,7 +239,7 @@ const Profile = () => {
                 </div>
               ) : (
                 postByUserID?.map((product) => (
-                  <div className="w-2/3" key={product._id}>
+                  <div className="w-full lg:w-2/3 md:2/3 p-2" key={product._id}>
                     <PostCard
                       product={product}
                       comments={comments}

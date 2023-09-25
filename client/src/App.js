@@ -47,6 +47,8 @@ function App() {
           <Route path="/land" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/:referalCode" element={<Register />} />
+
 
           <Route
             path="/"

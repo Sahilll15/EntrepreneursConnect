@@ -72,12 +72,14 @@ const PostCard = ({ product, comments }) => {
       <div
         key={product._id}
         className="post-card bg-white rounded-lg shadow-md p-4 mb-4 border hover:focus"
+        onDoubleClick={
+          () => {
+            handleLike(product._id)
+            alert('like')
+          }
+        }
       >
-        {/* {product?.author?.id === user?._id ? (
-              <center>
-              <p className='bg-green-400 text-lg border-3 border-black cursor-pointer hover:bg-green-300'>Boost Post</p>
-              </center>
-            ) : null} */}
+
 
         <div className="relative">
           {isOptionsMenuOpen && (
@@ -127,13 +129,19 @@ const PostCard = ({ product, comments }) => {
 
         <div className="flex justify-between text-gray-600 text-sm">
           <div>
-            <span className="mr-2 text-xl">
+
+            <span className="mr-2 text-xl cursor-pointer">
               <FontAwesomeIcon
                 icon={faThumbsUp}
+                onClick={() => {
+                  handleLike(product._id);
+                }}
                 className={`text-${isLiked ? "green" : "blue"}-500`}
               />{" "}
               {product.likes.length}
             </span>
+
+
             <span className="text-xl">
               <FontAwesomeIcon
                 icon={faComment}
@@ -188,7 +196,7 @@ const PostCard = ({ product, comments }) => {
         </div>
         <hr className="my-4 " />
         {firstComment ? (
-          <div className="flex items-center mb-2">
+          <div className="flex items-center mb-2  cursor-pointer" onClick={openCommentsModal}>
             <NavLink to={`/profile/${firstComment?.commentedBy?._id}`}>
               <img
                 src={firstComment?.commentedBy?.avatar?.url}
