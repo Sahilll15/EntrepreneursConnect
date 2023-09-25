@@ -1,6 +1,34 @@
 const { Group, GroupDiscussion } = require('../models/group.models')
 const User = require('../models/user.models')
+const { nanoid } = require('nanoid');
+const AWS = require('aws-sdk');
 
+
+AWS.config.update({
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: 'ap-south-1'
+});
+
+
+const s3 = new AWS.S3();
+
+const uploadImage = async (file) => {
+    try {
+
+        const params = {
+            Bucket: process.env.AWS_BUCKET_NAME,
+            Key: `${file.originalname}`,
+            Body: file.buffer,
+            ContentType: file.mimetype,
+        }
+
+        const uploadedImage = await s3.upload(params).promise();
+        return uploadedImage;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 const createGroup = async (req, res) => {
     const { groupname, description } = req.body;
@@ -53,6 +81,7 @@ const getGroups = async (req, res) => {
             name: group.groupname,
             description: group.description,
             groupAdmin: group.groupAdmin.username,
+            avatar: group.avatar.url,
             joinedMembers: [
                 group.members.map((member) => member._id)
             ],
@@ -81,7 +110,9 @@ const getGroupById = async (req, res) => {
             _id: group._id,
             groupname: group.groupname,
             description: group.description,
+            avatar: group.avatar.url,
             groupAdmin: group.groupAdmin.username,
+            groupAdminId: group.groupAdmin._id,
             joinedMembers: [
                 group.members.map((member) => member._id)
             ],
@@ -276,6 +307,7 @@ const getGroupsJoinedByUser = async (req, res) => {
             _id: group._id,
             name: group.groupname,
             description: group.description,
+            avatar: group.avatar.url,
             groupAdmin: group.groupAdmin.username,
             joinedMembers: [
                 group.members.map((member) => member._id)
@@ -308,6 +340,7 @@ const searchGroups = async (req, res) => {
             _id: group._id,
             name: group.groupname,
             description: group.description,
+            avatar: group.avatar.url,
             groupAdmin: group.groupAdmin.username,
             joinedMembers: [
                 group.members.map((member) => member._id)
@@ -328,6 +361,45 @@ const searchGroups = async (req, res) => {
 }
 
 
+const updateGroup = async (req, res) => {
+    const { groupId } = req.params;
+    const { groupName, description } = req.body;
+    try {
+
+
+        const group = await Group.findById(groupId);
+        if (!group) {
+            return res.status(400).json({ msg: "Group does not exist" })
+        }
+        const user = req.user._id;
+        if (group.groupAdmin.toString() !== user.toString()) {
+            return res.status(401).json({ msg: "You are not authorized to update this group" })
+        }
+        //upload the avatar to s3
+
+        if (req.file) {
+            console.log('object')
+            const file = req.file;
+            const uploadedImage = await uploadImage(file);
+            group.avatar = {
+                url: uploadedImage.Location,
+                public_id: uploadedImage.Key
+            }
+        }
+
+        group.groupname = groupName;
+        group.description = description;
+        await group.save();
+        res.status(200).json({ msg: "Group updated successfully", group: group })
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+        console.log(error);
+    }
+}
+
+
+
+
 
 module.exports = {
     createGroup,
@@ -340,6 +412,7 @@ module.exports = {
     getDiscussions,
     deleteDiscussion,
     getGroupById,
-    getGroupsJoinedByUser
+    getGroupsJoinedByUser,
+    updateGroup
 
 }

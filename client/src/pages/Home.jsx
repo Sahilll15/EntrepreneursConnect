@@ -35,37 +35,29 @@ const Home = () => {
 
   // Fetch posts/products based on the active tab
   useEffect(() => {
-    if (activeTab === 'ForYou') {
-      dispatch(fetchPosts());
-      dispatch(getBoostedProducts());
-    } else if (activeTab === 'Following') {
-      dispatch(fetchProductsByFollowing());
-    }
+
+    const fetchData = async () => {
+      if (activeTab === 'ForYou') {
+        await dispatch(fetchPosts()); // Fetch posts from For You tab
+        dispatch(getBoostedProducts());
+      } else if (activeTab === 'Following') {
+        await dispatch(fetchProductsByFollowing());
+
+        if (productsByFollowing?.length === 0) {
+
+          setActiveTab('ForYou'); // Switch to For You tab if not following anyone
+          await dispatch(fetchPosts()); // Fetch posts from For You tab
+          dispatch(getBoostedProducts());
+        }
+      }
+    };
+
+    fetchData();
   }, [dispatch, activeTab]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     if (activeTab === 'ForYou') {
-  //       await dispatch(fetchPosts()); // Fetch posts from For You tab
-  //       dispatch(getBoostedProducts());
-  //     } else if (activeTab === 'Following') {
-  //       await dispatch(fetchProductsByFollowing());
-  
-  //       if (productsByFollowing?.length === 0) {
-          
-  //         setActiveTab('ForYou'); // Switch to For You tab if not following anyone
-  //         await dispatch(fetchPosts()); // Fetch posts from For You tab
-  //         dispatch(getBoostedProducts());
-  //       }
-  //     }
-  //   };
-  
-  //   fetchData();
-  // }, [dispatch, activeTab, productsByFollowing]);
 
- 
-  
-  
+
+
 
   // Handle tab click to switch between "For You" and "Following"
   const handleTabClick = (tabName) => {

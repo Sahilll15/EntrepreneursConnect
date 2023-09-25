@@ -8,6 +8,16 @@ const groupSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    avatar: {
+        type: {
+            url: String,
+            public_id: String
+        },
+        default: {
+            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Noun_Project_Community_icon_986471.svg/1200px-Noun_Project_Community_icon_986471.svg.png",
+            public_id: "GroupAvatar_qq7x5o"
+        }
+    },
     description: {
         type: String,
         required: true,
@@ -59,6 +69,20 @@ const discussionSchema = new mongoose.Schema({
 const Group = mongoose.model('Group', groupSchema);
 
 const GroupDiscussion = mongoose.model('Discussion', discussionSchema);
+
+
+// const newValues = {
+//     TotalReferral: ""
+// }
+
+
+// User.updateMany({}, { $set: newValues }).then(() => {
+//     console.log("done")
+// }).catch((err) => {
+//     console.log(err)
+// })
+
+
 
 
 module.exports = {

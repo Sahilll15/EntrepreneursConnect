@@ -14,7 +14,7 @@ const RecentChat = () => {
   const user = useSelector((state) => state.user.user);
   const [searchText, setSearchText] = useState('')
   const [activeTab, setActiveTab] = useState("ALLGROUPS");
-
+  const [isLoading, setIsLoading] = useState(true);
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
   };
@@ -24,6 +24,9 @@ const RecentChat = () => {
 
 
   useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000)
     if (activeTab === 'ALLGROUPS') {
       dispatch(getCommunity());
     } else {
@@ -40,8 +43,18 @@ const RecentChat = () => {
     // Implement your delete group logic here
   };
 
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col justify-center items-center h-screen">
+        <div className="animate-spin rounded-full border-t-4 border-blue-500 border-opacity-25 h-20 w-20"></div>
+        <div>Loading Communities....</div>
+      </div>
+    );
+  }
+
   return (
-    <div className="h-grow">
+    <div className="h-screen">
       <div className="pt-2 relative mx-auto mt-2 text-gray-600">
         <input
           className="border-2 border-gray-300 w-full bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
@@ -94,11 +107,9 @@ const RecentChat = () => {
       </div>
 
       <div className="p-4">
-        <h3 className="text-xl font-semibold mb-4">
-          Featuerd/Boosted groups (those who pade money){" "}
-        </h3>
 
-        <h1 className="text-xl font-semibold mb-4">your Communities</h1>
+
+        <h1 className="text-xl font-semibold mb-4">Your Communities</h1>
 
         {filteredGroups?.map((group) => (
 

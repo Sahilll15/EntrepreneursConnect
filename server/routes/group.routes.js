@@ -12,9 +12,11 @@ const { createGroup,
     getDiscussions,
     deleteDiscussion,
     getGroupById,
-    getGroupsJoinedByUser
+    getGroupsJoinedByUser,
+    updateGroup
 } = require('../controllers/group.controllers')
 const { verifyJWT } = require('../middleware/auth.middleware')
+const { upload } = require('../middleware/upload.midleware')
 
 router.post('/creategroup', verifyJWT, createGroup)
 router.get('/getgroups', verifyJWT, getGroups)
@@ -27,6 +29,6 @@ router.get('/getdiscussions/:groupId', verifyJWT, getDiscussions)
 router.delete('/deletediscussion/:groupId/:discussionId', verifyJWT, deleteDiscussion)
 router.get('/getgroupbyid/:groupId', verifyJWT, getGroupById)
 router.get('/getgroupsjoined', verifyJWT, getGroupsJoinedByUser)
-
+router.put('/updategroup/:groupId', verifyJWT, upload.single('avatar'), updateGroup)
 
 module.exports = router;
