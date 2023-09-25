@@ -3,6 +3,8 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 const { gmailContent, OtpContent } = require('./EmailTemplates')
 const secret_key = process.env.JWT_SECRET;
+const { getSuscribedUsers } = require('./promotoinalEmails')
+const { promotionalEmail } = require('./EmailTemplates')
 
 
 
@@ -71,9 +73,48 @@ const generateOTP = () => {
     return otpcode;
 }
 
+
+let TopUsers = ''
+getSuscribedUsers().then((res) => {
+
+    TopUsers = res
+
+}).catch(() => {
+    console.log("error")
+})
+
+
+const sendPromotionalEmail = async (recipientEmail, TopUsers) => {
+    try {
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL,
+                pass: process.env.PASSWORD,
+            },
+        });
+
+        const emailContent = promotionalEmail(TopUsers);
+
+        await transporter.sendMail({
+            from: process.env.EMAIL,
+            to: recipientEmail,
+            subject: 'BoostedUsers Posts',
+            html: emailContent,
+        });
+
+        console.log("Email has been sent  " + recipientEmail);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
+
 module.exports = {
     generateverificationToken,
     sendVerificationEmail,
     generateOTP,
-    resetPasswordEmail
+    resetPasswordEmail,
+    sendPromotionalEmail
 }

@@ -27,6 +27,24 @@ const s3 = new AWS.S3();
 
 
 
+const getFollowers_FollowingByUserID = async (req, res) => {
+    const { userID } = req.params;
+    try {
+        const user = await User.findById(userID)
+            .populate('followers', 'username avatar')
+            .populate('following', 'username avatar');
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ followers: user.followers, following: user.following });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 const updateavatar = async (req, res) => {
 
     try {
@@ -642,7 +660,7 @@ module.exports = {
     resendVerificatoin,
     resetPassword,
     sendResetPasswordEmail,
-
+    getFollowers_FollowingByUserID
 
 
 }

@@ -45,13 +45,7 @@ const TopsUser = () => {
                 <p className=" absolute right-2 text-sm text-blue-600 hover:text-blue-900 ">Want to become one?</p>
               </NavLink>
             </div>
-
-
           )}
-
-
-
-
 
           <h2 className="text-lg font-semibold mb-4">Top Users</h2>
           <ul>
