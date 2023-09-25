@@ -68,10 +68,13 @@ export const SideBar = () => {
               <img
                 alt={user?.badges}
                 src={user?.avatar?.url}
+
                 className={`w-[40px] h-[40px] rounded-full border  ${user?.badges[0] === "Expert"
                   ? "border-red-600"
                   : "border-none"
                   } `}
+
+
               />
               <h1 className="font-bold text-gray-200 text-[15px] ml-3">
                 <div className="flex-col">
@@ -195,8 +198,10 @@ export const SideBar = () => {
                 Joined Communities
               </span>
               <span
+
                 className={`text-base ${isDropdownOpen ? "transform rotate-180" : ""
                   }`}
+
                 id="arrow"
               >
                 <i className="fas fa-chevron-down"></i>
@@ -205,8 +210,10 @@ export const SideBar = () => {
           </div>
 
           <div
+
             className={`text-left mt-2 w-4/5 mx-auto  ${isDropdownOpen ? "block" : "hidden"
               }`}
+
             id="submenu"
           >
             {groupsJoined?.map((group) => (
@@ -527,4 +534,6 @@ export const SideBar = () => {
   );
 };
 
+
 export default SideBar;
+
