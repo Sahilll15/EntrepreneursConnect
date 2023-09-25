@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux"
 import { registerUser } from '../../redux/auth/authActions';
+import { toast, ToastContainer } from "react-toastify";
+
 import { useSelector } from "react-redux";
 import LOGO from '../../components/LOGO/Logo.png'
 
@@ -32,9 +34,19 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(registerUser(user))
 
-  }
+    if (!user.username || !user.email || !user.password) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    if (user.password.length < 8) {
+      toast.error("Password must be at least 8 characters long");
+      return;
+    }
+
+    dispatch(registerUser(user));
+  };
 
 
   const handleViewPassword = () => {

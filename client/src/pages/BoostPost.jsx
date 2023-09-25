@@ -210,7 +210,6 @@ const BoostPage = () => {
 
             </div>
           </div>
-        </div>
       )}
 
       {showConfirmationModal && (
