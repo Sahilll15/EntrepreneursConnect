@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/layout/ProfileNavbar";
 import { getLoggedInUser, getProfile } from "../../redux/auth/authActions";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
 
 import { useParams } from "react-router-dom";
 import PostCard from "../../components/Post/PostCard";

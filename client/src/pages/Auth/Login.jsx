@@ -29,23 +29,48 @@ const Login = () => {
 
 
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   console.log('Dispatching loginUser action');
+
+  //   try {
+  //     const response = await dispatch(loginUser(user));
+
+  //     if (response.meta.requestStatus === "fulfilled") {
+  //       navigate('/');
+  //       window.location.reload();
+
+  //     }
+  //   } catch (error) {
+  //     console.error('An error occurred:', error);
+  //     toast.error('An error occurred while logging in');
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    if (!user.email || !user.password) {
+      toast.error('Please fill in both email and password fields');
+      return;
+    }
+  
     console.log('Dispatching loginUser action');
-
+  
     try {
       const response = await dispatch(loginUser(user));
-
+  
       if (response.meta.requestStatus === "fulfilled") {
         navigate('/');
         window.location.reload();
-
       }
     } catch (error) {
       console.error('An error occurred:', error);
       toast.error('An error occurred while logging in');
     }
   };
+
+  
   const handleViewPassword = () => {
     setViewPassword(!viewPassword);
     const passwordInput = document.getElementById('password');
