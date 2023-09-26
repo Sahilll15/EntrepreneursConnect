@@ -57,7 +57,7 @@ const userSchema = new Schema(
         },
         subscription: {
             type: String,
-            default: "regular"
+            enum: ["basic", "pro", "premium"],
         },
         followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
         following: [{ type: Schema.Types.ObjectId, ref: 'User' }],

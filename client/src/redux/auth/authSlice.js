@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { resetPassword, sendResetPassword, updateAvatar, resendVerificationEmail, getSearchUser, deleteAccount, registerUser, getProfile, loginUser, getLoggedInUser, updateProfile, FollowUnfollow, getLeaderBoard, getUserStats } from './authActions';
+import { followersFollowing, resetPassword, sendResetPassword, updateAvatar, resendVerificationEmail, getSearchUser, deleteAccount, registerUser, getProfile, loginUser, getLoggedInUser, updateProfile, FollowUnfollow, getLeaderBoard, getUserStats } from './authActions';
 
 const initialState = {
     user: null,
@@ -19,6 +19,8 @@ const initialState = {
     resetPasswordLoading: false,
     referalCode: "",
     refrealTokenLoading: false,
+    followers: [],
+    following: []
 
 }
 
@@ -273,7 +275,26 @@ export const authSlice = createSlice({
         }
         );
 
+        // Reset Password reducer end
+        // Followers Following reducer start
+        builder.addCase(followersFollowing.pending, (state, action) => {
 
+            state.loading = true;
+        }
+        );
+        builder.addCase(followersFollowing.fulfilled, (state, action) => {
+            state.loading = false;
+            state.followers = action.payload.followers;
+            state.following = action.payload.following;
+        }
+        );
+
+
+        builder.addCase(followersFollowing.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        }
+        );
 
     },
 });

@@ -11,7 +11,6 @@ const RecentChat = () => {
   const dispatch = useDispatch();
   const groups = useSelector((state) => state?.community?.communities?.groups);
   const groupsJoined = useSelector((state) => state?.community?.groupsJoined)
-  const user = useSelector((state) => state.user.user);
   const [searchText, setSearchText] = useState('')
   const [activeTab, setActiveTab] = useState("ALLGROUPS");
   const [isLoading, setIsLoading] = useState(true);
@@ -40,7 +39,7 @@ const RecentChat = () => {
   };
 
   const handleDeleteGroup = (groupId) => {
-    // Implement your delete group logic here
+
   };
 
 

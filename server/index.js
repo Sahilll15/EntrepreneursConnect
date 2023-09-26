@@ -16,6 +16,9 @@ const subscriptionRoutes = require('./routes/subscription.routes')
 const boostRoutes = require('./routes/boost.routes')
 const myDb = require('./db');
 const { verifyJWT } = require('./middleware/auth.middleware')
+const { getSuscribedUsers, getAllUser } = require('./utils/promotoinalEmails')
+const { sendPromotionalEmail } = require('./utils/email')
+const cron = require('node-cron');
 
 const Server = http.createServer(app);
 
@@ -59,6 +62,46 @@ app.use('/api/v1/subscription', verifyJWT, subscriptionRoutes);
 app.use('/api/v1/boost', verifyJWT, boostRoutes);
 
 app.set('view engine', 'ejs');
+
+
+
+
+
+
+let TopUsers = ''
+getSuscribedUsers().then((res) => {
+
+    TopUsers = res
+
+}).catch(() => {
+    console.log("error")
+})
+
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+
+cron.schedule('0 12 * * *', async () => {
+    console.log('Running a task every minute');
+    const users = await getAllUser();
+    const suscribedUsers = await getSuscribedUsers();
+    const suscribedUsersEmail = suscribedUsers.map((user) => user.email);
+    const usersEmail = users.map((user) => user.email);
+    const emailList = [...suscribedUsersEmail, ...usersEmail];
+    const uniqueEmailList = [...new Set(emailList)];
+    console.log(uniqueEmailList);
+    shuffleArray(uniqueEmailList);
+    const usersToSendEmail = uniqueEmailList.slice(0, 10);
+    usersToSendEmail.forEach((email) => {
+        sendPromotionalEmail(email, TopUsers);
+    });
+});
+
 
 app.get('/', (req, res) => {
     res.render('index');

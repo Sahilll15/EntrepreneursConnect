@@ -14,7 +14,7 @@ const likeDislikePost = async (req, res) => {
         }
 
         const user = req.user;
-        console.log(user);
+
 
         const like = await Like.findOne({ postId: postId, likedBy: req.user._id });
 
@@ -31,9 +31,9 @@ const likeDislikePost = async (req, res) => {
                 post.likes.push(req.user._id);
                 await post.save();
             }
-            //send the notification
+
             const notificationMessage = `${user.username} liked your post.`;
-            await createNotification(req.user._id, post.author.id, 'like', notificationMessage);
+            await createNotification(req.user._id, post.author, 'like', notificationMessage);
             return res.status(201).json({ msg: "Post liked", like: newLike });
         } else {
             await Like.findByIdAndDelete(like._id);

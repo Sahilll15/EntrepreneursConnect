@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { likePost } from "../../redux/likes/likesActions";
 import { useDispatch, useSelector } from "react-redux";
 import CommentsModal from "./CommentsModal";
@@ -9,35 +9,32 @@ import "../css/PostCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faComment,
-  faTimes,
   faThumbsUp,
-  faShareSquare,
   faEllipsisV,
-  FaThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 
-
 const PostCard = ({ product, comments }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isCommentsModalOpen, setIsCommentsModalOpen] = useState(false);
+  const [isOptionsMenuOpen, setIsOptionsMenuOpen] = useState(false);
+  const user = useSelector((state) => state?.user?.user);
+  const dispatch = useDispatch();
 
-  const formatDateTime = (isoDateString) => {
+  const [showModal, setShowModal] = useState(false);
+
+  const formatDateTime = (date) => {
     const options = {
       year: "numeric",
-      month: "long",
+      month: "short",
       day: "numeric",
       hour: "numeric",
       minute: "numeric",
     };
-    return new Date(isoDateString).toLocaleDateString(undefined, options);
+
+    return new Date(date).toLocaleDateString(undefined, options);
   };
 
-  const dispatch = useDispatch();
-  const [isLiked, setIsLiked] = useState(false);
-  const [isCommentsModalOpen, setIsCommentsModalOpen] = useState(false);
-  const [isOptionsMenuOpen, setIsOptionsMenuOpen] = useState(false);
-  const [updatedContent, setUpdatedContent] = useState("");
-  const user = useSelector((state) => state?.user?.user);
+
 
   const handleDelete = async (id) => {
     await dispatch(deletePost(id));
@@ -46,9 +43,13 @@ const PostCard = ({ product, comments }) => {
   };
 
   const handleLike = async (id) => {
-    await dispatch(likePost(id));
-    await dispatch(fetchPosts());
-    setIsLiked(true);
+    try {
+      await dispatch(likePost(id));
+      await dispatch(fetchPosts());
+      setIsLiked(true);
+    } catch (error) {
+      console.error("Error liking post:", error);
+    }
   };
 
   const openCommentsModal = () => {
@@ -63,11 +64,7 @@ const PostCard = ({ product, comments }) => {
     setIsOptionsMenuOpen(!isOptionsMenuOpen);
   };
 
-  const commentsById = comments?.filter(
-    (comment) => comment?.postId === product?._id
-  );
-
-  const firstComment = commentsById?.length > 0 ? commentsById[0] : null;
+  const firstComment = comments?.length > 0 ? comments[0] : null;
 
   return (
     <>
@@ -80,7 +77,11 @@ const PostCard = ({ product, comments }) => {
           }
         }
       >
-
+        {/* {product?.author?.id === user?._id ? (
+              <center>
+              <p className='bg-green-400 text-lg border-3 border-black cursor-pointer hover:bg-green-300'>Boost Post</p>
+              </center>
+            ) : null} */}
 
         <div className="relative">
           {isOptionsMenuOpen && (
@@ -96,29 +97,25 @@ const PostCard = ({ product, comments }) => {
             </div>
           )}
         </div>
-        <div className="flex items-center mb-4">
+        <div className="flex items-center mb-4 relative">
+
           <NavLink to={`/profile/${product.author._id}`}>
             <img
               src={product?.author?.avatar?.url}
               alt={`${product?.author?.name}'s avatar`}
-              className={`w-8 h-8 rounded-full mr-3 border border-solid-4 ${isLiked ? "avatar-animation" : ""
-                }`}
+              className={`w-8 h-8 rounded-full mr-3 border border-solid-4 ${isLiked ? "avatar-animation" : ""}`}
             />
           </NavLink>
-
           <div>
             <NavLink to={`/profile/${product?.author?._id}`}>
               <p className="text-lg font-semibold">{product?.author?.username}</p>
             </NavLink>
-            <p className="text-gray-600 text-sm">
-              {formatDateTime(product?.createdAt)}
-            </p>
+            <p className="text-gray-600 text-sm">{formatDateTime(product?.createdAt)}</p>
           </div>
         </div>
+
         <p className="text-xl font-semibold mb-4">{product?.content}</p>
         <center>
-          <div>
-          <div onClick={() => setShowModal(true)}>
           {product?.media && (
             /\.(jpg|jpeg|png|gif)$/i.test(product?.media) ? (
               <img src={product?.media} alt="Post media" className="w-96 rounded-lg mb-4" />
@@ -128,60 +125,41 @@ const PostCard = ({ product, comments }) => {
                 Your browser does not support the video tag.
               </video>
             ))}
-            </div>
-            {showModal && (
-              <div className="modal fixed inset-0 z-50 flex p-2 items-center justify-center">
-              <div className="bg-black bg-opacity-50 absolute inset-0"></div>
-              <div className="bg-white bg-opacity-50 p-2 rounded-lg shadow-lg z-10 w-11/12 h-11/12 relative">
-                <div className="h-2/4 w-2/4">
-                  {product?.media && /\.(jpg|jpeg|png|gif)$/i.test(product?.media) ? (
-                    <img src={product?.media} alt="Post media" className="w-3/4 rounded-lg mb-4" />
-                  ) : (
-                    <video controls className="w-96 rounded-lg mb-4">
-                      <source src={product?.media} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
-                  )}
-                </div>
-                <div className="absolute top-0 right-0 p-4">
-                  <i className="fa fa-times text-gray-800 text-2xl cursor-pointer" onClick={() => setShowModal(false)}></i>
-                </div>
-              </div>
-            </div>
-              )}
-            </div>
         </center>
 
         <div className="flex justify-between text-gray-600 text-sm">
           <div>
-
-            <span className="mr-2 text-xl cursor-pointer">
+            <span className="mr-2 text-xl">
               <FontAwesomeIcon
                 icon={faThumbsUp}
+                className={`cursor-pointer text-${isLiked ? "blue" : "gray"}-500`}
                 onClick={() => {
-                  handleLike(product._id);
+                  handleLike(product._id)
                 }}
-                className={`text-${isLiked ? "blue" : "gray"}-500`}
               />{" "}
               {product.likes.length}
             </span>
 
-              
             <span className="text-xl">
               <FontAwesomeIcon
                 icon={faComment}
-                className="text-gray-500 font-bold text-xl cursor-pointer"
+                className="cursor-pointer text-gray-500 font-bold text-xl"
                 onClick={openCommentsModal}
               />{" "}
               {product?.comments?.length}
             </span>
           </div>
 
-          <div className="flex items-center space-x-2"> 
+          <div className="flex items-center space-x-2">
+
+
+
+
+
 
             {product?.author?._id === user?._id ? (
               <button
-                className="text-gray-500 text-lg hover:text-gray-700"
+                className="text-gray-500 hover:text-gray-700 text-lg"
                 onClick={toggleOptionsMenu}
               >
                 <FontAwesomeIcon icon={faEllipsisV} />
@@ -192,7 +170,7 @@ const PostCard = ({ product, comments }) => {
         </div>
         <hr className="my-4 " />
         {firstComment ? (
-          <div className="flex items-center mb-2  cursor-pointer" onClick={openCommentsModal}>
+          <div className="flex items-center mb-2 cursor-pointer" onClick={openCommentsModal}>
             <NavLink to={`/profile/${firstComment?.commentedBy?._id}`}>
               <img
                 src={firstComment?.commentedBy?.avatar?.url}
@@ -210,7 +188,7 @@ const PostCard = ({ product, comments }) => {
             </div>
           </div>
         ) : (
-          <div className="text-gray-600 text-sm mb-2 cursor-pointer" onClick={openCommentsModal}>No comments yet. </div>
+          <div className="text-gray-600 text-sm mb-2 cursor-pointer" onClick={openCommentsModal} >No comments yet</div>
         )}
 
         <CommentsModal

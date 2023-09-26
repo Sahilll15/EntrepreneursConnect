@@ -49,6 +49,7 @@ const createSubscription = async (req, res) => {
 
         userExists.subscription = plan
         userExists.points -= pointsRequired;
+        console.log(userExists.subscription)
         await userExists.save();
         await newSubscription.save();
 
@@ -129,7 +130,8 @@ const cancleSubscription = async (req, res) => {
         if (!subscription.user === user) {
             return res.status(401).json({ message: "You are not allowed to delete this subscription" });
         }
-
+        await userExists.save();
+        console.log(userExists.subscription)
         await Subscription.findByIdAndDelete(subscriptionId);
         res.status(200).json({ message: "subscription deleted succcesfully", subscription: subscription })
     } catch (error) {
@@ -140,3 +142,6 @@ const cancleSubscription = async (req, res) => {
 module.exports = {
     cancleSubscription, createSubscription, getSubscription, updateSubscription, getSubscriptionById
 }
+
+
+

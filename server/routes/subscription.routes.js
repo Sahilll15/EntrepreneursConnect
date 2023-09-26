@@ -10,4 +10,5 @@ router.get('/getSubById', getSubscriptionById)
 router.delete('/cancleSub', cancleSubscription)
 router.patch('/updateSub', updateSubscription)
 
+
 module.exports = router
