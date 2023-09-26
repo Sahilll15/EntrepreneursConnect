@@ -104,10 +104,8 @@ const Profile = () => {
                         <img
                           alt={ProfileUser?.badges}
                           src={ProfileUser?.avatar?.url}
-                          className={`shadow-xl rounded-full h-auto align-middle absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px border-4 ${ProfileUser?.badges[0] === "Expert"
-                            ? "border-red-600"
-                            : "border-none"
-                            } hover:border-8 hover:border-red-600`}
+                          className={`shadow-xl rounded-full h-auto align-middle absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px border-4 
+                          ${ProfileUser?.badges[0] === "Expert" ? "border-red-600"  : ProfileUser?.badges[0] === "Advanced" ?  "border-blue-600" :  ProfileUser?.badges[0] === "Intermediate" ? "border-green-600" : ProfileUser?.badges[0] === "Beginner" ? "border-black": ""} hover:border-8 hover:border-red-600`}
                           onMouseEnter={handleMouseEnter}
                           onMouseLeave={handleMouseLeave}
                         />
