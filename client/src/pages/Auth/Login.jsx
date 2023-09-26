@@ -187,27 +187,8 @@ const Login = () => {
               </center>
             </h1>
             <br />
-            <p className="text-gray-100"> Lets Connect Your Social Account </p>
-            <div className="py-6 space-x-2">
-              <span className="w-10 h-10 items-center justify-center inline-flex rounded-full font-bold text-lg border-2 border-white">
-                <i
-                  className="fa-brands fa-google"
-                  size="lg"
-                  style={{ color: "#ffffff" }}
-                />
-              </span>
-              <span className="w-10 h-10 items-center justify-center inline-flex rounded-full font-bold text-lg border-2 border-white">
-                <i
-                  className="fa-brands fa-github"
-                  size="lg"
-                  style={{ color: "#ffffff" }}
-                />
-              </span>
-              <span className="w-10 h-10 items-center justify-center inline-flex rounded-full font-bold text-lg border-2 border-white">
-                in
-              </span>
-            </div>
-            <p className="text-gray-100">or use email your account</p>
+            
+            <p className="text-gray-100"><br/></p>
             <form action className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto" onSubmit={handleSubmit}>
               <div className="pb-2 pt-4">
                 <input
