@@ -46,6 +46,7 @@ export default function PostFormCard() {
       await dispatch(getLeaderBoard());
       setContent('');
       setImage(null);
+      setImageAddmodel(false);
     } catch (error) {
       console.error('Error adding post:', error);
     }

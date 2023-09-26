@@ -1,8 +1,75 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Lend = () => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
-    <div className="flex justify-center bg-white dark:bg-gray-800">
+    <div>
+    <div className="text-center text-sm  md:text-xs lg:text-xl">Want to Raise funds ? Use Entrepreneurs Connect platform to scale your startup, 
+    <button className="bg-blue-500 ml-3 hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded" onClick={() => setShowModal(true)} style={{display:"inline"}}> APPLY NOW ! </button>
+    {showModal && (
+      <div className="modal fixed inset-0 z-50 flex p-2  items-center justify-center">
+        <div className="bg-black bg-opacity-50 absolute inset-0"></div>
+        <div className="bg-white p-2 rounded-lg shadow-lg z-10 w-1/2 " style={{ maxHeight: '800px', overflowY: 'auto', top: '80%' }}>
+         <h2 className="text-xl  text-center mb-2">Request A fundraiser!</h2>
+         
+         <form >
+              <div className="relative z-0 w-full mb-6 group">
+                <input
+                  type="text"
+                  name="groupName"
+                  id="GrpName"
+                  
+                  className="block py-2.5 px-0 w-full  text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none  peer"
+                  placeholder=" "
+                  required
+                />
+                <label
+                  htmlFor="floating_email"
+                  className="peer-focus:font-medium absolute left-0 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  REASON FOR FUNDRAISING
+                </label>
+              </div>
+              <div className="relative z-0 w-full mb-6 group">
+                <input
+                  type="text"
+                  name="bio"
+                  id="floating_text"
+                  
+                  className="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none  peer"
+                  placeholder=" "
+                  required
+                />
+                <label
+                  htmlFor="floating_text"
+                  className="peer-focus:font-medium absolute text-sm left-0 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  AMOUNT
+                </label>
+              </div>
+
+              <button
+                type="submit"
+                className="bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 mr-2"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                className="bg-red-500 text-white rounded-md py-2 px-4 hover:bg-red-600"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+            </form>
+          
+        </div>
+      </div>
+    )}
+    </div>
+
+    <div className="flex justify-center bg-white h-screen dark:bg-gray-800">
       <div className="w-full md:w-2/3 lg:w-2/4 mt-9">
         <section className="bg-white dark:bg-gray-800">
           <div className="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
@@ -85,6 +152,7 @@ const Lend = () => {
         </div>
         </section>
       </div>
+    </div>
     </div>
   );
 };
