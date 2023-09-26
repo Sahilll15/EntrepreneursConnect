@@ -7,6 +7,7 @@ import { deletePost, fetchPosts } from "../../redux/posts/postActions";
 import { NavLink } from "react-router-dom";
 import "../css/PostCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
   faComment,
   faThumbsUp,
@@ -64,7 +65,13 @@ const PostCard = ({ product, comments }) => {
     setIsOptionsMenuOpen(!isOptionsMenuOpen);
   };
 
-  const firstComment = comments?.length > 0 ? comments[0] : null;
+  const commentsById = comments?.filter(
+    (comment) => comment?.postId === product?._id 
+  );
+
+
+
+  const firstComment = commentsById?.length > 0 ? commentsById[0] : null;
 
   return (
     <>
@@ -119,6 +126,7 @@ const PostCard = ({ product, comments }) => {
 
         <p className="text-xl font-semibold mb-4">{product?.content}</p>
         <center>
+          
           {product?.media && (
             /\.(jpg|jpeg|png|gif)$/i.test(product?.media) ? (
               <img src={product?.media} alt="Post media" className="w-96 rounded-lg mb-4" />
@@ -128,6 +136,7 @@ const PostCard = ({ product, comments }) => {
                 Your browser does not support the video tag.
               </video>
             ))}
+            
         </center>
 
         <div className="flex justify-between text-gray-600 text-sm">
