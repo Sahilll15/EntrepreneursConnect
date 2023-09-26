@@ -19,6 +19,8 @@ import {
 
 
 const BoostedProductsCard = ({ product, comments }) => {
+    const [showModal, setShowModal] = useState(false);
+
     const formatDateTime = (isoDateString) => {
         const options = {
             year: "numeric",
@@ -123,16 +125,40 @@ const BoostedProductsCard = ({ product, comments }) => {
 
                 <p className="text-xl font-semibold mb-4">{product?.content}</p>
                 <center>
-                    {product?.media && (
-                        /\.(jpg|jpeg|png|gif)$/i.test(product?.media) ? (
-                            <img src={product?.media} alt="Post media" className="w-96 rounded-lg mb-4" />
-                        ) : (
-                            <video controls className="w-96 rounded-lg mb-4">
-                                <source src={product?.media} type="video/mp4" />
-                                Your browser does not support the video tag.
-                            </video>
-                        ))}
-                </center>
+          <div>
+          <div onClick={() => setShowModal(true)}>
+          {product?.media && (
+            /\.(jpg|jpeg|png|gif)$/i.test(product?.media) ? (
+              <img src={product?.media} alt="Post media" className="w-96 rounded-lg mb-4" />
+            ) : (
+              <video controls className="w-96 rounded-lg mb-4">
+                <source src={product?.media} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            ))}
+            </div>
+            {showModal && (
+              <div className="modal fixed inset-0 z-50 flex p-2 items-center justify-center">
+              <div className="bg-black bg-opacity-50 absolute inset-0"></div>
+              <div className="bg-white bg-opacity-50 p-2 rounded-lg shadow-lg z-10 w-11/12 h-11/12 relative">
+                <div className="h-2/4 w-2/4">
+                  {product?.media && /\.(jpg|jpeg|png|gif)$/i.test(product?.media) ? (
+                    <img src={product?.media} alt="Post media" className="w-3/4 rounded-lg mb-4" />
+                  ) : (
+                    <video controls className="w-96 rounded-lg mb-4">
+                      <source src={product?.media} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  )}
+                </div>
+                <div className="absolute top-0 right-0 p-4">
+                  <i className="fa fa-times text-gray-800 text-2xl cursor-pointer" onClick={() => setShowModal(false)}></i>
+                </div>
+              </div>
+            </div>
+              )}
+            </div>
+        </center>
 
                 <div className="flex justify-between text-gray-600 text-sm">
                     <div>
