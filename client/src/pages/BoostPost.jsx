@@ -99,11 +99,11 @@ const BoostPage = () => {
                 </div>
                 <button
                   onClick={() => handleChoosePlan("basic")}
-                  className={`w-full px-4 py-2 mt-8 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform ${user?.subscription === "basic" ? "bg-red-500" : "bg-blue-500"
-                    } rounded-md  focus:outline-none focus:bg-blue-600`}
-                  disabled={user?.subscription === "basic"}
+                  className="w-full px-4 py-2 mt-8 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform  bg-blue-500
+                     rounded-md  focus:outline-none focus:bg-blue-600"
+
                 >
-                  {user?.subscription === "basic" ? "Current Plan" : "Choose Plan"}
+                  Choose Plan
                 </button>
 
               </div>
@@ -124,11 +124,11 @@ const BoostPage = () => {
                 </div>
                 <button
                   onClick={() => handleChoosePlan("pro")}
-                  className={`w-full px-4 py-2 mt-8 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform ${user?.subscription === "pro" ? "bg-red-500" : "bg-blue-500"
-                    } rounded-md  focus:outline-none focus:bg-blue-600`}
-                  disabled={user?.subscription === "pro"}
+                  className="w-full px-4 py-2 mt-8 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform  bg-blue-500
+                     rounded-md  focus:outline-none focus:bg-blue-600"
+
                 >
-                  {user?.subscription === "pro" ? "Current Plan" : "Choose Plan"}
+                  Choose Plan
                 </button>
 
               </div>
@@ -151,11 +151,11 @@ const BoostPage = () => {
                 </div>
                 <button
                   onClick={() => handleChoosePlan("premium")}
-                  className={`w-full px-4 py-2 mt-8 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform ${user?.subscription === "premium" ? "bg-red-500" : "bg-blue-500"
-                    } rounded-md  focus:outline-none focus:bg-blue-600`}
-                  disabled={user?.subscription === "premium"}
+                  className="w-full px-4 py-2 mt-8 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform  bg-blue-500
+                     rounded-md  focus:outline-none focus:bg-blue-600"
+
                 >
-                  {user?.subscription === "premium" ? "Current Plan" : "Choose Plan"}
+                  Choose Plan
                 </button>
 
               </div>

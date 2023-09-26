@@ -71,130 +71,106 @@ const PostCard = ({ product, comments }) => {
       <div
         key={product._id}
         className="post-card bg-white rounded-lg shadow-md p-4 mb-4 border hover:focus"
-        onDoubleClick={() => {
-          handleLike(product._id);
-        }}
+        onDoubleClick={
+          () => {
+            handleLike(product._id)
+          }
+        }
       >
+        {/* {product?.author?.id === user?._id ? (
+              <center>
+              <p className='bg-green-400 text-lg border-3 border-black cursor-pointer hover:bg-green-300'>Boost Post</p>
+              </center>
+            ) : null} */}
+
         <div className="relative">
           {isOptionsMenuOpen && (
-            <div className="flex flex-col absolute right-0 top-0 mt-2 p-2 rounded">
-              <button
-                onClick={() => {
-                  handleDelete(product._id);
-                }}
-                type="button"
-                className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-              >
-                DELETE <i className="fa fa-trash"></i>
+            <div className="flex flex-col absolute right-0 top-0 mt-2  p-2 rounded  ">
+              <button onClick={() => {
+                // Handle delete post here
+                handleDelete(product._id);
+              }}
+                type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">DELETE <i class="fa-solid fa-trash"></i>
               </button>
+
+
             </div>
           )}
         </div>
-        <div className="flex items-center mb-4">
+        <div className="flex items-center mb-4 relative">
+
           <NavLink to={`/profile/${product.author._id}`}>
             <img
               src={product?.author?.avatar?.url}
               alt={`${product?.author?.name}'s avatar`}
-              className={`w-8 h-8 rounded-full mr-3 border border-solid-4 ${isLiked ? "avatar-animation" : ""
-                }`}
+              className={`w-8 h-8 rounded-full mr-3 border border-solid-4 ${isLiked ? "avatar-animation" : ""}`}
             />
           </NavLink>
           <div>
             <NavLink to={`/profile/${product?.author?._id}`}>
-              <p className="text-lg font-semibold">
-                {product?.author?.username}
-              </p>
+              <p className="text-lg font-semibold">{product?.author?.username}</p>
             </NavLink>
-            <p className="text-gray-600 text-sm">
-              {formatDateTime(product?.createdAt)}
-            </p>
+            <p className="text-gray-600 text-sm">{formatDateTime(product?.createdAt)}</p>
           </div>
         </div>
+
         <p className="text-xl font-semibold mb-4">{product?.content}</p>
         <center>
-          <div>
-            <div onClick={() => setShowModal(true)}>
-              {product?.media && /\.(jpg|jpeg|png|gif)$/i.test(product?.media) ? (
-                <img
-                  src={product?.media}
-                  alt="Post media"
-                  className="w-96 rounded-lg mb-4"
-                />
-              ) : (
-                <video controls className="w-96 rounded-lg mb-4">
-                  <source src={product?.media} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              )}
-            </div>
-            {showModal && (
-              <div className="modal fixed inset-0 z-50 flex p-2 items-center justify-center">
-                <div className="bg-black bg-opacity-50 absolute inset-0"></div>
-                <div className="bg-white bg-opacity-50 p-2 rounded-lg shadow-lg z-10 w-11/12 h-11/12 relative">
-                  <div className="h-2/4 w-2/4">
-                    {product?.media && /\.(jpg|jpeg|png|gif)$/i.test(product?.media) ? (
-                      <img
-                        src={product?.media}
-                        alt="Post media"
-                        className="w-3/4 rounded-lg mb-4"
-                      />
-                    ) : (
-                      <video controls className="w-96 rounded-lg mb-4">
-                        <source src={product?.media} type="video/mp4" />
-                        Your browser does not support the video tag.
-                      </video>
-                    )}
-                  </div>
-                  <div className="absolute top-0 right-0 p-4">
-                    <i
-                      className="fa fa-times text-gray-800 text-2xl cursor-pointer"
-                      onClick={() => setShowModal(false)}
-                    ></i>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
+          {product?.media && (
+            /\.(jpg|jpeg|png|gif)$/i.test(product?.media) ? (
+              <img src={product?.media} alt="Post media" className="w-96 rounded-lg mb-4" />
+            ) : (
+              <video controls className="w-96 rounded-lg mb-4">
+                <source src={product?.media} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            ))}
         </center>
 
         <div className="flex justify-between text-gray-600 text-sm">
           <div>
-            <span className="mr-2 text-xl cursor-pointer">
+            <span className="mr-2 text-xl">
               <FontAwesomeIcon
                 icon={faThumbsUp}
+                className={`cursor-pointer text-${isLiked ? "blue" : "gray"}-500`}
                 onClick={() => {
-                  handleLike(product._id);
+                  handleLike(product._id)
                 }}
-                className={`text-${isLiked ? "blue" : "gray"}-500`}
               />{" "}
-              {product?.likes?.length}
+              {product.likes.length}
             </span>
+
             <span className="text-xl">
               <FontAwesomeIcon
                 icon={faComment}
-                className="text-gray-500 font-bold text-xl cursor-pointer"
+                className="cursor-pointer text-gray-500 font-bold text-xl"
                 onClick={openCommentsModal}
               />{" "}
               {product?.comments?.length}
             </span>
           </div>
+
           <div className="flex items-center space-x-2">
+
+
+
+
+
+
             {product?.author?._id === user?._id ? (
               <button
-                className="text-gray-500 text-lg hover:text-gray-700"
+                className="text-gray-500 hover:text-gray-700 text-lg"
                 onClick={toggleOptionsMenu}
               >
                 <FontAwesomeIcon icon={faEllipsisV} />
               </button>
+
             ) : null}
           </div>
         </div>
         <hr className="my-4 " />
         {firstComment ? (
-          <div
-            className="flex items-center mb-2 cursor-pointer"
-            onClick={openCommentsModal}
-          >
+          <div className="flex items-center mb-2 cursor-pointer" onClick={openCommentsModal}>
             <NavLink to={`/profile/${firstComment?.commentedBy?._id}`}>
               <img
                 src={firstComment?.commentedBy?.avatar?.url}
@@ -212,12 +188,7 @@ const PostCard = ({ product, comments }) => {
             </div>
           </div>
         ) : (
-          <div
-            className="text-gray-600 text-sm mb-2 cursor-pointer"
-            onClick={openCommentsModal}
-          >
-            No comments yet.
-          </div>
+          <div className="text-gray-600 text-sm mb-2 cursor-pointer" onClick={openCommentsModal} >No comments yet</div>
         )}
 
         <CommentsModal
