@@ -72,15 +72,15 @@ const BoostedProductsCard = ({ product, comments }) => {
     return (
         <>
 
-<div
-        key={product._id}
-        className="post-card bg-white rounded-lg shadow-md p-4 mb-4 border hover:focus"
-        onDoubleClick={
-          () => {
-            handleLike(product._id)
-          }
-        }
-      >
+            <div
+                key={product._id}
+                className="post-card bg-white rounded-lg shadow-md p-4 mb-4 border hover:focus"
+                onDoubleClick={
+                    () => {
+                        handleLike(product?._id)
+                    }
+                }
+            >
                 {/* {product?.author?.id === user?._id ? (
               <center>
               <p className='bg-green-400 text-lg border-3 border-black cursor-pointer hover:bg-green-300'>Boost Post</p>
@@ -92,7 +92,7 @@ const BoostedProductsCard = ({ product, comments }) => {
                         <div className="flex flex-col absolute right-0 top-0 mt-2  p-2 rounded  ">
                             <button onClick={() => {
                                 // Handle delete post here
-                                handleDelete(product._id);
+                                handleDelete(product?._id);
                             }}
                                 type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">DELETE <i class="fa-solid fa-trash"></i>
                             </button>
@@ -108,7 +108,7 @@ const BoostedProductsCard = ({ product, comments }) => {
                             <span className="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-1 rounded dark:bg-purple-900 dark:text-purple-300">boosted</span>
                         </div>
                     </div>
-                    <NavLink to={`/profile/${product.author._id}`}>
+                    <NavLink to={`/profile/${product?.author?._id}`}>
                         <img
                             src={product?.author?.avatar?.url}
                             alt={`${product?.author?.name}'s avatar`}
@@ -125,40 +125,40 @@ const BoostedProductsCard = ({ product, comments }) => {
 
                 <p className="text-xl font-semibold mb-4">{product?.content}</p>
                 <center>
-          <div>
-          <div onClick={() => setShowModal(true)}>
-          {product?.media && (
-            /\.(jpg|jpeg|png|gif)$/i.test(product?.media) ? (
-              <img src={product?.media} alt="Post media" className="w-96 rounded-lg mb-4" />
-            ) : (
-              <video controls className="w-96 rounded-lg mb-4">
-                <source src={product?.media} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            ))}
-            </div>
-            {showModal && (
-              <div className="modal fixed inset-0 z-50 flex p-2 items-center justify-center">
-              <div className="bg-black bg-opacity-50 absolute inset-0"></div>
-              <div className="bg-white bg-opacity-50 p-2 rounded-lg shadow-lg z-10 w-11/12 h-11/12 relative">
-                <div className="h-2/4 w-2/4">
-                  {product?.media && /\.(jpg|jpeg|png|gif)$/i.test(product?.media) ? (
-                    <img src={product?.media} alt="Post media" className="w-3/4 rounded-lg mb-4" />
-                  ) : (
-                    <video controls className="w-96 rounded-lg mb-4">
-                      <source src={product?.media} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
-                  )}
-                </div>
-                <div className="absolute top-0 right-0 p-4">
-                  <i className="fa fa-times text-gray-800 text-2xl cursor-pointer" onClick={() => setShowModal(false)}></i>
-                </div>
-              </div>
-            </div>
-              )}
-            </div>
-        </center>
+                    <div>
+                        <div onClick={() => setShowModal(true)}>
+                            {product?.media && (
+                                /\.(jpg|jpeg|png|gif)$/i.test(product?.media) ? (
+                                    <img src={product?.media} alt="Post media" className="w-96 rounded-lg mb-4" />
+                                ) : (
+                                    <video controls className="w-96 rounded-lg mb-4">
+                                        <source src={product?.media} type="video/mp4" />
+                                        Your browser does not support the video tag.
+                                    </video>
+                                ))}
+                        </div>
+                        {showModal && (
+                            <div className="modal fixed inset-0 z-50 flex p-2 items-center justify-center">
+                                <div className="bg-black bg-opacity-50 absolute inset-0"></div>
+                                <div className="bg-white bg-opacity-50 p-2 rounded-lg shadow-lg z-10 w-11/12 h-11/12 relative">
+                                    <div className="h-2/4 w-2/4">
+                                        {product?.media && /\.(jpg|jpeg|png|gif)$/i.test(product?.media) ? (
+                                            <img src={product?.media} alt="Post media" className="w-3/4 rounded-lg mb-4" />
+                                        ) : (
+                                            <video controls className="w-96 rounded-lg mb-4">
+                                                <source src={product?.media} type="video/mp4" />
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        )}
+                                    </div>
+                                    <div className="absolute top-0 right-0 p-4">
+                                        <i className="fa fa-times text-gray-800 text-2xl cursor-pointer" onClick={() => setShowModal(false)}></i>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </center>
 
                 <div className="flex justify-between text-gray-600 text-sm">
                     <div>
@@ -167,9 +167,10 @@ const BoostedProductsCard = ({ product, comments }) => {
                                 icon={faThumbsUp}
                                 className={`cursor-pointer text-${isLiked ? "blue" : "gray"}-500`}
                                 onClick={() => {
-                                    handleLike(product._id)}}
+                                    handleLike(product?._id)
+                                }}
                             />{" "}
-                            {product.likes.length}
+                            {product?.likes?.length}
                         </span>
 
                         <span className="text-xl">
@@ -184,11 +185,11 @@ const BoostedProductsCard = ({ product, comments }) => {
 
                     <div className="flex items-center space-x-2">
 
-                        
 
-                        
-                        
-                        
+
+
+
+
                         {product?.author?._id === user?._id ? (
                             <button
                                 className="text-gray-500 hover:text-gray-700 text-lg"
@@ -206,7 +207,7 @@ const BoostedProductsCard = ({ product, comments }) => {
                         <NavLink to={`/profile/${firstComment?.commentedBy?._id}`}>
                             <img
                                 src={firstComment?.commentedBy?.avatar?.url}
-                                alt={`${firstComment.commentedBy.name}'s avatar`}
+                                alt={`${firstComment?.commentedBy?.name}'s avatar`}
                                 className="w-8 h-8 rounded-full mr-3 border border-solid-4"
                             />
                         </NavLink>
@@ -226,7 +227,7 @@ const BoostedProductsCard = ({ product, comments }) => {
                 <CommentsModal
                     isOpen={isCommentsModalOpen}
                     onRequestClose={closeCommentsModal}
-                    postId={product._id}
+                    postId={product?._id}
                     comments={comments}
                 />
             </div>
