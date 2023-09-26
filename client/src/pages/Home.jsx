@@ -146,7 +146,7 @@ const Home = () => {
                 <PostCard key={product?._id} product={product} comments={comments} />
               ))
             ) : (
-              <PostCardSkeleton />
+              <h1 className='text-center text-xl mt-5'>NO POSTS !</h1>
             )
 
           }
