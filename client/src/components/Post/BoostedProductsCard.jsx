@@ -73,7 +73,7 @@ const BoostedProductsCard = ({ product, comments }) => {
         <>
 
             <div
-                key={product._id}
+                key={product?._id}
                 className="post-card bg-white rounded-lg shadow-md p-4 mb-4 border hover:focus"
                 onDoubleClick={
                     () => {
