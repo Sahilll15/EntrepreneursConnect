@@ -24,9 +24,17 @@ const createBoost = async (req, res) => {
         //     return plainObject;
         // });
 
+
+        const data = []
+        for (const j of allMostLikedProducts) {
+            if (j) {
+                data.push(j)
+            }
+        }
+
         return res
             .status(200)
-            .json({ boostedProducts: allMostLikedProducts });
+            .json({ boostedProducts: data });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Internal server error' });
