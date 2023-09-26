@@ -26,7 +26,7 @@ const createBoost = async (req, res) => {
 
         return res
             .status(200)
-            .json({ boostedProducts, mostLikedProducts: boostedProducts });
+            .json({ boostedProducts: boostedProducts, mostLikedProducts: boostedProducts });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Internal server error' });
