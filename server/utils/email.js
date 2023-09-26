@@ -74,14 +74,7 @@ const generateOTP = () => {
 }
 
 
-let TopUsers = ''
-getSuscribedUsers().then((res) => {
 
-    TopUsers = res
-
-}).catch(() => {
-    console.log("error")
-})
 
 
 const sendPromotionalEmail = async (recipientEmail, TopUsers) => {
