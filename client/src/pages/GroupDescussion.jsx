@@ -38,6 +38,7 @@ const GroupDiscussion = () => {
   const handleSubmit = async () => {
     await dispatch(createDiscussionCommunity({ newContent, id }));
     await dispatch(getCommunityDiscussion(id));
+    
     setNewContent('')
   };
 
@@ -130,7 +131,7 @@ const GroupDiscussion = () => {
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                 <div className="bg-white p-6 rounded-lg shadow-lg">
                   <button onClick={closeModal} className='border border-black rounded-lg p-1'>Close</button>
-                  <Groupsetting group={group} />
+                  <Groupsetting group={group}  setModalOpen={setModalOpen}/>
                 </div>
               </div>
             )}

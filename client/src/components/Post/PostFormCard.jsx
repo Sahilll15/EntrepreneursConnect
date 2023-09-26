@@ -21,7 +21,7 @@ export default function PostFormCard() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsButtonDisabled(false);
-    }, 60000); // 1 minute in milliseconds
+    }, 5000); // 1 minute in milliseconds
 
     return () => clearTimeout(timer);
   }, [isButtonDisabled]);
@@ -34,7 +34,6 @@ export default function PostFormCard() {
     }
 
     if (isButtonDisabled) {
-      toast.error('Please wait for 1 minute before posting again.');
       return;
     }
 
