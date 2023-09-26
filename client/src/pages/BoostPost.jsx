@@ -7,11 +7,19 @@ import {
 } from "../redux/subscription/subActions";
 import { useDispatch, useSelector } from "react-redux";
 import { getLoggedInUser } from "../redux/auth/authActions";
-
+import BoostP from "../components/Boost/BoostP";
+import { fetchpostByUserID } from "../redux/posts/postActions";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const BoostPage = () => {
 
+
+  
+
   const user = useSelector((state) => state.user.user);
+  const postByUserID = useSelector((state) => state?.posts?.postsByUser?.products);
+
   const formatDateTime = (isoDateString) => {
     const options = {
       year: "numeric",
@@ -63,8 +71,13 @@ const BoostPage = () => {
     setShowDeletion(true);
   };
 
+ 
+
   useEffect(() => {
     dispatch(getSubscriptionById());
+    dispatch(fetchpostByUserID(user._id))
+    console.log(postByUserID)
+
   }, [dispatch]);
 
   return (
@@ -137,7 +150,7 @@ const BoostPage = () => {
                 className="px-6 py-4 transition-colors duration-200 transform rounded-lg hover:bg-gray-200 border-2 ml-1"
 
               >
-                <p className="text-lg font-medium">Premium Boost</p>
+                <p className="text-lg font-medium">jhfhk Boost</p>
                 <h4 className="mt-2 text-4xl font-semibold">600 Points</h4>
                 <p className="mt-4">
                   Maximize your reach with top-tier promotion options.
@@ -221,13 +234,13 @@ const BoostPage = () => {
           </div>
         )}
 
-      {showConfirmationModal && (
+      {showConfirmationModal? (
         <div className="fixed inset-0 flex items-center justify-center z-50 ">
           <div className="bg-white p-8 border border-black rounded-lg shadow-md">
             <p className="text-lg font-semibold">
-              Confirm your plan : {selectedPlan}
+              Confirm your plan :  {selectedPlan}
             </p>
-
+            <BoostP products={postByUserID}/>
             <div className="flex justify-end mt-4">
               <button
                 className="px-4 py-2 mr-2 text-gray-600"
@@ -244,7 +257,7 @@ const BoostPage = () => {
             </div>
           </div>
         </div>
-      )}
+      ):<></>}
     </BoostPageLayout>
   );
 };
