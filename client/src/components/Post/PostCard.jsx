@@ -76,11 +76,11 @@ const PostCard = ({ product, comments }) => {
   return (
     <>
       <div
-        key={product._id}
+        key={product?._id}
         className="post-card bg-white rounded-lg shadow-md p-4 mb-4 border hover:focus"
         onDoubleClick={
           () => {
-            handleLike(product._id)
+            handleLike(product?._id)
           }
         }
       >
@@ -109,7 +109,7 @@ const PostCard = ({ product, comments }) => {
         </div>
         <div className="flex items-center mb-4 relative">
 
-          <NavLink to={`/profile/${product.author._id}`}>
+          <NavLink to={`/profile/${product?.author?._id}`}>
             <img
               src={product?.author?.avatar?.url}
               alt={`${product?.author?.name}'s avatar`}
@@ -186,7 +186,7 @@ const PostCard = ({ product, comments }) => {
             <NavLink to={`/profile/${firstComment?.commentedBy?._id}`}>
               <img
                 src={firstComment?.commentedBy?.avatar?.url}
-                alt={`${firstComment.commentedBy.name}'s avatar`}
+                alt={`${firstComment?.commentedBy?.name}'s avatar`}
                 className="w-8 h-8 rounded-full mr-3 border border-solid-4"
               />
             </NavLink>
