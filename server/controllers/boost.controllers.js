@@ -18,15 +18,15 @@ const createBoost = async (req, res) => {
         const allMostLikedProducts = await Promise.all(allProductsPromises);
 
         //create an temp attribute
-        const boostedProducts = allMostLikedProducts.map((product) => {
-            const plainObject = product.toObject();
-            plainObject.isBoosted = true;
-            return plainObject;
-        });
+        // const boostedProducts = allMostLikedProducts?.map((product) => {
+        //     const plainObject = product?.toObject();
+        //     plainObject.isBoosted = true;
+        //     return plainObject;
+        // });
 
         return res
             .status(200)
-            .json({ boostedProducts: boostedProducts, mostLikedProducts: boostedProducts });
+            .json({ boostedProducts: allMostLikedProducts });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Internal server error' });
