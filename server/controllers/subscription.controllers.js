@@ -130,7 +130,6 @@ const cancleSubscription = async (req, res) => {
         if (!subscription.user === user) {
             return res.status(401).json({ message: "You are not allowed to delete this subscription" });
         }
-        userExists.subscription = ''
         await userExists.save();
         console.log(userExists.subscription)
         await Subscription.findByIdAndDelete(subscriptionId);
